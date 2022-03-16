@@ -7,7 +7,7 @@ const initialState = {
   times: [
     {
       name: "morning",
-      guid: "23"
+      guid: "default"
     }
   ]
 }
@@ -15,6 +15,8 @@ const initialState = {
 function rootReducer(state, action) {
   console.log("rootReducer - action.type:", action.type)
   switch (action.type) {
+    case "GET_TIMES_SUCCESS":
+      return { times: action.json.times }
     default:
       return state
   }

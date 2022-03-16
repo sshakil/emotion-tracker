@@ -1,0 +1,10 @@
+app
+|-- javascript
+   |-- actions
+      |-- index.js
+      |-- things.js
+   |-- components
+   |-- packs
+   |-- reducers
+      |-- index.js
+      |-- things.js

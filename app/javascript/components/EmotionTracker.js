@@ -3,10 +3,24 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from "reselect"
 
 const GET_TIMES_REQUEST = 'GET_TIMES_REQUEST'
+const GET_TIMES_SUCCESS = 'GET_TIMES_SUCCESS'
 
 function getTimes() {
+  return dispatch => {
+    // dispatch action with type
+    dispatch({ type: GET_TIMES_REQUEST })
+
+    return fetch(`times.json`)
+      .then(response => response.json())
+      .then(json => dispatch(getTimesSuccess(json)))
+      .catch(error => console.log(error))
+  }
+}
+
+function getTimesSuccess(json) {
   return {
-    type: GET_TIMES_REQUEST
+    type: GET_TIMES_SUCCESS,
+    json
   }
 }
 

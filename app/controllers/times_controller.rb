@@ -3,7 +3,7 @@ class TimesController < ApplicationController
     render json: { :times => [
       {
         name: 'morning',
-        guid: 'blaba'
+        guid: 'from-back-end'
       }
     ] }.to_json
   end
