@@ -1,8 +1,17 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # forward all request to StaticController#index, but requests
+  # # must be non-Ajax (!req.xhr?) and HTML Mime type (req.format.html7)
+  # this does not include the root ("/") path.
+  # basically, send all non-API requests to App component
+  # (via StaticController#index)
+  get '*page', to: 'static#index', constraints: ->(req) do
+    !req.xhr? && req.format.html?
+  end
 
-  get 'things', to: 'things#index', defaults: { format: 'json' }
+  # Defines the root path route ("/")
+  root "static#index"
+
+  get 'times', to: 'times#index', defaults: { format: 'json' }
 end
