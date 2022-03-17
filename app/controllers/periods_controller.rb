@@ -14,8 +14,6 @@ class PeriodsController < ApplicationController
   # GET /periods/new
   def new
     @period = Period.new
-    # @emotions = @period.emotions.build
-    @period.entries.build.build_emotion
   end
 
   # GET /periods/1/edit
@@ -25,8 +23,6 @@ class PeriodsController < ApplicationController
   # POST /periods or /periods.json
   def create
     @period = Period.new(period_params)
-
-    @period.entries.build.build_emotion
 
     respond_to do |format|
       if @period.save
@@ -70,6 +66,6 @@ class PeriodsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def period_params
-      params.require(:period).permit(:date, :period, emotions_attributes: [:name])
+      params.require(:period).permit(:date, :period, emotions_attributes: [:id, :name])
     end
 end
