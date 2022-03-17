@@ -28,11 +28,57 @@ function getTimesSuccess(json) {
 
 class EmotionTracker extends React.Component {
   render() {
-    console.log("EmotionTracker - props: ", this.props)
+    function renderEmotions(emotions) {
+      return (
+        <div>
+          {
+            emotions.map((emotion, index, emotions) => {
+              if (index + 1 === emotions.length) {
+                return (
+                  // key added to quiet console
+                  <span key={emotion + index}>
+                    { emotion }
+                  </span>
+                )
+              } else {
+                return (
+                  <span key={emotion + index}>
+                    { emotion + ", " }
+                  </span>
+                )
+              }
+            })
+          }
+        </div>
+      )
+    }
+
+    //todo - use tables? a form? both?
+    function renderTimes(times) {
+      return (
+        <div>
+          {
+            times.map((time, index, times) => {
+              return (
+                <div key={ time.guid }>
+                  { time.name }
+                  { renderEmotions(time.emotions) }
+                  { (() => {
+                      if (index + 1 < times.length) {
+                        return <br />
+                      }
+                    })()
+                  }
+                </div>
+              )
+            })
+          }
+        </div>
+      )
+    }
+
     const { times } = this.props
-    const timesList = times.map((time) => {
-      return <li key={ time.guid }>{ time.name } { time.guid }</li>
-    })
+    const timesElements = renderTimes(times)
 
     return (
 
@@ -47,7 +93,7 @@ class EmotionTracker extends React.Component {
         >
           Get Times
         </button>
-        <ul>{ timesList }</ul>
+        { timesElements }
       </React.Fragment>
     )
   }
