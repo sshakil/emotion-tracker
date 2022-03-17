@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :entries
+  resources :periods
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # forward all request to StaticController#index, but requests
