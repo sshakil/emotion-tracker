@@ -14,7 +14,9 @@ class App extends React.Component {
             <BrowserRouter>
               <Routes>
                 <Route exact path="/" element = { "Emotion Tracker" } />
-                <Route path={ "/landing" } element = { <EmotionTracker user="public" /> } />
+                {/*<Route path={ "/landing" } element = { <EmotionTracker user="public" /> } />*/}
+                <Route path={ "/landing" } element = { <EmotionTracker /> } />
+
                 {/*todo - another way, is this better than above?*/}
                 {/*<Route path={ "/landing" } element={<EmotionTracker user="public" /> } />*/}
               </Routes>
