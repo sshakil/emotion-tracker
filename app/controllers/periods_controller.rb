@@ -22,6 +22,13 @@ class PeriodsController < ApplicationController
 
   # POST /periods or /periods.json
   def create
+    # period_params[:emotions] = period_params.delete(:emotions_attributes)
+    #
+    puts "-----"
+    puts period_params
+    puts "-----"
+
+
     @period = Period.new(period_params)
 
     respond_to do |format|
@@ -64,8 +71,12 @@ class PeriodsController < ApplicationController
       @period = Period.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # FYI turns out the id is key here to be able to even perform create
     def period_params
-      params.require(:period).permit(:date, :period, emotions_attributes: [:id, :name])
+      params.require(:period).permit(
+        :date,
+        :period,
+        emotions: [:id, :name]
+      )
     end
 end

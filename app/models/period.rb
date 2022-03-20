@@ -1,11 +1,10 @@
 class Period < ApplicationRecord
+  include Virtus.model
+
   has_many :entries
   has_many :emotions, through: :entries
 
-  accepts_nested_attributes_for :emotions
+  # accepts_nested_attributes_for :emotions
 
-  def initialize(params)
-    super(params)
-  end
-
+  attribute :emotions, Array[Emotion]
 end
