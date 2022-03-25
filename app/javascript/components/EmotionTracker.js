@@ -9,8 +9,8 @@ function getDay() {
     // dispatch action with type
     dispatch({ type: GET_DAY_REQUEST })
 
-    return fetch(`day.json`)
-    // return fetch(`periods/39`)
+    // return fetch(`day.json`)
+    return fetch(`days/1`)
       .then(response => response.json())
       .then(json => dispatch(getDaySuccess(json)))
       .catch(error => console.log(error))
@@ -31,6 +31,12 @@ function getDaySuccess(json) {
 class EmotionTracker extends React.Component {
   render() {
     function renderEmotions(emotions) {
+
+      // console.log("emotions - ", emotions.map((emotion, index, emotions) => {
+      //     return ( emotion.name )
+      //   }
+      // ))
+      // return ("")
       return (
         <div>
           {
@@ -38,14 +44,14 @@ class EmotionTracker extends React.Component {
               if (index + 1 === emotions.length) {
                 return (
                   // key added to quiet console
-                  <span key={emotion + index}>
-                    { emotion }
+                  <span key={emotion.name + index}>
+                    { emotion.name }
                   </span>
                 )
               } else {
                 return (
-                  <span key={emotion + index}>
-                    { emotion + ", " }
+                  <span key={emotion.name + index}>
+                    { emotion.name + ", " }
                   </span>
                 )
               }
@@ -56,31 +62,39 @@ class EmotionTracker extends React.Component {
     }
 
     //todo - use tables? a form? both?
-    function renderTimes(times) {
+    function renderDay(day) {
+      console.log("day - ", day)
       return (
         <div>
-          {
-            times.map((time, index, times) => {
-              return (
-                <div key={ time.guid }>
-                  { time.name }
-                  { renderEmotions(time.emotions) }
-                  { (() => {
-                      if (index + 1 < times.length) {
-                        return <br />
-                      }
-                    })()
-                  }
-                </div>
-              )
-            })
-          }
+          <div>
+            { day.date }
+          </div>
+          <div>
+            {
+              day.periods.map((period, index, periods) => {
+                return (
+                  <div key={ day.date + '-' + period.name }>
+                    { period.name }
+                    { renderEmotions(period.emotions) }
+                    { (
+                        () => {
+                          if (index + 1 < periods.length) {
+                            return <br />
+                          }
+                        }
+                      )()
+                    }
+                  </div>
+                )
+              })
+            }
+          </div>
         </div>
       )
     }
 
-    const { times } = this.props
-    const timesElements = renderTimes(times)
+    const { day } = this.props
+    const dayElement = renderDay(day)
 
     return (
 
@@ -96,7 +110,7 @@ class EmotionTracker extends React.Component {
         >
           Get Day
         </Button>
-        { timesElements }
+        { dayElement }
       </React.Fragment>
     )
   }
