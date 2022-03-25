@@ -1,16 +1,18 @@
 import React from "react"
 import { connect } from 'react-redux'
 import { createStructuredSelector } from "reselect"
-import { GET_TIMES_REQUEST, GET_TIMES_SUCCESS } from '../actions'
+import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
+import Button from '@mui/material/Button';
 
-function getTimes() {
+function getDay() {
   return dispatch => {
     // dispatch action with type
-    dispatch({ type: GET_TIMES_REQUEST })
+    dispatch({ type: GET_DAY_REQUEST })
 
-    return fetch(`times.json`)
+    return fetch(`day.json`)
+    // return fetch(`periods/39`)
       .then(response => response.json())
-      .then(json => dispatch(getTimesSuccess(json)))
+      .then(json => dispatch(getDaySuccess(json)))
       .catch(error => console.log(error))
   }
 }
@@ -19,9 +21,9 @@ function getTimes() {
 //
 // }
 
-function getTimesSuccess(json) {
+function getDaySuccess(json) {
   return {
-    type: GET_TIMES_SUCCESS,
+    type: GET_DAY_SUCCESS,
     json
   }
 }
@@ -85,14 +87,15 @@ class EmotionTracker extends React.Component {
       <React.Fragment>
         User: { this.props.user.name }
         <br/>
-        <button
-          className="getTimesButton"
+        <Button
+          variant="contained"
+          color="primary"
           onClick={
-            () => this.props.getTimes()
+            () => this.props.getDay()
           }
         >
-          Get Times
-        </button>
+          Get Day
+        </Button>
         { timesElements }
       </React.Fragment>
     )
@@ -100,12 +103,12 @@ class EmotionTracker extends React.Component {
 }
 
 const structuredSelector = createStructuredSelector({
-  times: state => state.times,
   user: state => state.user,
+  day: state => state.day,
 })
 
 const mapDispatchToProps = {
-  getTimes,
+  getDay,
 }
 
 export default connect(structuredSelector, mapDispatchToProps)(EmotionTracker)
