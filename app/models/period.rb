@@ -4,8 +4,15 @@ class Period < ApplicationRecord
 
   accepts_nested_attributes_for :emotions
 
-  def initialize(params)
-    super(params)
+  scope :find_with_emotions, -> (id) do
+    Period.eager_load(:emotions).find(id)
+  end
+
+  include ActiveModel::Serializers::JSON
+
+  def attributes
+    hash = super
+    hash.merge!(:emotions => self.emotions)
   end
 
 end

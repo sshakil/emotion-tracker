@@ -9,6 +9,13 @@ class PeriodsController < ApplicationController
 
   # GET /periods/1 or /periods/1.json
   def show
+    # @period = Period.find(params["id"])
+    # Period.includes(:emotions)
+    # @period = Period.find_with_emotions(params["id"])
+    # puts @period.attributes
+    #
+    render json: @period
+
   end
 
   # GET /periods/new
