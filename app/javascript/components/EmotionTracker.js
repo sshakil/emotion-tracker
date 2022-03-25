@@ -93,7 +93,6 @@ class EmotionTracker extends React.Component {
                 type="search"
                 variant="standard"
               />
-              <br/>
               { renderEmotions(period.emotions) }
             </CardContent>
           </Card>
