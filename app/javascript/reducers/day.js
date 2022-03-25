@@ -3,28 +3,44 @@ const initialState = {
   periods: [
     {
       name: "Early Morning",
-      // guid: "early-morning",
-      emotions: [""],
+      emotions: [],
     },
     {
       name: "Morning",
-      // guid: "morning",
-      emotions: [""],
+      emotions: [
+        {
+          name: "place"
+        }
+      ],
     },
     {
       name: "Afternoon",
-      // guid: "afternoon",
-      emotions: [""],
+      emotions: [
+        {
+          name: "place"
+        },
+        {
+          name: "holder"
+        },
+        {
+          name: "text as"
+        }
+      ],
     },
     {
       name: "Evening",
-      // guid: "evening",
-      emotions: [""],
+      emotions: [
+        {
+          name: "place"
+        },
+        {
+          name: "holder"
+        },
+      ],
     },
     {
       name: "Before Bed",
-      // guid: "before-bed",
-      emotions: [""],
+      emotions: [],
     }
   ]
 }

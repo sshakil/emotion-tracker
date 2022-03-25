@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from "reselect"
 import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 
 function getDay() {
   return dispatch => {
@@ -41,20 +42,13 @@ class EmotionTracker extends React.Component {
         <div>
           {
             emotions.map((emotion, index, emotions) => {
-              if (index + 1 === emotions.length) {
-                return (
-                  // key added to quiet console
-                  <span key={emotion.name + index}>
-                    { emotion.name }
-                  </span>
-                )
-              } else {
-                return (
-                  <span key={emotion.name + index}>
-                    { emotion.name + ", " }
-                  </span>
-                )
-              }
+              return (
+                // key added to quiet console
+                <Chip
+                  key={emotion.name + index}
+                  label={ emotion.name }
+                />
+              )
             })
           }
         </div>
