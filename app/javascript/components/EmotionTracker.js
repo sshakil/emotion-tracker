@@ -4,6 +4,7 @@ import { createStructuredSelector } from "reselect"
 import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
+import { Card, CardContent, Stack, TextField } from "@mui/material";
 
 function getDay() {
   return dispatch => {
@@ -18,10 +19,6 @@ function getDay() {
   }
 }
 
-// function getUser() {
-//
-// }
-
 function getDaySuccess(json) {
   return {
     type: GET_DAY_SUCCESS,
@@ -32,12 +29,6 @@ function getDaySuccess(json) {
 class EmotionTracker extends React.Component {
   render() {
     function renderEmotions(emotions) {
-
-      // console.log("emotions - ", emotions.map((emotion, index, emotions) => {
-      //     return ( emotion.name )
-      //   }
-      // ))
-      // return ("")
       return (
         <div>
           {
@@ -87,8 +78,38 @@ class EmotionTracker extends React.Component {
       )
     }
 
+    function renderDayForm(day) {
+      function renderPeriod(period) {
+        return (
+          <Card
+            key={ day.date + '-' + period.name }
+            variant="outlined"
+          >
+            <CardContent>
+              { period.name }
+              <br />
+              <TextField
+                id="standard-search"
+                type="search"
+                variant="standard"
+              />
+              <br/>
+              { renderEmotions(period.emotions) }
+            </CardContent>
+          </Card>
+        )
+      }
+      return(
+        <Stack spacing={2}>
+          { day.periods.map(period => renderPeriod(period)) }
+        </Stack>
+      )
+    }
+
+
     const { day } = this.props
     const dayElement = renderDay(day)
+    const dayForm = renderDayForm(day)
 
     return (
 
@@ -104,7 +125,8 @@ class EmotionTracker extends React.Component {
         >
           Get Day
         </Button>
-        { dayElement }
+        {/*{ dayElement }*/}
+        { dayForm }
       </React.Fragment>
     )
   }
