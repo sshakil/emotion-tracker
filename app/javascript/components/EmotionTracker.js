@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { connect } from 'react-redux'
 import { createStructuredSelector } from "reselect"
 import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
@@ -18,10 +18,6 @@ function getDay() {
       .then(json => dispatch(getDaySuccess(json)))
       .catch(error => console.log(error))
   }
-}
-
-function addEmotionToPeriod(emotion, period) {
-  console.log("addEmotionToPeriod ", emotion, period)
 }
 
 function getDaySuccess(json) {
@@ -63,7 +59,7 @@ function getDaySuccess(json) {
 //   )
 // }
 
-const renderEmotions = emotions => {
+function renderEmotions(emotions) {
   return (
     <div>
       {
@@ -81,7 +77,10 @@ const renderEmotions = emotions => {
   )
 }
 
-function renderDayForm(day) {
+function renderDayForm(
+  day,
+  setEmotionInputValueForMorning, emotionInputValueForMorning
+) {
   function renderPeriod(period) {
     return (
       <Card
@@ -97,11 +96,16 @@ function renderDayForm(day) {
             id="standard-search"
             type="search"
             variant="standard"
+            onChange={ (e) =>
+              setEmotionInputValueForMorning(e.target.value)
+            }
           />
           <IconButton
             color="primary"
             aria-label="add emotion to period"
-            onClick={ () => addEmotionToPeriod("ok", "morning") }
+            onClick={ () => addEmotionToPeriod(
+              period, emotionInputValueForMorning
+            ) }
           >
             <AddCircleIcon />
           </IconButton>
@@ -117,9 +121,30 @@ function renderDayForm(day) {
   )
 }
 
+function addEmotionToPeriod( period, emotion) {
+  console.log("addEmotionToPeriod ", emotion, period)
+}
+
+
 function EmotionTracker(props) {
+  const [
+    emotionInputValueForMorning, setEmotionInputValueForMorning,
+    emotionInputValueForEarlyMorning, setEmotionInputValueForEarlyMorning
+  ] = useState('')
+
+  const periodToSetterMap = new Map([
+    ["Morning", setEmotionInputValueForMorning],
+
+  ])
+
+
   const { day } = props
-  const dayForm = renderDayForm(day)
+  const dayForm = renderDayForm(
+    day,
+    setEmotionInputValueForMorning,
+    emotionInputValueForMorning
+  )
+
 
   return (
     <React.Fragment>
