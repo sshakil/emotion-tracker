@@ -4,7 +4,8 @@ import { createStructuredSelector } from "reselect"
 import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import { Card, CardContent, Stack, TextField } from "@mui/material";
+import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function getDay() {
   return dispatch => {
@@ -17,6 +18,10 @@ function getDay() {
       .then(json => dispatch(getDaySuccess(json)))
       .catch(error => console.log(error))
   }
+}
+
+function addEmotionToPeriod(emotion, period) {
+  console.log("addEmotionToPeriod ", emotion, period)
 }
 
 function getDaySuccess(json) {
@@ -47,36 +52,36 @@ class EmotionTracker extends React.Component {
     }
 
     //todo - use tables? a form? both?
-    function renderDay(day) {
-      console.log("day - ", day)
-      return (
-        <div>
-          <div>
-            { day.date }
-          </div>
-          <div>
-            {
-              day.periods.map((period, index, periods) => {
-                return (
-                  <div key={ day.date + '-' + period.name }>
-                    { period.name }
-                    { renderEmotions(period.emotions) }
-                    { (
-                        () => {
-                          if (index + 1 < periods.length) {
-                            return <br />
-                          }
-                        }
-                      )()
-                    }
-                  </div>
-                )
-              })
-            }
-          </div>
-        </div>
-      )
-    }
+    // function renderDay(day) {
+    //   console.log("day - ", day)
+    //   return (
+    //     <div>
+    //       <div>
+    //         { day.date }
+    //       </div>
+    //       <div>
+    //         {
+    //           day.periods.map((period, index, periods) => {
+    //             return (
+    //               <div key={ day.date + '-' + period.name }>
+    //                 { period.name }
+    //                 { renderEmotions(period.emotions) }
+    //                 { (
+    //                     () => {
+    //                       if (index + 1 < periods.length) {
+    //                         return <br />
+    //                       }
+    //                     }
+    //                   )()
+    //                 }
+    //               </div>
+    //             )
+    //           })
+    //         }
+    //       </div>
+    //     </div>
+    //   )
+    // }
 
     function renderDayForm(day) {
       function renderPeriod(period) {
@@ -86,13 +91,22 @@ class EmotionTracker extends React.Component {
             variant="outlined"
           >
             <CardContent>
-              { period.name }
+              <Typography variant="string">
+                { period.name }
+              </Typography>
               <br />
               <TextField
                 id="standard-search"
                 type="search"
                 variant="standard"
               />
+              <IconButton
+                color="primary"
+                aria-label="add emotion to period"
+                onClick={ () => addEmotionToPeriod("ok", "morning") }
+              >
+                <AddCircleIcon />
+              </IconButton>
               { renderEmotions(period.emotions) }
             </CardContent>
           </Card>
@@ -107,7 +121,7 @@ class EmotionTracker extends React.Component {
 
 
     const { day } = this.props
-    const dayElement = renderDay(day)
+    // const dayElement = renderDay(day)
     const dayForm = renderDayForm(day)
 
     return (
