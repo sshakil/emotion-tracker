@@ -7,10 +7,6 @@ import { useEffect } from "react";
 export default function Calendar(props) {
   const { date, setDate } = props
 
-  useEffect(() => {
-    // console.log("date - ", date)
-  })
-
   return (
     <StaticDatePicker
       orientation="portrait"

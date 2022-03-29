@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  resources :days
+  resources :days do
+    resources :periods do
+      resources :emotions
+    end
+  end
+
   resources :entries
-  resources :periods
 
   # resources :periods do
   #   resoruces :emotions

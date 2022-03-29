@@ -119,6 +119,9 @@ function renderDayForm(
             aria-label="add emotion to period"
             name={ period.name }
             onClick={ (e) => {
+              console.log(date)
+              console.log(period.name)
+              console.log(allEmotionInputValues[e.currentTarget.name])
               // console.log(allEmotionInputValues[e.currentTarget.name])
             }}
           >
