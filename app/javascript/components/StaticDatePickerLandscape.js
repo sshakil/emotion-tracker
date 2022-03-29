@@ -6,17 +6,19 @@ import DatePicker from '@mui/lab/DatePicker';
 import { StaticDatePicker } from "@mui/lab";
 import { isWeekend } from "date-fns";
 
-export default function Calendar() {
-  const [value, setValue] = React.useState();
+export default function Calendar(props) {
+  const { dateValue, setDateValue } = props
 
   return (
     <StaticDatePicker
       orientation="portrait"
       openTo="day"
-      value={ value }
+      value={ dateValue }
       shouldDisableDate={ isWeekend }
       onChange={ (newValue) => {
-        setValue(newValue);
+        console.log("current value - ", dateValue)
+        console.log("newValue value - ", newValue)
+        setDateValue(newValue);
       } }
       renderInput={ (params) => <TextField { ...params } /> }
     />
