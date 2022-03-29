@@ -86,10 +86,11 @@ function renderEmotions(period) {
 }
 
 function renderDayForm(
-  day,
+  date, day,
   setAllEmotionInputValues, allEmotionInputValues
 ) {
   function renderPeriod(period) {
+    // console.log("renderPeriod - date - ", date)
     return (
       <Card
         key={ day.date + '-' + period.name }
@@ -118,7 +119,7 @@ function renderDayForm(
             aria-label="add emotion to period"
             name={ period.name }
             onClick={ (e) => {
-              console.log(allEmotionInputValues[e.currentTarget.name])
+              // console.log(allEmotionInputValues[e.currentTarget.name])
             }}
           >
             <AddCircleIcon />
@@ -141,6 +142,7 @@ function addEmotionToPeriod( period, emotion) {
 
 
 function EmotionTracker(props) {
+  // console.log("props", props)
   const [
     allEmotionInputValues, setAllEmotionInputValues
   ] = useState({
@@ -159,8 +161,9 @@ function EmotionTracker(props) {
   //
   // ])
 
-  const { day } = props
+  const { date, user, day, getDay } = props
   const dayForm = renderDayForm(
+    date,
     day,
     setAllEmotionInputValues,
     allEmotionInputValues
@@ -169,13 +172,13 @@ function EmotionTracker(props) {
 
   return (
     <React.Fragment>
-      User: { props.user.name }
+      User: { user.name }
       <br/>
       <Button
         variant="contained"
         color="primary"
         onClick={
-          () => props.getDay()
+          () => getDay()
         }
       >
         Get Day

@@ -5,20 +5,21 @@ import EmotionTracker from "./EmotionTracker";
 import Calendar from "./StaticDatePickerLandscape";
 
 export default function Day() {
-  const [dateValue, setDateValue] = React.useState();
+  const todaysDate = new Date()
+  const [date, setDate] = React.useState(todaysDate);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Calendar
-            dateValue = { dateValue }
-            setDateValue = { setDateValue }
+            date = { date }
+            setDate = { setDate }
           />
         </Grid>
         <Grid item xs={6}>
           <EmotionTracker
-            dateValue = { dateValue }
+            date = { date }
           />
         </Grid>
       </Grid>

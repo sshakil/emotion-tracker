@@ -1,25 +1,27 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
-import { StaticDatePicker } from "@mui/lab";
+import { CalendarPicker, StaticDatePicker } from "@mui/lab";
 import { isWeekend } from "date-fns";
+import { useEffect } from "react";
 
 export default function Calendar(props) {
-  const { dateValue, setDateValue } = props
+  const { date, setDate } = props
+
+  useEffect(() => {
+    // console.log("date - ", date)
+  })
 
   return (
     <StaticDatePicker
       orientation="portrait"
       openTo="day"
-      value={ dateValue }
+      value={ date }
       shouldDisableDate={ isWeekend }
       onChange={ (newValue) => {
-        console.log("current value - ", dateValue)
-        console.log("newValue value - ", newValue)
-        setDateValue(newValue);
-      } }
+          // console.log("newValue value - ", newValue)
+          setDate(newValue);
+        }
+      }
       renderInput={ (params) => <TextField { ...params } /> }
     />
   );
