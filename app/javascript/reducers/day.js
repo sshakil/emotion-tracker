@@ -2,11 +2,11 @@ const initialState = {
   date: "date",
   periods: [
     {
-      name: "Early Morning",
+      name: "earlyMorning",
       emotions: [],
     },
     {
-      name: "Morning",
+      name: "morning",
       emotions: [
         {
           name: "place"
@@ -14,7 +14,7 @@ const initialState = {
       ],
     },
     {
-      name: "Afternoon",
+      name: "afternoon",
       emotions: [
         {
           name: "place"
@@ -28,7 +28,7 @@ const initialState = {
       ],
     },
     {
-      name: "Evening",
+      name: "evening",
       emotions: [
         {
           name: "place"
@@ -39,7 +39,7 @@ const initialState = {
       ],
     },
     {
-      name: "Before Bed",
+      name: "beforeBed",
       emotions: [],
     }
   ]

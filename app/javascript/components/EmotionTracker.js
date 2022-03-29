@@ -59,16 +59,24 @@ function getDaySuccess(json) {
 //   )
 // }
 
-function renderEmotions(emotions) {
+function deleteEmotion(period, emotion) {
+  console.log("delete : ", emotion)
+}
+
+function renderEmotions(period) {
   return (
     <div>
       {
-        emotions.map((emotion, index, emotions) => {
+        period.emotions.map((emotion, index, emotions) => {
           return (
             // key added to quiet console
             <Chip
               key={emotion.name + index}
               label={ emotion.name }
+              onDelete={() => {
+                // console.log("delete : ", emotion.name)
+                deleteEmotion(period, emotion.name)
+              }}
             />
           )
         })
@@ -79,7 +87,7 @@ function renderEmotions(emotions) {
 
 function renderDayForm(
   day,
-  setEmotionInputValueForMorning, emotionInputValueForMorning
+  setAllEmotionInputValues, allEmotionInputValues
 ) {
   function renderPeriod(period) {
     return (
@@ -94,22 +102,28 @@ function renderDayForm(
           <br />
           <TextField
             id="standard-search"
+            name={ period.name }
             type="search"
             variant="standard"
-            onChange={ (e) =>
-              setEmotionInputValueForMorning(e.target.value)
+            onChange={ (e) => {
+                // console.log(e.target.name, e.target.value)
+                setAllEmotionInputValues(
+                  { ...allEmotionInputValues, [e.target.name]: e.target.value }
+                )
+              }
             }
           />
           <IconButton
             color="primary"
             aria-label="add emotion to period"
-            onClick={ () => addEmotionToPeriod(
-              period, emotionInputValueForMorning
-            ) }
+            name={ period.name }
+            onClick={ (e) => {
+              console.log(allEmotionInputValues[e.currentTarget.name])
+            }}
           >
             <AddCircleIcon />
           </IconButton>
-          { renderEmotions(period.emotions) }
+          { renderEmotions(period) }
         </CardContent>
       </Card>
     )
@@ -128,21 +142,28 @@ function addEmotionToPeriod( period, emotion) {
 
 function EmotionTracker(props) {
   const [
-    emotionInputValueForMorning, setEmotionInputValueForMorning,
-    emotionInputValueForEarlyMorning, setEmotionInputValueForEarlyMorning
-  ] = useState('')
+    allEmotionInputValues, setAllEmotionInputValues
+  ] = useState({
+    earlyMorning: '',
+    morning: '',
+    afternoon: '',
+    evening: '',
+    beforeBed: ''
+  })
 
-  const periodToSetterMap = new Map([
-    ["Morning", setEmotionInputValueForMorning],
-
-  ])
-
+  // todo - is this way faster / more efficient than the onchange+state?
+  // probably by a bit but is it significant?
+  // it's appears cleaner, though, that's only a dev thing
+  // const periodToSetterMap = new Map([
+  //   ["Morning", setEmotionInputValueForMorning],
+  //
+  // ])
 
   const { day } = props
   const dayForm = renderDayForm(
     day,
-    setEmotionInputValueForMorning,
-    emotionInputValueForMorning
+    setAllEmotionInputValues,
+    allEmotionInputValues
   )
 
 
