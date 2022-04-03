@@ -2,18 +2,20 @@ import React, { useState } from "react"
 import { connect } from 'react-redux'
 import { createStructuredSelector } from "reselect"
 import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
+import { DELETE_EMOTION_REQUEST, DELETE_EMOTION_SUCCESS } from '../actions'
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { fetchDay, fetchDayByDate } from '../clients/api'
 
-function getDay() {
+function getDay(selectedDate) {
   return dispatch => {
     // dispatch action with type
     dispatch({ type: GET_DAY_REQUEST })
 
     // return fetch(`day.json`)
-    return fetch(`days/5`)
+    return fetchDayByDate(selectedDate)
       .then(response => response.json())
       .then(json => dispatch(getDaySuccess(json)))
       .catch(error => console.log(error))
@@ -60,7 +62,28 @@ function getDaySuccess(json) {
 // }
 
 function deleteEmotion(period, emotion) {
-  console.log("delete : ", emotion)
+  console.log("delete emotion : ", emotion)
+  console.log("for period : ", period)
+  // return dispatch => {
+  //   // dispatch action with type
+  //   dispatch({ type: DELETE_EMOTION_REQUEST })
+  //
+  //   // return fetch(`day.json`)
+  //   return fetch(`emotions/${emotion.id}`,
+  //     {
+  //       method: "DELETE"
+  //     })
+  //     .then(response => response.json())
+  //     .then(json => dispatch(deleteEmotionSuccess(json)))
+  //     .catch(error => console.log(error))
+  // }
+}
+
+function deleteEmotionSuccess(json) {
+  return {
+    type: DELETE_EMOTION_REQUEST,
+    json
+  }
 }
 
 function renderEmotions(period) {
@@ -75,7 +98,7 @@ function renderEmotions(period) {
               label={ emotion.name }
               onDelete={() => {
                 // console.log("delete : ", emotion.name)
-                deleteEmotion(period, emotion.name)
+                deleteEmotion(period, emotion)
               }}
             />
           )
@@ -86,14 +109,14 @@ function renderEmotions(period) {
 }
 
 function renderDayForm(
-  date, day,
+  selectedDate, day,
   setAllEmotionInputValues, allEmotionInputValues
 ) {
   function renderPeriod(period) {
     // console.log("renderPeriod - date - ", date)
     return (
       <Card
-        key={ day.date + '-' + period.name }
+        key={ selectedDate + '-' + period.name }
         variant="outlined"
       >
         <CardContent>
@@ -119,7 +142,7 @@ function renderDayForm(
             aria-label="add emotion to period"
             name={ period.name }
             onClick={ (e) => {
-              console.log(date)
+              console.log("add emotion to period for date - ", selectedDate)
               console.log(period.name)
               console.log(allEmotionInputValues[e.currentTarget.name])
               // console.log(allEmotionInputValues[e.currentTarget.name])
@@ -164,9 +187,9 @@ function EmotionTracker(props) {
   //
   // ])
 
-  const { date, user, day, getDay } = props
+  const { selectedDate, user, day, getDay } = props
   const dayForm = renderDayForm(
-    date,
+    selectedDate,
     day,
     setAllEmotionInputValues,
     allEmotionInputValues
@@ -181,7 +204,7 @@ function EmotionTracker(props) {
         variant="contained"
         color="primary"
         onClick={
-          () => getDay()
+          () => getDay(selectedDate)
         }
       >
         Get Day

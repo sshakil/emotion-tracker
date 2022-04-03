@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # todo - error when moving this into the resource above (with 'days' removed)
+  post 'days/fetch', to: 'days#show'
+
   resources :entries
 
   # resources :periods do

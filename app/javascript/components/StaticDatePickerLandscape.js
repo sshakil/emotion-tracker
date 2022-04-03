@@ -12,10 +12,11 @@ export default function Calendar(props) {
       orientation="portrait"
       openTo="day"
       value={ date }
-      shouldDisableDate={ isWeekend }
       onChange={ (newValue) => {
-          // console.log("newValue value - ", newValue)
-          setDate(newValue);
+          //todo - this strips timezone info, which will be added back later
+          const date = newValue.toISOString().split('T')[0]
+          console.log("Day selected - ", date)
+          setDate(date);
         }
       }
       renderInput={ (params) => <TextField { ...params } /> }

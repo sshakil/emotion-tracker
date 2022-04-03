@@ -6,7 +6,8 @@ import Calendar from "./StaticDatePickerLandscape";
 import { useEffect } from "react";
 
 export default function Day() {
-  const todaysDate = new Date()
+  //todo - this strips timezone info, which will be added back later
+  const todaysDate = (new Date()).toISOString().split('T')[0]
   const [date, setDate] = React.useState(todaysDate);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function Day() {
         </Grid>
         <Grid item xs={6}>
           <EmotionTracker
-            date = { date }
+            selectedDate = { date }
           />
         </Grid>
       </Grid>

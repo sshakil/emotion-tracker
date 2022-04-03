@@ -1,5 +1,5 @@
 class DaysController < ApplicationController
-  before_action :set_day, only: %i[ show edit update destroy ]
+  before_action :set_day, only: %i[ edit update destroy ]
   skip_before_action :verify_authenticity_token
 
   # GET /days or /days.json
@@ -7,8 +7,8 @@ class DaysController < ApplicationController
     @days = Day.all
   end
 
-  # GET /days/1 or /days/1.json
   def show
+    @day = Day.find_by(date: params['date'])
     render json: @day
   end
 
@@ -23,7 +23,7 @@ class DaysController < ApplicationController
 
   # POST /days or /days.json
   def create
-    @day = Day.new(day_params)
+    @day = Day.new(params)
 
     respond_to do |format|
       if @day.save
@@ -37,7 +37,7 @@ class DaysController < ApplicationController
   # PATCH/PUT /days/1 or /days/1.json
   def update
     respond_to do |format|
-      if @day.update(day_params)
+      if @day.update(params)
         format.json { render :show, status: :ok, location: @day }
       else
         format.json { render json: @day.errors, status: :unprocessable_entity }
@@ -60,18 +60,20 @@ class DaysController < ApplicationController
       @day = Day.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    def day_params
-      params.require(:day).permit(
-        :date,
-        periods_attributes: [
-          :id,
-          :name,
-          emotions_attributes: [
-            :id,
-            :name
-          ]
-        ]
-      )
-    end
+    # # Only allow a list of trusted parameters through.
+    # def day_params
+    #   params.permit(
+    #     day: {
+    #       :date,
+    #       periods_attributes: [
+    #         :id,
+    #         :name,
+    #         emotions_attributes: [
+    #           :id,
+    #           :name
+    #         ]
+    #       ]
+    #     }
+    #   )
+    # end
 end
