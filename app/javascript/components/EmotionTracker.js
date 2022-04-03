@@ -13,7 +13,7 @@ function getDay() {
     dispatch({ type: GET_DAY_REQUEST })
 
     // return fetch(`day.json`)
-    return fetch(`days/2`)
+    return fetch(`days/5`)
       .then(response => response.json())
       .then(json => dispatch(getDaySuccess(json)))
       .catch(error => console.log(error))

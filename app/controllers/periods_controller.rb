@@ -33,10 +33,8 @@ class PeriodsController < ApplicationController
 
     respond_to do |format|
       if @period.save
-        format.html { redirect_to period_url(@period), notice: "Period was successfully created." }
         format.json { render :show, status: :created, location: @period }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @period.errors, status: :unprocessable_entity }
       end
     end
@@ -46,10 +44,8 @@ class PeriodsController < ApplicationController
   def update
     respond_to do |format|
       if @period.update(period_params)
-        format.html { redirect_to period_url(@period), notice: "Period was successfully updated." }
         format.json { render :show, status: :ok, location: @period }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @period.errors, status: :unprocessable_entity }
       end
     end
@@ -60,7 +56,6 @@ class PeriodsController < ApplicationController
     @period.destroy
 
     respond_to do |format|
-      format.html { redirect_to periods_url, notice: "Period was successfully destroyed." }
       format.json { head :no_content }
     end
   end
