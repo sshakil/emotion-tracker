@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :days do
-    resources :periods do
+  resources :days, shallow: true do
+    resources :periods, shallow: true do
       resources :emotions
     end
   end
