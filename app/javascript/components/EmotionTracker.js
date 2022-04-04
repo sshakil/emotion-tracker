@@ -1,33 +1,21 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { connect } from 'react-redux'
 import { createStructuredSelector } from "reselect"
-import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
-import { DELETE_EMOTION_REQUEST, DELETE_EMOTION_SUCCESS } from '../actions'
-import Button from '@mui/material/Button';
+import {
+  DELETE_EMOTION_REQUEST,
+  DELETE_EMOTION_SUCCESS,
+  GET_DAY,
+} from '../actions'
 import Chip from '@mui/material/Chip';
-import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Stack,
+  TextField,
+  Typography
+} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { fetchDay, fetchDayByDate } from '../clients/api'
-
-function getDay(selectedDate) {
-  return dispatch => {
-    // dispatch action with type // todo - bindActionCreators for this?
-    dispatch({ type: GET_DAY_REQUEST })
-
-    // return fetch(`day.json`)
-    return fetchDayByDate(selectedDate)
-      .then(response => response.json())
-      .then(json => dispatch(getDaySuccess(json)))
-      .catch(error => console.log(error))
-  }
-}
-
-function getDaySuccess(json) {
-  return {
-    type: GET_DAY_SUCCESS,
-    json
-  }
-}
 
 //todo - use tables? a form? both?
 // function renderDay(day) {
@@ -60,6 +48,13 @@ function getDaySuccess(json) {
 //     </div>
 //   )
 // }
+
+function getDay() {
+  return dispatch => {
+    // dispatch action with type // todo - bindActionCreators for this
+    dispatch({ type: GET_DAY })
+  }
+}
 
 function deleteEmotion(period, emotion) {
   console.log("delete emotion : ", emotion)
@@ -113,7 +108,6 @@ function renderDayForm(
   setAllEmotionInputValues, allEmotionInputValues
 ) {
   function renderPeriod(period) {
-    // console.log("renderPeriod - date - ", date)
     return (
       <Card
         key={ selectedDate + '-' + period.name }
@@ -130,7 +124,6 @@ function renderDayForm(
             type="search"
             variant="standard"
             onChange={ (e) => {
-                // console.log(e.target.name, e.target.value)
                 setAllEmotionInputValues(
                   { ...allEmotionInputValues, [e.target.name]: e.target.value }
                 )
@@ -145,7 +138,6 @@ function renderDayForm(
               console.log("add emotion to period for date - ", selectedDate)
               console.log(period.name)
               console.log(allEmotionInputValues[e.currentTarget.name])
-              // console.log(allEmotionInputValues[e.currentTarget.name])
             }}
           >
             <AddCircleIcon />
@@ -196,24 +188,12 @@ function EmotionTracker(props) {
   // which does reference the one defined locally above
   // that function just can't be used on its own because the dispatch in it
   // needs to be hooked up through mapDispatchToProps
-  const { selectedDate, user, day, getDay } = props
-
-  // without deps, it runs infinitely
-  // day.id ran it twice
-  // [] runs its just once
-  // useEffect(() => {
-    // console.log("date - ", date)
-    /*
-    * 1. check if current date exists on backend
-    *     yes - load it
-    *     no - create it
-    *
-    * 2. when user adds or deletes an emotion from a period
-    *
-    * */
-
-    // getDay(selectedDate)
-  // }, [day.id])
+  const {
+    selectedDate,
+    user,
+    day,
+    // getDay
+  } = props
 
   const dayForm = renderDayForm(
     selectedDate,
@@ -227,15 +207,6 @@ function EmotionTracker(props) {
     <React.Fragment>
       User: { user.name }
       <br/>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={
-          () => getDay(selectedDate)
-        }
-      >
-        Get Day
-      </Button>
       {/*{ dayElement }*/}
       { dayForm }
     </React.Fragment>

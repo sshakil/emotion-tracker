@@ -1,3 +1,4 @@
+// todo - needs to be an array
 const initialState = {
   date: "date",
   periods: [
@@ -7,36 +8,15 @@ const initialState = {
     },
     {
       name: "morning",
-      emotions: [
-        {
-          name: "place"
-        }
-      ],
+      emotions: [],
     },
     {
       name: "afternoon",
-      emotions: [
-        {
-          name: "place"
-        },
-        {
-          name: "holder"
-        },
-        {
-          name: "text as"
-        }
-      ],
+      emotions: [],
     },
     {
       name: "evening",
-      emotions: [
-        {
-          name: "place"
-        },
-        {
-          name: "holder"
-        },
-      ],
+      emotions: [],
     },
     {
       name: "beforeBed",
@@ -45,13 +25,18 @@ const initialState = {
   ]
 }
 
-export default function day(state = initialState, action) {
+export default function day(currentState = initialState, action) {
   switch(action.type) {
-    case "GET_DAY_SUCCESS":
-      console.log("GET_DAY_SUCCESS - ", action.json)
-      return action.json;
+    case "GET_DAY":
+      return currentState
+    case "GET_DAY_SUCCESS_FOUND":
+      console.log("GET_DAY_SUCCESS_FOUND - ", action.json)
+      return Object.assign({}, currentState, action.json)
+    case "GET_DAY_SUCCESS_NOT_FOUND":
+      console.log("GET_DAY_SUCCESS_NOT_FOUND - ")
+      return Object.assign({}, currentState, initialState)
     default:
-      return state
+      return currentState
   }
   // return state
 }

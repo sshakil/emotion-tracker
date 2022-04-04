@@ -2,29 +2,41 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import { StaticDatePicker } from "@mui/lab";
 import { useEffect } from "react";
-import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from "../actions";
+import {
+  GET_DAY_REQUEST,
+  GET_DAY_SUCCESS_FOUND,
+  GET_DAY_SUCCESS_NOT_FOUND
+} from "../actions";
 import { fetchDayByDate } from "../clients/api";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 
 function getDay(selectedDate) {
   return dispatch => {
-    // dispatch action with type
+    // dispatch action with type // todo - bindActionCreators for this
     dispatch({ type: GET_DAY_REQUEST })
 
-    // return fetch(`day.json`)
     return fetchDayByDate(selectedDate)
       .then(response => response.json())
-      .then(json => dispatch(getDaySuccess(json)))
+      .then(json => {
+          json ?
+            dispatch(getDaySuccessFound(json)) :
+            dispatch(getDaySuccessNotFound())
+        }
+      )
       .catch(error => console.log(error))
   }
 }
 
-function getDaySuccess(json) {
+function getDaySuccessFound(json) {
   return {
-    type: GET_DAY_SUCCESS,
+    type: GET_DAY_SUCCESS_FOUND,
     json
   }
+}
+
+function getDaySuccessNotFound() {
+  return { type: GET_DAY_SUCCESS_NOT_FOUND }
 }
 
 
