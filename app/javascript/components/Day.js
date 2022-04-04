@@ -7,20 +7,20 @@ import { useEffect } from "react";
 
 export default function Day() {
   //todo - this strips timezone info, which will be added back later
-  const todaysDate = (new Date()).toISOString().split('T')[0]
+  const todaysDate = new Date()
   const [date, setDate] = React.useState(todaysDate);
 
-  useEffect(() => {
-    // console.log("date - ", date)
-    /*
-    * 1. check if current date exists on backend
-    *     yes - load it
-    *     no - create it
-    *
-    * 2. when user adds or deletes an emotion from a period
-    *
-    * */
-  })
+  // useEffect(() => {
+  //   // console.log("date - ", date)
+  //   /*
+  //   * 1. check if current date exists on backend
+  //   *     yes - load it
+  //   *     no - create it
+  //   *
+  //   * 2. when user adds or deletes an emotion from a period
+  //   *
+  //   * */
+  // })
 
   return (
     <Box sx={{ flexGrow: 1 }}>

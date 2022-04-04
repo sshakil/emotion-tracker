@@ -48,7 +48,7 @@ const initialState = {
 export default function day(state = initialState, action) {
   switch(action.type) {
     case "GET_DAY_SUCCESS":
-      console.log("GET_DAY_SUCCESS - action.json - ", action.json)
+      console.log("GET_DAY_SUCCESS - ", action.json)
       return action.json;
     default:
       return state

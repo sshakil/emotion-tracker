@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from 'react-redux'
 import { createStructuredSelector } from "reselect"
 import { GET_DAY_REQUEST, GET_DAY_SUCCESS } from '../actions'
@@ -11,7 +11,7 @@ import { fetchDay, fetchDayByDate } from '../clients/api'
 
 function getDay(selectedDate) {
   return dispatch => {
-    // dispatch action with type
+    // dispatch action with type // todo - bindActionCreators for this?
     dispatch({ type: GET_DAY_REQUEST })
 
     // return fetch(`day.json`)
@@ -155,11 +155,16 @@ function renderDayForm(
       </Card>
     )
   }
-  return(
-    <Stack spacing={2}>
-      { day.periods.map(period => renderPeriod(period)) }
-    </Stack>
-  )
+  if(day != null) {
+    return(
+      <Stack spacing={2}>
+        { day.periods.map(period => renderPeriod(period)) }
+      </Stack>
+    )
+  } else {
+    return ('')
+  }
+
 }
 
 function addEmotionToPeriod( period, emotion) {
@@ -187,7 +192,29 @@ function EmotionTracker(props) {
   //
   // ])
 
+  // the getDay function is the one returned through mapDispatchToProps,
+  // which does reference the one defined locally above
+  // that function just can't be used on its own because the dispatch in it
+  // needs to be hooked up through mapDispatchToProps
   const { selectedDate, user, day, getDay } = props
+
+  // without deps, it runs infinitely
+  // day.id ran it twice
+  // [] runs its just once
+  // useEffect(() => {
+    // console.log("date - ", date)
+    /*
+    * 1. check if current date exists on backend
+    *     yes - load it
+    *     no - create it
+    *
+    * 2. when user adds or deletes an emotion from a period
+    *
+    * */
+
+    // getDay(selectedDate)
+  // }, [day.id])
+
   const dayForm = renderDayForm(
     selectedDate,
     day,
@@ -221,7 +248,7 @@ const structuredSelector = createStructuredSelector({
 })
 
 const mapDispatchToProps = {
-  getDay,
+  getDay, //todo - how can bindActionCreators be used here?
 }
 
 export default connect(structuredSelector, mapDispatchToProps)(EmotionTracker)
