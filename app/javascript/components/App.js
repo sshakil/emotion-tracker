@@ -1,7 +1,5 @@
 import React from "react"
-import EmotionTracker from "./EmotionTracker";
 import Day from "./Day";
-import Calendar from "./StaticDatePickerLandscape"
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Provider } from "react-redux";

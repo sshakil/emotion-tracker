@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import { StaticDatePicker } from "@mui/lab";
 import { useEffect } from "react";
 import {
+  GET_DAY,
   GET_DAY_REQUEST,
   GET_DAY_SUCCESS_FOUND,
   GET_DAY_SUCCESS_NOT_FOUND
@@ -11,55 +12,54 @@ import { fetchDayByDate } from "../clients/api";
 import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 
-function getDay(selectedDate) {
-  return dispatch => {
-    // dispatch action with type // todo - bindActionCreators for this
-    dispatch({ type: GET_DAY_REQUEST })
+// function getDay(selectedDate) {
+//   return dispatch => {
+//     // dispatch action with type // todo - bindActionCreators for this
+//     // dispatch({ type: GET_DAY_REQUEST })
+//
+//     // return fetchDayByDate(selectedDate)
+//     //   .then(response => response.json())
+//     //   .then(json => {
+//     //       json ?
+//     //         dispatch(getDaySuccessFound(json)) :
+//     //         dispatch(getDaySuccessNotFound())
+//     //     }
+//     //   )
+//     //   .catch(error => console.log(error))
+//     dispatch({ type: GET_DAY })
+//   }
+// }
 
-    return fetchDayByDate(selectedDate)
-      .then(response => response.json())
-      .then(json => {
-          json ?
-            dispatch(getDaySuccessFound(json)) :
-            dispatch(getDaySuccessNotFound())
-        }
-      )
-      .catch(error => console.log(error))
-  }
-}
-
-function getDaySuccessFound(json) {
-  return {
-    type: GET_DAY_SUCCESS_FOUND,
-    json
-  }
-}
-
-function getDaySuccessNotFound() {
-  return { type: GET_DAY_SUCCESS_NOT_FOUND }
-}
-
+// function getDaySuccessFound(json) {
+//   return {
+//     type: GET_DAY_SUCCESS_FOUND,
+//     json
+//   }
+// }
+//
+// function getDaySuccessNotFound() {
+//   return { type: GET_DAY_SUCCESS_NOT_FOUND }
+// }
+//
 
 function Calendar(props) {
-  const { date, setDate, getDay } = props
+  const { selectedDate, setSelectedDate } = props
 
-  useEffect(() => {
-    console.log("calender rendered")
-    console.log("about to get day for date - ", date.toLocaleDateString())
-    getDay(date.toLocaleDateString())
-  }, [date])
+  // useEffect(() => {
+  //   console.log("selectedDate in useEffect - ", selectedDate)
+  // }, [props.selectedDate])
 
   return (
     <StaticDatePicker
       orientation="portrait"
       openTo="day"
-      value={ date }
-      onChange={ (newValue) => {
+      value={ new Date(selectedDate) }
+      onChange={ (newSelectedDate) => {
           //todo - these strips timezone info, which will be added back later
           // const date = newValue.toISOString().split('T')[0] - this one has a day ahead issue
-          const formattedDate = newValue.toLocaleDateString()
-          console.log("Day selected - ", newValue, formattedDate)
-          setDate(newValue);
+          const formattedDate = newSelectedDate.toLocaleDateString()
+          console.log("Day selected - ", newSelectedDate, formattedDate)
+          setSelectedDate(newSelectedDate);
         }
       }
       renderInput={ (params) => <TextField { ...params } /> }
@@ -67,13 +67,19 @@ function Calendar(props) {
   );
 }
 
-
-const structuredSelector = createStructuredSelector({
-  day: state => state.day,
-})
-
-const mapDispatchToProps = {
-  getDay, //todo - how can bindActionCreators be used here?
+function mapStateToProps (state, ownProps) {
+  console.log("ownProps", ownProps)
+  return {
+    selectedDate: state.selectedDate.date
+  }
 }
 
-export default connect(structuredSelector, mapDispatchToProps)(Calendar)
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    setSelectedDate: (newSelectedDate) => {
+      dispatch({type: "SET_SELECTED_DATE", selectedDate: newSelectedDate.toISOString() })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

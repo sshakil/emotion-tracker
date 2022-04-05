@@ -23,7 +23,7 @@ class DaysController < ApplicationController
 
   # POST /days or /days.json
   def create
-    @day = Day.new(params)
+    @day = Day.new(day_params)
 
     respond_to do |format|
       if @day.save
@@ -61,19 +61,17 @@ class DaysController < ApplicationController
     end
 
     # # Only allow a list of trusted parameters through.
-    # def day_params
-    #   params.permit(
-    #     day: {
-    #       :date,
-    #       periods_attributes: [
-    #         :id,
-    #         :name,
-    #         emotions_attributes: [
-    #           :id,
-    #           :name
-    #         ]
-    #       ]
-    #     }
-    #   )
-    # end
+    def day_params
+      params.require(:day).permit(
+        :date,
+        periods_attributes: [
+          :id,
+          :name,
+          emotions_attributes: [
+            :id,
+            :name
+          ]
+        ]
+      )
+    end
 end

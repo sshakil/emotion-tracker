@@ -1,9 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useState  } from "react"
 import { connect } from 'react-redux'
-import { createStructuredSelector } from "reselect"
 import {
   DELETE_EMOTION_REQUEST,
-  DELETE_EMOTION_SUCCESS,
   GET_DAY,
 } from '../actions'
 import Chip from '@mui/material/Chip';
@@ -17,39 +15,8 @@ import {
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-//todo - use tables? a form? both?
-// function renderDay(day) {
-//   console.log("day - ", day)
-//   return (
-//     <div>
-//       <div>
-//         { day.date }
-//       </div>
-//       <div>
-//         {
-//           day.periods.map((period, index, periods) => {
-//             return (
-//               <div key={ day.date + '-' + period.name }>
-//                 { period.name }
-//                 { renderEmotions(period.emotions) }
-//                 { (
-//                     () => {
-//                       if (index + 1 < periods.length) {
-//                         return <br />
-//                       }
-//                     }
-//                   )()
-//                 }
-//               </div>
-//             )
-//           })
-//         }
-//       </div>
-//     </div>
-//   )
-// }
 
-function getDay() {
+function getDay(selectedDate) {
   return dispatch => {
     // dispatch action with type // todo - bindActionCreators for this
     dispatch({ type: GET_DAY })
@@ -59,19 +26,6 @@ function getDay() {
 function deleteEmotion(period, emotion) {
   console.log("delete emotion : ", emotion)
   console.log("for period : ", period)
-  // return dispatch => {
-  //   // dispatch action with type
-  //   dispatch({ type: DELETE_EMOTION_REQUEST })
-  //
-  //   // return fetch(`day.json`)
-  //   return fetch(`emotions/${emotion.id}`,
-  //     {
-  //       method: "DELETE"
-  //     })
-  //     .then(response => response.json())
-  //     .then(json => dispatch(deleteEmotionSuccess(json)))
-  //     .catch(error => console.log(error))
-  // }
 }
 
 function deleteEmotionSuccess(json) {
@@ -92,7 +46,6 @@ function renderEmotions(period) {
               key={emotion.name + index}
               label={ emotion.name }
               onDelete={() => {
-                // console.log("delete : ", emotion.name)
                 deleteEmotion(period, emotion)
               }}
             />
@@ -159,13 +112,7 @@ function renderDayForm(
 
 }
 
-function addEmotionToPeriod( period, emotion) {
-  console.log("addEmotionToPeriod ", emotion, period)
-}
-
-
 function EmotionTracker(props) {
-  // console.log("props", props)
   const [
     allEmotionInputValues, setAllEmotionInputValues
   ] = useState({
@@ -176,50 +123,45 @@ function EmotionTracker(props) {
     beforeBed: ''
   })
 
-  // todo - is this way faster / more efficient than the onchange+state?
-  // probably by a bit but is it significant?
-  // it's appears cleaner, though, that's only a dev thing
-  // const periodToSetterMap = new Map([
-  //   ["Morning", setEmotionInputValueForMorning],
-  //
-  // ])
-
-  // the getDay function is the one returned through mapDispatchToProps,
-  // which does reference the one defined locally above
-  // that function just can't be used on its own because the dispatch in it
-  // needs to be hooked up through mapDispatchToProps
   const {
     selectedDate,
     user,
-    day,
-    // getDay
+    // day,
+    getDay
   } = props
 
-  const dayForm = renderDayForm(
-    selectedDate,
-    day,
-    setAllEmotionInputValues,
-    allEmotionInputValues
-  )
+
+  useEffect(() => {
+    console.log("calender rendered")
+  }, [])
+
+  console.log("got day in EmotionTracker - ", day)
+  // const dayForm = renderDayForm(
+  //   selectedDate,
+  //   // day,
+  //   setAllEmotionInputValues,
+  //   allEmotionInputValues
+  // )
 
 
   return (
     <React.Fragment>
       User: { user.name }
       <br/>
-      {/*{ dayElement }*/}
-      { dayForm }
+      {/*{ dayForm }*/}
     </React.Fragment>
   )
 }
 
-const structuredSelector = createStructuredSelector({
-  user: state => state.user,
-  day: state => state.day,
-})
-
-const mapDispatchToProps = {
-  getDay, //todo - how can bindActionCreators be used here?
+function mapStateToProps(state, ownProps) {
+  return {
+    selectedDate: state.selectedDate.date,
+    // day: state.days.find(day => day.date === state.selectedDate.date)
+  }
 }
 
-export default connect(structuredSelector, mapDispatchToProps)(EmotionTracker)
+function mapDispatchToProps(dispatch, ownProps) {
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmotionTracker)
