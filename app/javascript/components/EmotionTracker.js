@@ -144,14 +144,48 @@ function EmotionTracker(props) {
   )
 }
 
+function newDay(selectedDate) {
+  return (
+    {
+      date: selectedDate.toLocaleDateString(),
+      periods: [
+        {
+          name: "earlyMorning",
+          emotions: []
+        },
+        {
+          name: "morning",
+          emotions: []
+        },
+        {
+          name: "afternoon",
+          emotions: []
+        },
+        {
+          name: "evening",
+          emotions: []
+        },
+        {
+          name: "beforeBed",
+          emotions: []
+        }
+      ]
+    }
+  )
+}
+
 function mapStateToProps(state, ownProps) {
-  console.log("mapStateToProps - selectedDate - ", new Date(state.selectedDate.date))
-  console.log("mapStateToProps - selectedDate.toLocaleDateString - ", new Date(state.selectedDate.date).toLocaleDateString())
-  state.days.map( day => { console.log(day.date) })
-  console.log("mapStateToProps - day - ", state.days.find(day => day.date === new Date(state.selectedDate.date).toLocaleDateString()))
+  const selectedDate = new Date(state.selectedDate.date)
+  // console.log("mapStateToProps - selectedDate - ", selectedDate)
+  // console.log("mapStateToProps - selectedDate.toLocaleDateString - ", selectedDate.toLocaleDateString())
+  // state.days.map( day => { console.log(day.date) })
+  // console.log("mapStateToProps - day - ", state.days.find(day => day.date === selectedDate.toLocaleDateString()))
+
   return {
-    selectedDate: new Date(state.selectedDate.date),
-    day: state.days.find(day => day.date === new Date(state.selectedDate.date).toLocaleDateString())
+    selectedDate: selectedDate,
+    day: state.days.find(
+      day => day.date === new Date(state.selectedDate.date).toLocaleDateString()
+    ) || newDay(selectedDate)
   }
 }
 
