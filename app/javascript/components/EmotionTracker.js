@@ -2,7 +2,7 @@ import React, { useEffect, useState  } from "react"
 import { connect } from 'react-redux'
 import {
   DELETE_EMOTION_REQUEST,
-  GET_DAY,
+  GET_DAY_FOR_DATE,
 } from '../actions'
 import Chip from '@mui/material/Chip';
 import {
@@ -15,13 +15,6 @@ import {
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-
-function getDay(selectedDate) {
-  return dispatch => {
-    // dispatch action with type // todo - bindActionCreators for this
-    dispatch({ type: GET_DAY })
-  }
-}
 
 function deleteEmotion(period, emotion) {
   console.log("delete emotion : ", emotion)
@@ -125,43 +118,49 @@ function EmotionTracker(props) {
 
   const {
     selectedDate,
-    user,
-    // day,
-    getDay
+    day,
   } = props
 
 
   useEffect(() => {
-    console.log("calender rendered")
+    console.log("EmotionTracker rendered")
   }, [])
 
   console.log("got day in EmotionTracker - ", day)
-  // const dayForm = renderDayForm(
-  //   selectedDate,
-  //   // day,
-  //   setAllEmotionInputValues,
-  //   allEmotionInputValues
-  // )
+  const dayForm = renderDayForm(
+    selectedDate,
+    day,
+    setAllEmotionInputValues,
+    allEmotionInputValues
+  )
 
 
   return (
     <React.Fragment>
-      User: { user.name }
+      {/*User: { user.name }*/}
       <br/>
-      {/*{ dayForm }*/}
+      { dayForm }
     </React.Fragment>
   )
 }
 
 function mapStateToProps(state, ownProps) {
+  console.log("mapStateToProps - selectedDate - ", new Date(state.selectedDate.date))
+  console.log("mapStateToProps - selectedDate.toLocaleDateString - ", new Date(state.selectedDate.date).toLocaleDateString())
+  state.days.map( day => { console.log(day.date) })
+  console.log("mapStateToProps - day - ", state.days.find(day => day.date === new Date(state.selectedDate.date).toLocaleDateString()))
   return {
-    selectedDate: state.selectedDate.date,
-    // day: state.days.find(day => day.date === state.selectedDate.date)
+    selectedDate: new Date(state.selectedDate.date),
+    day: state.days.find(day => day.date === new Date(state.selectedDate.date).toLocaleDateString())
   }
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+// function mapDispatchToProps(dispatch, ownProps) {
+//   return {
+//     getDayForDate: (date) => {
+//       dispatch({ type: GET_DAY_FOR_DATE, date: date })
+//     }
+//   }
+// }
 
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EmotionTracker)
+export default connect(mapStateToProps)(EmotionTracker)

@@ -11,9 +11,9 @@ export default function Day() {
         <Grid item xs={6}>
           <Calendar/>
         </Grid>
-        {/*<Grid item xs={6}>*/}
-        {/*  <EmotionTracker/>*/}
-        {/*</Grid>*/}
+        <Grid item xs={6}>
+          <EmotionTracker/>
+        </Grid>
       </Grid>
     </Box>
   );
