@@ -27,5 +27,4 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "static#index"
 
-  get 'times', to: 'times#index', defaults: { format: 'json' }
 end

@@ -43,3 +43,4 @@ yarn-debug.log*
 .yarn-integrity
 .DS_Store
 app/.DS_Store
+db/~$erd.drawio.bkp
