@@ -10,36 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_05_033333) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_11_042313) do
+  create_table "day_periods", force: :cascade do |t|
+    t.integer "day_id", null: false
+    t.integer "period_id", null: false
+    t.index ["day_id"], name: "index_day_periods_on_day_id"
+    t.index ["period_id"], name: "index_day_periods_on_period_id"
+  end
+
   create_table "days", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.date "date"
+    t.index ["date"], name: "index_days_on_date", unique: true
   end
 
   create_table "emotions", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_emotions_on_name", unique: true
   end
 
   create_table "entries", force: :cascade do |t|
+    t.integer "day_period_id", null: false
     t.integer "emotion_id", null: false
-    t.integer "period_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["day_period_id"], name: "index_entries_on_day_period_id"
     t.index ["emotion_id"], name: "index_entries_on_emotion_id"
-    t.index ["period_id"], name: "index_entries_on_period_id"
   end
 
   create_table "periods", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "day_id"
-    t.index ["day_id"], name: "index_periods_on_day_id"
+    t.index ["name"], name: "index_periods_on_name", unique: true
   end
 
+  add_foreign_key "day_periods", "days"
+  add_foreign_key "day_periods", "periods"
+  add_foreign_key "entries", "day_periods"
   add_foreign_key "entries", "emotions"
-  add_foreign_key "entries", "periods"
 end

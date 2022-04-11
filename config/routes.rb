@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
+  # resources :entries
+  # resources :day_periods
+  # resources :emotions
+  # resources :periods
+
   resources :days, shallow: true do
     resources :periods, shallow: true do
-        end
+    end
   end
 
   # todo - error when moving this into the resource above (with 'days' removed)
