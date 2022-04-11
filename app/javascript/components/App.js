@@ -16,8 +16,7 @@ class App extends React.Component {
         <Provider store={store}>
           <BrowserRouter>
             <Routes>
-              <Route exact path="/" element = { "Emotion Tracker" } />
-              <Route path={ "/day" } element = { <Day /> } />
+              <Route path={ "/" } element = { <Day /> } />
             </Routes>
           </BrowserRouter>
         </Provider>
