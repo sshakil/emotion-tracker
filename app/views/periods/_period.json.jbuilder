@@ -1,2 +1,2 @@
-json.extract! period, :id, :date, :period, :created_at, :updated_at
+json.extract! period, :id, :name
 json.url period_url(period, format: :json)

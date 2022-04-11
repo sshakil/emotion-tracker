@@ -14,8 +14,7 @@ class PeriodsTest < ApplicationSystemTestCase
     visit periods_url
     click_on "New period"
 
-    fill_in "Date", with: @period.date
-    fill_in "Period", with: @period.period
+    fill_in "Name", with: @period.name
     click_on "Create Period"
 
     assert_text "Period was successfully created"
@@ -26,8 +25,7 @@ class PeriodsTest < ApplicationSystemTestCase
     visit period_url(@period)
     click_on "Edit this period", match: :first
 
-    fill_in "Date", with: @period.date
-    fill_in "Period", with: @period.period
+    fill_in "Name", with: @period.name
     click_on "Update Period"
 
     assert_text "Period was successfully updated"

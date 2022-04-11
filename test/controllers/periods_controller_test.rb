@@ -17,7 +17,7 @@ class PeriodsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create period" do
     assert_difference("Period.count") do
-      post periods_url, params: { period: { date: @period.date, period: @period.period } }
+      post periods_url, params: { period: { name: @period.name } }
     end
 
     assert_redirected_to period_url(Period.last)
@@ -34,7 +34,7 @@ class PeriodsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update period" do
-    patch period_url(@period), params: { period: { date: @period.date, period: @period.period } }
+    patch period_url(@period), params: { period: { name: @period.name } }
     assert_redirected_to period_url(@period)
   end
 

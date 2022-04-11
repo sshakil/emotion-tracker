@@ -14,8 +14,8 @@ class EntriesTest < ApplicationSystemTestCase
     visit entries_url
     click_on "New entry"
 
+    fill_in "Day period", with: @entry.day_period_id
     fill_in "Emotion", with: @entry.emotion_id
-    fill_in "Period", with: @entry.period_id
     click_on "Create Entry"
 
     assert_text "Entry was successfully created"
@@ -26,8 +26,8 @@ class EntriesTest < ApplicationSystemTestCase
     visit entry_url(@entry)
     click_on "Edit this entry", match: :first
 
+    fill_in "Day period", with: @entry.day_period_id
     fill_in "Emotion", with: @entry.emotion_id
-    fill_in "Period", with: @entry.period_id
     click_on "Update Entry"
 
     assert_text "Entry was successfully updated"

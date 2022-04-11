@@ -1,6 +1,5 @@
 class PeriodsController < ApplicationController
   before_action :set_period, only: %i[ show edit update destroy ]
-  skip_before_action :verify_authenticity_token
 
   # GET /periods or /periods.json
   def index
@@ -9,13 +8,6 @@ class PeriodsController < ApplicationController
 
   # GET /periods/1 or /periods/1.json
   def show
-    # @period = Period.find(params["id"])
-    # Period.includes(:emotions)
-    # @period = Period.find_with_emotions(params["id"])
-    # puts @period.attributes
-    #
-    render json: @period
-
   end
 
   # GET /periods/new
@@ -33,8 +25,10 @@ class PeriodsController < ApplicationController
 
     respond_to do |format|
       if @period.save
+        format.html { redirect_to period_url(@period), notice: "Period was successfully created." }
         format.json { render :show, status: :created, location: @period }
       else
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @period.errors, status: :unprocessable_entity }
       end
     end
@@ -44,8 +38,10 @@ class PeriodsController < ApplicationController
   def update
     respond_to do |format|
       if @period.update(period_params)
+        format.html { redirect_to period_url(@period), notice: "Period was successfully updated." }
         format.json { render :show, status: :ok, location: @period }
       else
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @period.errors, status: :unprocessable_entity }
       end
     end
@@ -56,6 +52,7 @@ class PeriodsController < ApplicationController
     @period.destroy
 
     respond_to do |format|
+      format.html { redirect_to periods_url, notice: "Period was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -68,6 +65,6 @@ class PeriodsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def period_params
-      params.require(:period).permit(:date, :period, emotions_attributes: [:id, :name])
+      params.require(:period).permit(:name)
     end
 end

@@ -1,2 +1,2 @@
-json.extract! day, :id, :date, :created_at, :updated_at
+json.extract! day, :id, :date
 json.url day_url(day, format: :json)
