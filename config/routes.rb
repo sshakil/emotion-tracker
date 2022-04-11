@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
   resources :days, shallow: true do
     resources :periods, shallow: true do
-      resources :emotions
-    end
+        end
   end
 
   # todo - error when moving this into the resource above (with 'days' removed)
   post 'days/fetch', to: 'days#show'
 
-  resources :entries
 
   # resources :periods do
   #   resoruces :emotions
