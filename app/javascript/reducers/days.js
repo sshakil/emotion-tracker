@@ -7,10 +7,10 @@ export default function days(currentState = initialState, action) {
   switch(action.type) {
     case "GET_DAY_FOR_DATE":
       return currentState.days.find(
-        day => day.date === action.date.toLocaleDateString()
+        day => day.date === action.date
       )
     case "FETCH_DAY_SUCCESS_FOUND":
-      // console.log("GET_DAY_SUCCESS_FOUND, adding this in - ", action.json)
+      console.log("GET_DAY_SUCCESS_FOUND, adding this in - ", action.json)
       return [...currentState, action.json]
     case "FETCH_DAY_SUCCESS_NOT_FOUND":
       // console.log("GET_DAY_SUCCESS_NOT_FOUND")

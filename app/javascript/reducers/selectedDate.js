@@ -1,5 +1,7 @@
+import { convertToYYYYMMDD } from "../utils"
+
 const initialState = {
-  date: (new Date()).toISOString()
+  date: convertToYYYYMMDD(new Date())
 }
 
 export default function selectedDate(state = initialState, action) {

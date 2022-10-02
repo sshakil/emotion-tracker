@@ -16,7 +16,7 @@ export function setSelectedDate(newSelectedDate) {
   return function(dispatch) {
     dispatch({
       type: "SET_SELECTED_DATE",
-      selectedDate: newSelectedDate.toISOString()
+      selectedDate: newSelectedDate
     })
   }
 }
@@ -25,7 +25,7 @@ export function fetchDayIfNotInStore(selectedDate) {
   return async function getDayThunk(dispatch, getState) {
     const state = getState()
     const existingDayForDate = state.days.find(
-      day => day.date === selectedDate.toLocaleDateString()
+      day => day.date === selectedDate
     )
 
     if (existingDayForDate !== undefined) {

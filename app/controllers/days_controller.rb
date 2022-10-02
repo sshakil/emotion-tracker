@@ -9,15 +9,26 @@ class DaysController < ApplicationController
 
   # GET /days/1 or /days/1.json
   def show
+    # to handle front sending format mm/dd/yyyy
+    # needed format: yyyy-mm-dd
+    # date = Time.strptime(params['date'], "%m/%d/%Y ")
+
     @day = Day.find_by(date: params['date'])
 
     # see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data
     day_json = {}
 
     unless @day.nil?
+      puts "------------------------date------------------------"
+      puts "@day.date.to_date.to_s"
+      puts @day.date.to_date.to_s
+      puts "@day.date.iso8601"
+      puts @day.date.iso8601
+
       day_json =
         {
           date: @day.date.iso8601,
+          # date: @day.date.to_date.to_s,
           periods: @day.day_periods.collect do |day_period|
             {
               name: day_period.period.name,
@@ -44,7 +55,6 @@ class DaysController < ApplicationController
       @day = Day.find_or_create_by(date: params['date'])
       @period = Period.find_by(name: params['period'])
       @emotion = Emotion.find_or_create_by(name: params['emotion'])
-      
 
       if !@day.nil? && !@period.nil? && !@emotion.nil?
         @day_period = DayPeriod.create(

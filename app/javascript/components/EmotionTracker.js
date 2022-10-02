@@ -29,6 +29,7 @@ function deleteEmotionSuccess(json) {
 }
 
 function renderEmotions(period) {
+  // console.log("period: ", period)
   return (
     <div>
       {
@@ -94,13 +95,14 @@ function renderDayForm(
     )
   }
   if(day != null) {
+    // console.log("day != null", day)
     return(
       <Stack spacing={2}>
         { day.periods.map(period => renderPeriod(period)) }
       </Stack>
     )
   } else {
-    return ('')
+    return ('temp - no entries')
   }
 
 }
@@ -147,7 +149,7 @@ function EmotionTracker(props) {
 function newDay(selectedDate) {
   return (
     {
-      date: selectedDate.toLocaleDateString(),
+      date: selectedDate,
       periods: [
         {
           name: "earlyMorning",
@@ -175,16 +177,15 @@ function newDay(selectedDate) {
 }
 
 function mapStateToProps(state, ownProps) {
-  const selectedDate = new Date(state.selectedDate.date)
-  // console.log("mapStateToProps - selectedDate - ", selectedDate)
-  // console.log("mapStateToProps - selectedDate.toLocaleDateString - ", selectedDate.toLocaleDateString())
-  // state.days.map( day => { console.log(day.date) })
-  // console.log("mapStateToProps - day - ", state.days.find(day => day.date === selectedDate.toLocaleDateString()))
+  const selectedDate = state.selectedDate.date
+  console.log("mapStateToProps - selectedDate - ", selectedDate)
+  state.days.map( day => { console.log(day.date) })
+  console.log("mapStateToProps - day - ", state.days.find(day => day.date === selectedDate))
 
   return {
     selectedDate: selectedDate,
     day: state.days.find(
-      day => day.date === new Date(state.selectedDate.date).toLocaleDateString()
+      day => day.date === state.selectedDate.date
     ) || newDay(selectedDate)
   }
 }

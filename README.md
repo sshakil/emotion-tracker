@@ -28,6 +28,10 @@ rails server -p 3000
 
 ````
 
+<h3>Issues</h3>
+`no route matches webpack`
+- make text changes in front end so JS is recompiled
+
 # README
 
 This README would normally document whatever steps are necessary to get the
