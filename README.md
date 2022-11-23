@@ -32,6 +32,9 @@ rails server -p 3000
 `no route matches webpack`
 - make text changes in front end so JS is recompiled
 
+<h3>Date with values</h3>
+Oct 1, 2022
+
 # README
 
 This README would normally document whatever steps are necessary to get the
