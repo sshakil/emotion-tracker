@@ -1,6 +1,6 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import { StaticDatePicker } from "@mui/lab";
+import { StaticDatePicker } from "@mui/x-date-pickers";
 import { connect, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchDayIfNotInStore, setSelectedDate } from "../actions";
