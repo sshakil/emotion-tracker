@@ -21,17 +21,20 @@ class PeriodsController < ApplicationController
 
   # POST /periods or /periods.json
   def create
-    @period = Period.new(period_params)
-
-    respond_to do |format|
-      if @period.save
-        format.html { redirect_to period_url(@period), notice: "Period was successfully created." }
-        format.json { render :show, status: :created, location: @period }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @period.errors, status: :unprocessable_entity }
-      end
-    end
+    puts "====period-create===="
+    puts period_params
+    puts "====================="
+    # @period = Period.new(period_params)
+    #
+    # respond_to do |format|
+    #   if @period.save
+    #     format.html { redirect_to period_url(@period), notice: "Period was successfully created." }
+    #     format.json { render :show, status: :created, location: @period }
+    #   else
+    #     format.html { render :new, status: :unprocessable_entity }
+    #     format.json { render json: @period.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /periods/1 or /periods/1.json

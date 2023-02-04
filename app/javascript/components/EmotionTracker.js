@@ -1,5 +1,5 @@
 import React, { useEffect, useState  } from "react"
-import { connect } from 'react-redux'
+import {connect, useDispatch} from 'react-redux'
 import {
   DELETE_EMOTION_REQUEST,
   GET_DAY_FOR_DATE,
@@ -14,6 +14,7 @@ import {
   Typography
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import {createEntries} from "../actions/entry";
 
 
 function deleteEmotion(period, emotion) {
@@ -51,6 +52,7 @@ function renderEmotions(period) {
 }
 
 function renderDayForm(
+  dispatch,
   selectedDate, day,
   setAllEmotionInputValues, allEmotionInputValues
 ) {
@@ -82,9 +84,19 @@ function renderDayForm(
             aria-label="add emotion to period"
             name={ period.name }
             onClick={ (e) => {
-              console.log("add emotion to period for date - ", selectedDate)
-              console.log(period.name)
-              console.log(allEmotionInputValues[e.currentTarget.name])
+
+              // console.log("add emotion to period for date - ", selectedDate)
+              // console.log(period.name)
+              // console.log(allEmotionInputValues[e.currentTarget.name])
+
+              dispatch(createEntries(
+                selectedDate,
+                period.name,
+                allEmotionInputValues[e.currentTarget.name].split(",").map(
+                  emotion => { return emotion.trim() }
+                ))
+              )
+
             }}
           >
             <AddCircleIcon />
@@ -118,6 +130,8 @@ function EmotionTracker(props) {
     beforeBed: ''
   })
 
+  const dispatch = useDispatch()
+
   const {
     selectedDate,
     day,
@@ -130,6 +144,7 @@ function EmotionTracker(props) {
 
   console.log("got day in EmotionTracker - ", day)
   const dayForm = renderDayForm(
+    dispatch,
     selectedDate,
     day,
     setAllEmotionInputValues,

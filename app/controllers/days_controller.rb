@@ -51,23 +51,40 @@ class DaysController < ApplicationController
 
   # POST /days or /days.json
   def create
+    errors = []
     begin
-      @day = Day.find_or_create_by(date: params['date'])
-      @period = Period.find_by(name: params['period'])
-      @emotion = Emotion.find_or_create_by(name: params['emotion'])
+      @day = Day.find_or_create_by(date: params['day']['date'])
+      if @day.nil?
+        errors << "Invalid date"
+      else
+        params['day']['periods_attributes'].each do |period|
+          @period = Period.find_by(name: period['name'])
+          if @period.nil?
+            errors << "Unknown period"
+          else
+            @day_period = DayPeriod.find_or_create_by(
+              day: @day,
+              period: @period
+            )
 
-      if !@day.nil? && !@period.nil? && !@emotion.nil?
-        @day_period = DayPeriod.create(
-          day: @day,
-          period: @period
-        )
-        @entry = Entry.create(
-          day_period: @day_period,
-          emotion: @emotion
-        )
+            period['emotions_attributes'].each do |emotion|
+              @emotion = Emotion.find_or_create_by(name: emotion['name'])
+
+              @entry = Entry.find_or_create_by(
+                day_period: @day_period,
+                emotion: @emotion
+              )
+            end
+          end
+        end
       end
-      # render status: :no_content
-      # render render :show
+
+      if errors.empty?
+        render json: {}, status: :no_content
+      else
+        render json: { error: errors.as_json }, status: :bad_request
+      end
+
     rescue StandardError => e
       render json: { error: e.as_json }, status: :internal_server_error
     end
