@@ -27,13 +27,17 @@ rails server -p 3000
 
 
 ````
+<h3>Startup</h3>
+Backend
+```
+rails s -p 3000
+```
+
+Front-End
+```
+npx webpack --watch
+```
+http://127.0.0.1:3000/
+
 
 <h3>Issues</h3>
-`no route matches webpack`
-- make text changes in front end so JS is recompiled
-
-<h3>Date with values</h3>
-Oct 1, 2022
-
-<h3>Entrypoint</h3>
-http://127.0.0.1:3000/
