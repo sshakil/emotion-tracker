@@ -16,7 +16,7 @@ function Calendar(props) {
         const date = convertToYYYYMMDD(convertDateStringToDate(selectedDate));
         dispatch(fetchDayIfNotInStore(date));
     }
-    console.log("Calender rendered, selectedDate - ", selectedDate)
+    // console.log("Calender rendered, selectedDate - ", selectedDate)
   }, [selectedDate, dispatch]); // Dependencies: selectedDate and dispatch
 
   // useEffect(() => {
@@ -39,7 +39,8 @@ function Calendar(props) {
           // should be done on server side?
           const date = convertToYYYYMMDD(newSelectedDate)
           // console.log("StaticDatePicker - onChange: newSelectedDate, formattedDate: ", newSelectedDate, formattedDate)
-          console.log("got to there")
+          console.log("new selected date: ", date)
+
           dispatch(fetchDayIfNotInStore(date))
           dispatch(setSelectedDate(date));
         }
