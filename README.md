@@ -24,19 +24,25 @@ config.output.filename = "js/[name]-[hash].js
 # diverged here with ChatGPT
 
 ````
-
 <h3>Startup</h3>
 
 Backend
 ```
 rails s -p 3000
 ```
-
 Front-End
 ```
 npx webpack --watch
 ```
 http://127.0.0.1:3000/
 
-
 <h3>Issues</h3>
+
+<h3>Front-End Dev Docs/Guide<h3>
+App layout starts in `/emotion-tracker/app/javascript/components/App.js`.
+`App` references `Day`, which is a `Grid` containing 2 Grids containing `Calendar` and `EmotionTracker`.
+`EmotionTracker` is rendered through `renderDayForm`, which renders a `Stack` of `Card`s through `renderPeriod`.
+Each `Card` contains `CardContent` which wraps:
+- `Typography` to display period name, <TextField>
+- `TextField` to input emotion/affect
+- `IconButton` to allow using the mouse to add the value 
