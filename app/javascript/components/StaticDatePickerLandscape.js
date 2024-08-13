@@ -19,6 +19,9 @@ function Calendar(props) {
     console.log("Calender rendered, selectedDate - ", selectedDate)
   }, [selectedDate, dispatch]); // Dependencies: selectedDate and dispatch
 
+  // useEffect(() => {
+  //   console.log("Calender rendered, selectedDate - ", selectedDate)
+  // }, [props.selectedDate])
 
   return (
     <StaticDatePicker

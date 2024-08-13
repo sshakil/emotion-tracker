@@ -16,6 +16,14 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {createEntries} from "../actions/entry";
 
+const defaultPeriods = [
+  { name: "earlyMorning", emotions: [] },
+  { name: "morning", emotions: [] },
+  { name: "afternoon", emotions: [] },
+  { name: "evening", emotions: [] },
+  { name: "beforeBed", emotions: [] }
+];
+
 
 function deleteEmotion(period, emotion) {
   console.log("delete emotion : ", emotion)
@@ -191,6 +199,16 @@ function newDay(selectedDate) {
   )
 }
 
+function mergePeriods(day) {
+  const mergedPeriods = defaultPeriods.map(defaultPeriod => {
+    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name);
+    return existingPeriod || defaultPeriod;
+  });
+
+  return mergedPeriods;
+}
+
+
 function mapStateToProps(state, ownProps) {
   const selectedDate = state.selectedDate.date
   console.log("mapStateToProps - selectedDate - ", selectedDate)
@@ -199,9 +217,13 @@ function mapStateToProps(state, ownProps) {
 
   return {
     selectedDate: selectedDate,
-    day: state.days.find(
-      day => day.date === state.selectedDate.date
-    ) || newDay(selectedDate)
+    day: (() => {
+      const foundDay = state.days.find(day => day.date === state.selectedDate.date) || newDay(selectedDate);
+      return {
+        ...foundDay,
+        periods: mergePeriods(foundDay)
+      };
+    })()
   }
 }
 

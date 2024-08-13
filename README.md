@@ -32,7 +32,7 @@ rails s -p 3000
 ```
 Front-End
 ```
-npx webpack --watch
+npx webpack --watch --config ./webpack.config.js
 ```
 http://127.0.0.1:3000/
 
