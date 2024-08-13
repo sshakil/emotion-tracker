@@ -21,6 +21,8 @@ add:
 const config = environment.toWebpackConfig();
 config.output.filename = "js/[name]-[hash].js
 
+# diverged here with ChatGPT
+
 ````
 
 <h3>Startup</h3>
