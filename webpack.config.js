@@ -1,12 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin'); // Import the plugin
 
 module.exports = {
-    entry: './app/javascript/packs/application.js',
+    entry:  {
+        application: './app/javascript/packs/application.js'
+    },
     output: {
         filename: 'application.js',
         path: path.resolve(__dirname, 'public/packs'),
+        clean: true, // Clean the output directory before emitting
     },
     mode: 'development',
     devServer: {
@@ -25,7 +30,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        plugins: ['react-refresh/babel'], // Add this line
+                        plugins: ['react-refresh/babel'],
                     },
                 },
             },
@@ -43,12 +48,6 @@ module.exports = {
         alias: {
             components: path.resolve(__dirname, 'app/javascript/components'),
         },
-        fallback: {
-            crypto: require.resolve('crypto-browserify'),
-            stream: require.resolve('stream-browserify'),
-            assert: require.resolve('assert'),
-            buffer: require.resolve('buffer'),
-        },
     },
     plugins: [
         new webpack.ProvidePlugin({
@@ -57,5 +56,10 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new ReactRefreshWebpackPlugin(),
+        new NodePolyfillPlugin(),
+        new WebpackManifestPlugin({ // Add the plugin here
+            fileName: 'manifest.json',
+            publicPath: '/packs/', // Ensure this matches your public_output_path in webpacker.yml
+        }),
     ],
 };
