@@ -26,8 +26,9 @@ rails server -p 3000
 
 
 
-````
+```
 <h3>Startup</h3>
+
 Backend
 ```
 rails s -p 3000
