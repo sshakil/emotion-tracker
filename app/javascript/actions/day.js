@@ -22,7 +22,6 @@ export function setSelectedDate(newSelectedDate) {
 }
 
 export function fetchDayIfNotInStore(selectedDate) {
-  console.log("fetchDayIfNotInStore")
   return async function getDayThunk(dispatch, getState) {
     const state = getState()
     const existingDayForDate = state.days.find(

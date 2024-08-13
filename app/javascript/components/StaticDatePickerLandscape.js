@@ -16,9 +16,8 @@ function Calendar(props) {
         const date = convertToYYYYMMDD(convertDateStringToDate(selectedDate));
         dispatch(fetchDayIfNotInStore(date));
     }
-    console.log("Calender rendered, selexx tedDate - ", selectedDate)
+    console.log("Calender rendered, selectedDate - ", selectedDate)
   }, [selectedDate, dispatch]); // Dependencies: selectedDate and dispatch
-
 
 
   return (
