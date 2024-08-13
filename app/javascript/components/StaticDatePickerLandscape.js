@@ -15,19 +15,17 @@ function Calendar(props) {
     if (selectedDate) {
         const date = convertToYYYYMMDD(convertDateStringToDate(selectedDate));
         dispatch(fetchDayIfNotInStore(date));
+        // dispatch(setSelectedDate(date));
     }
     // console.log("Calender rendered, selectedDate - ", selectedDate)
   }, [selectedDate, dispatch]); // Dependencies: selectedDate and dispatch
-
-  // useEffect(() => {
-  //   console.log("Calender rendered, selectedDate - ", selectedDate)
-  // }, [props.selectedDate])
 
   return (
     <StaticDatePicker
       orientation="portrait"
       openTo="day"
       value={ convertDateStringToDate(selectedDate) }
+      onClick={ () => console.log("here")}
       onChange={ (newSelectedDate) => {
           // todo - these strips timezone info, which will be added back later
           // const date = newValue.toISOString().split('T')[0] - this one has a day ahead issue
@@ -51,6 +49,7 @@ function Calendar(props) {
 }
 
 function mapStateToProps (state, ownProps) {
+  console.log("mapStateToProps - state.selectedDate.date: ", state.selectedDate.date)
   return {
     selectedDate: state.selectedDate.date
   }

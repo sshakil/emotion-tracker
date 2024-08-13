@@ -47,6 +47,7 @@ module.exports = {
     resolve: {
         alias: {
             components: path.resolve(__dirname, 'app/javascript/components'),
+            '@emotion/react': path.resolve(__dirname, 'node_modules/@emotion/react')
         },
     },
     plugins: [

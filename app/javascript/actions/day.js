@@ -31,7 +31,7 @@ export function fetchDayIfNotInStore(selectedDate) {
     if (existingDayForDate !== undefined) {
       console.log("selected day found in store, not making call")
     } else {
-      console.log("selected day not found in store, making call")
+      // console.log("selected day not found in store, making call")
       fetchDayByDate(selectedDate.toLocaleString())
         .then(response => response.json())
         .then(json => {

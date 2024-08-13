@@ -1,18 +1,8 @@
-import React, { useEffect, useState  } from "react"
+import React, {useEffect, useState} from "react"
 import {connect, useDispatch} from 'react-redux'
-import {
-  DELETE_EMOTION_REQUEST,
-  GET_DAY_FOR_DATE,
-} from '../actions'
+import {DELETE_EMOTION_REQUEST,} from '../actions'
 import Chip from '@mui/material/Chip'
-import {
-  Card,
-  CardContent,
-  IconButton,
-  Stack,
-  TextField,
-  Typography
-} from "@mui/material"
+import {Card, CardContent, IconButton, Stack, TextField, Typography} from "@mui/material"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import {createEntries} from "../actions/entry"
 
@@ -61,7 +51,7 @@ function renderDayForm(
           </Typography>
           <br />
           <TextField
-            id="standard-search"
+            id={`${period.name}-${selectedDate}`}
             name={period.name}
             type="search"
             variant="standard"
@@ -116,7 +106,7 @@ function EmotionTracker(props) {
     console.log("EmotionTracker rendered")
   }, [])
 
-  console.log("got day in EmotionTracker - ", day)
+  // console.log("got day in EmotionTracker - ", day)
   const dayForm = renderDayForm(
     dispatch,
     selectedDate,
@@ -141,17 +131,16 @@ function newDay(selectedDate) {
 }
 
 function mergePeriods(day) {
-  const mergedPeriods = defaultPeriods.map(defaultPeriod => {
+  return defaultPeriods.map(defaultPeriod => {
     const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name)
     return existingPeriod || defaultPeriod
   })
-  return mergedPeriods
 }
 
 function mapStateToProps(state) {
   const selectedDate = state.selectedDate.date
-  console.log("mapStateToProps - selectedDate - ", selectedDate)
-  console.log("mapStateToProps - day - ", state.days.find(day => day.date === selectedDate))
+  // console.log("mapStateToProps - selectedDate - ", selectedDate)
+  // console.log("mapStateToProps - day - ", state.days.find(day => day.date === selectedDate))
 
   return {
     selectedDate: selectedDate,
