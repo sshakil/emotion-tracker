@@ -1,19 +1,21 @@
 const path = require('path');
 const webpack = require('webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
     entry: './app/javascript/packs/application.js',
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'public/packs'), // Ensure it outputs to the public/packs directory
+        filename: 'application.js',
+        path: path.resolve(__dirname, 'public/packs'),
     },
     mode: 'development',
     devServer: {
         static: path.resolve(__dirname, 'public'),
         compress: true,
         port: 8080,
-        historyApiFallback: true, // This will help in routing if you are using React Router
+        historyApiFallback: true,
         open: true,
+        hot: true,
     },
     module: {
         rules: [
@@ -22,6 +24,9 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
+                    options: {
+                        plugins: ['react-refresh/babel'], // Add this line
+                    },
                 },
             },
             {
@@ -43,10 +48,6 @@ module.exports = {
             stream: require.resolve('stream-browserify'),
             assert: require.resolve('assert'),
             buffer: require.resolve('buffer'),
-            fs: false,
-            net: false,
-            tls: false,
-            child_process: false,
         },
     },
     plugins: [
@@ -54,5 +55,7 @@ module.exports = {
             Buffer: ['buffer', 'Buffer'],
             process: 'process/browser',
         }),
+        new webpack.HotModuleReplacementPlugin(),
+        new ReactRefreshWebpackPlugin(),
     ],
 };

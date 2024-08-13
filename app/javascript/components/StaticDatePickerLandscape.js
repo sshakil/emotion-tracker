@@ -10,9 +10,16 @@ function Calendar(props) {
   const { selectedDate } = props
   const dispatch = useDispatch()
 
+  // Effect to load data before the initial render based on selectedDate
   useEffect(() => {
-    console.log("Calender rendered, selectedDate - ", selectedDate)
-  }, [props.selectedDate])
+    if (selectedDate) {
+        const date = convertToYYYYMMDD(convertDateStringToDate(selectedDate));
+        dispatch(fetchDayIfNotInStore(date));
+    }
+    console.log("Calender rendered, selexx tedDate - ", selectedDate)
+  }, [selectedDate, dispatch]); // Dependencies: selectedDate and dispatch
+
+
 
   return (
     <StaticDatePicker
@@ -30,7 +37,7 @@ function Calendar(props) {
           // should be done on server side?
           const date = convertToYYYYMMDD(newSelectedDate)
           // console.log("StaticDatePicker - onChange: newSelectedDate, formattedDate: ", newSelectedDate, formattedDate)
-
+          console.log("got to there")
           dispatch(fetchDayIfNotInStore(date))
           dispatch(setSelectedDate(date));
         }
