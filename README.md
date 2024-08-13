@@ -21,12 +21,8 @@ add:
 const config = environment.toWebpackConfig();
 config.output.filename = "js/[name]-[hash].js
 
-rails server -p 3000
-./bin/webpack-dev-server
+````
 
-
-
-```
 <h3>Startup</h3>
 
 Backend
