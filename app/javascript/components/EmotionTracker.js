@@ -7,7 +7,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import {createEntries} from "../actions/entry"
 
 // Centralized array for period names
-const periodNames = ["earlyMorning", "morning", "afternoon", "evening", "beforeBed"]
+const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
 
 const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
 
