@@ -7,16 +7,22 @@ import { Provider } from "react-redux";
 import configureStore from '../configureStore'
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import StaticDatePickerDemo from "components/StaticDatePickerLandscape";
-import StaticDatePickerLandscape from "components/StaticDatePickerLandscape";
 const store = configureStore()
 
 class App extends React.Component {
   render () {
     return (
-      <StaticDatePickerLandscape/>
+      <LocalizationProvider dateAdapter={ AdapterDateFns }>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route path={ "/" } element = { <Day /> } />
+            </Routes>
+          </BrowserRouter>
+        </Provider>
+      </LocalizationProvider>
     );
   }
 }
 
-export default App;
+export default App
