@@ -6,7 +6,7 @@ import Chip from '@mui/material/Chip'
 import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { createEntries } from "../actions/entry"
-import {DELETE_EMOTION_REQUEST} from "../actions";
+import { DELETE_EMOTION_REQUEST } from "../actions";
 
 const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
 const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
