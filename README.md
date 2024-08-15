@@ -67,9 +67,13 @@ return (
 
 <h3>Front-End Dev Docs/Guide<h3>
 App layout starts in `/emotion-tracker/app/javascript/components/App.js`.
+
 `App` references `Day`, which is a `Grid` containing 2 Grids containing `Calendar` and `EmotionTracker`.
+
 `EmotionTracker` is rendered through `renderDayForm`, which renders a `Stack` of `Card`s through `renderPeriod`.
+
 Each `Card` contains `CardContent` which wraps:
 - `Typography` to display period name, <TextField>
 - `TextField` to input emotion/affect
 - `IconButton` to allow using the mouse to add the value 
+
