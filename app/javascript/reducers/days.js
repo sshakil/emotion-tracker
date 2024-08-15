@@ -14,19 +14,31 @@ export default function days(currentState = initialState, action) {
     case "FETCH_DAY_SUCCESS_NOT_FOUND":
       return currentState
     case "CREATE_ENTRIES_SUCCESS":
+      // Update the state to include the new emotion
       return currentState.map(day => {
         if (day.date === action.payload.date) {
+          let periodExists = false
+          const updatedPeriods = day.periods.map(period => {
+            if (period.name === action.payload.periodName) {
+              periodExists = true
+              return {
+                ...period,
+                emotions: [...period.emotions, ...action.payload.emotions]
+              }
+            }
+            return period
+          })
+
+          if (!periodExists) {
+            updatedPeriods.push({
+              name: action.payload.periodName,
+              emotions: action.payload.emotions
+            })
+          }
+
           return {
             ...day,
-            periods: day.periods.map(period => {
-              if (period.name === action.payload.periodName) {
-                return {
-                  ...period,
-                  emotions: [...period.emotions, ...action.payload.emotions]
-                }
-              }
-              return period
-            })
+            periods: updatedPeriods
           }
         }
         return day

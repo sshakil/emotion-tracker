@@ -1,3 +1,5 @@
+// entry.js
+
 import { postEntries } from "../clients/api"
 
 const CREATE_ENTRIES = 'CREATE_ENTRIES'

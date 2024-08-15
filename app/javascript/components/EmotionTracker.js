@@ -1,12 +1,27 @@
+// EmotionTracker.js
+
 import React, { useEffect, useState, useRef } from "react"
 import { connect, useDispatch } from 'react-redux'
 import Chip from '@mui/material/Chip'
 import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { createEntries } from "../actions/entry"
+import {DELETE_EMOTION_REQUEST} from "../actions";
 
 const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
 const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
+
+function deleteEmotion(period, emotion) {
+  console.log("delete emotion : ", emotion);
+  console.log("for period : ", period);
+}
+
+function deleteEmotionSuccess(json) {
+  return {
+    type: DELETE_EMOTION_REQUEST,
+    json
+  };
+}
 
 function renderEmotions(period) {
   return (
@@ -15,6 +30,7 @@ function renderEmotions(period) {
         <Chip
           key={emotion.name + index}
           label={emotion.name}
+          onDelete={() => deleteEmotion(period, emotion)}
         />
       ))}
     </div>
@@ -34,6 +50,7 @@ function renderDayForm(
         .split(",")
         .map(emotion => emotion.trim())
     ))
+
     // Clear the input and set focus back to it
     setAllEmotionInputValues({
       ...allEmotionInputValues,
@@ -106,7 +123,7 @@ function EmotionTracker(props) {
 
   useEffect(() => {
     console.log("EmotionTracker rendered")
-  }, [day])
+  }, [day]) // Ensure the component re-renders when `day` changes
 
   const dayForm = renderDayForm(
     dispatch,
