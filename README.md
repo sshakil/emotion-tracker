@@ -38,7 +38,8 @@ http://127.0.0.1:3000/
 
 <h3>Issues</h3>
 formatted date conversion issue
-````
+
+```
 return (
    <StaticDatePicker
      orientation="portrait"
@@ -62,7 +63,7 @@ return (
      renderInput={ (params) => <TextField { ...params } /> }
    />
 );
-````
+```
 
 <h3>Front-End Dev Docs/Guide<h3>
 App layout starts in `/emotion-tracker/app/javascript/components/App.js`.
