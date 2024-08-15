@@ -65,7 +65,7 @@ return (
 );
 ```
 
-<h3>Front-End Dev Docs/Guide<h3>
+<h3>Front-End Dev Docs/Guide</h3>
 App layout starts in `/emotion-tracker/app/javascript/components/App.js`.
 
 `App` references `Day`, which is a `Grid` containing 2 Grids containing `Calendar` and `EmotionTracker`.
