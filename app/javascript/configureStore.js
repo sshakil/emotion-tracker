@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux'
 import { thunk } from 'redux-thunk'
-import { composeWithDevTools } from '@redux-devtools/extension';
-import combinedReducer from './reducers/index'; // Ensure the path is correct
+import { composeWithDevTools } from '@redux-devtools/extension'
+import combinedReducer from './reducers/index' // Ensure the path is correct
 
 // This function sets up the Redux store with middleware and DevTools support
 export default function configureStore() {
@@ -11,8 +11,8 @@ export default function configureStore() {
       composeWithDevTools(
           applyMiddleware(thunk) // Applying thunk middleware for async actions
       )
-  );
+  )
 
   // Returning the configured store
-  return store;
+  return store
 }

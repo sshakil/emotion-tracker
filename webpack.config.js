@@ -1,8 +1,8 @@
-const path = require('path');
-const webpack = require('webpack');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin'); // Import the plugin
+const path = require('path')
+const webpack = require('webpack')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin') // Import the plugin
 
 module.exports = {
     entry:  {
@@ -63,4 +63,4 @@ module.exports = {
             publicPath: '/packs/', // Ensure this matches your public_output_path in webpacker.yml
         }),
     ],
-};
+}

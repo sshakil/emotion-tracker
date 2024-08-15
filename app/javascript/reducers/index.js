@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import times from './times'
-import user from './user';
+import user from './user'
 import days from './days'
 import selectedDate from './selectedDate'
 

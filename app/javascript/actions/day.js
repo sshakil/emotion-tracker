@@ -1,4 +1,4 @@
-import { fetchDayByDate } from "../clients/api";
+import { fetchDayByDate } from "../clients/api"
 
 const GET_DAY_FOR_DATE = 'GET_DAY_FOR_DATE'
 const GET_DAY_REQUEST = 'GET_DAY_REQUEST'

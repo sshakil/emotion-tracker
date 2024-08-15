@@ -10,7 +10,7 @@ export default function selectedDate(state = initialState, action) {
       console.log("SET_SELECTED_DATE ", { ...state, date: action.selectedDate })
       return { ...state, date: action.selectedDate }
     case "GET_SELECTED_DATE":
-      return state.date;
+      return state.date
     default:
       return state
   }

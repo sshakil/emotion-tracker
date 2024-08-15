@@ -1,27 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { connect, useDispatch } from 'react-redux';
-import { DELETE_EMOTION_REQUEST } from '../actions';
-import Chip from '@mui/material/Chip';
-import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { createEntries } from "../actions/entry";
+import React, { useEffect, useState, useRef } from "react"
+import { connect, useDispatch } from 'react-redux'
+import Chip from '@mui/material/Chip'
+import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material"
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { createEntries } from "../actions/entry"
 
-// Centralized array for period names
-const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"];
-
-const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }));
-
-function deleteEmotion(period, emotion) {
-  console.log("delete emotion : ", emotion);
-  console.log("for period : ", period);
-}
-
-function deleteEmotionSuccess(json) {
-  return {
-    type: DELETE_EMOTION_REQUEST,
-    json
-  };
-}
+const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
+const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
 
 function renderEmotions(period) {
   return (
@@ -30,11 +15,10 @@ function renderEmotions(period) {
         <Chip
           key={emotion.name + index}
           label={emotion.name}
-          onDelete={() => deleteEmotion(period, emotion)}
         />
       ))}
     </div>
-  );
+  )
 }
 
 function renderDayForm(
@@ -49,19 +33,19 @@ function renderDayForm(
       allEmotionInputValues[periodName]
         .split(",")
         .map(emotion => emotion.trim())
-    ));
+    ))
     // Clear the input and set focus back to it
     setAllEmotionInputValues({
       ...allEmotionInputValues,
       [periodName]: ''
-    });
+    })
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
   }
 
   function renderPeriod(period) {
-    const inputRef = useRef(null);
+    const inputRef = useRef(null)
 
     return (
       <Card key={`${selectedDate}-${period.name}`} variant="outlined">
@@ -81,11 +65,11 @@ function renderDayForm(
               setAllEmotionInputValues({
                 ...allEmotionInputValues,
                 [e.target.name]: e.target.value
-              });
+              })
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                handleCreateEntries(period.name, inputRef);
+                handleCreateEntries(period.name, inputRef)
               }
             }}
           />
@@ -100,7 +84,7 @@ function renderDayForm(
           {renderEmotions(period)}
         </CardContent>
       </Card>
-    );
+    )
   }
 
   return day != null ? (
@@ -109,21 +93,20 @@ function renderDayForm(
     </Stack>
   ) : (
     'temp - no entries'
-  );
+  )
 }
 
 function EmotionTracker(props) {
   const [
     allEmotionInputValues, setAllEmotionInputValues
-  ] = useState(() => periodNames.reduce((acc, name) => ({ ...acc, [name]: '' }), {}));
+  ] = useState(() => periodNames.reduce((acc, name) => ({ ...acc, [name]: '' }), {}))
 
-  const dispatch = useDispatch();
-
-  const { selectedDate, day } = props;
+  const dispatch = useDispatch()
+  const { selectedDate, day } = props
 
   useEffect(() => {
-    console.log("EmotionTracker rendered");
-  }, []);
+    console.log("EmotionTracker rendered")
+  }, [day])
 
   const dayForm = renderDayForm(
     dispatch,
@@ -131,43 +114,43 @@ function EmotionTracker(props) {
     day,
     setAllEmotionInputValues,
     allEmotionInputValues
-  );
+  )
 
   return (
     <React.Fragment>
       <br/>
       {dayForm}
     </React.Fragment>
-  );
+  )
 }
 
 function newDay(selectedDate) {
   return {
     date: selectedDate,
     periods: [...defaultPeriods]
-  };
+  }
 }
 
 function mergePeriods(day) {
   return defaultPeriods.map(defaultPeriod => {
-    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name);
-    return existingPeriod || defaultPeriod;
-  });
+    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name)
+    return existingPeriod || defaultPeriod
+  })
 }
 
 function mapStateToProps(state) {
-  const selectedDate = state.selectedDate.date;
+  const selectedDate = state.selectedDate.date
 
   return {
     selectedDate: selectedDate,
     day: (() => {
-      const foundDay = state.days.find(day => day.date === state.selectedDate.date) || newDay(selectedDate);
+      const foundDay = state.days.find(day => day.date === state.selectedDate.date) || newDay(selectedDate)
       return {
         ...foundDay,
         periods: mergePeriods(foundDay)
-      };
+      }
     })()
-  };
+  }
 }
 
-export default connect(mapStateToProps)(EmotionTracker);
+export default connect(mapStateToProps)(EmotionTracker)
