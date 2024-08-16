@@ -10,8 +10,8 @@ import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions"
 const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
 const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
 
-function deleteEmotionEntry(dispatch, entryUuid) {
-  dispatch(deleteEntry(entryUuid))
+function deleteEmotionEntry(dispatch, entryUuid, selectedDate, periodName) {
+  dispatch(deleteEntry(entryUuid, selectedDate, periodName))
 }
 
 function deleteEmotionSuccess(json) {
@@ -28,7 +28,7 @@ function renderEmotions(dispatch, selectedDate, period) {
         <Chip
           key={entry.name + index}
           label={entry.name}
-          onDelete={() => deleteEmotionEntry(dispatch, entry.uuid)}
+          onDelete={() => deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name)}
         />
       ))}
     </div>
@@ -120,7 +120,7 @@ function EmotionTracker(props) {
   const { selectedDate, day } = props
 
   useEffect(() => {
-    console.log("EmotionTracker rendered")
+    // console.log("EmotionTracker rendered")
   }, [day]) // Ensure the component re-renders when `day` changes
 
   const dayForm = renderDayForm(
