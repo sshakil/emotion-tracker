@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  # resources :entries
   # resources :day_periods
   # resources :emotions
   # resources :periods
+
+  resources :entries, only: [:create, :destroy]
 
   resources :days, shallow: true do
     resources :periods, shallow: true do

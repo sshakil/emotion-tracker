@@ -39,5 +39,18 @@ function postEntries(selectedDate, periodName, emotions) {
     body: JSON.stringify(body)
   })
 }
+function deleteEntryAPI(selectedDate, periodName, emotionName) {
+  return fetch(`/entries`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      day_id: selectedDate,
+      period_id: periodName,
+      emotion_id: emotionName,
+    })
+  });
+}
 
-export { fetchDay, fetchDayByDate, postEntries }
+export { fetchDay, fetchDayByDate, postEntries, deleteEntryAPI }

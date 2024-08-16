@@ -77,3 +77,7 @@ Each `Card` contains `CardContent` which wraps:
 - `TextField` to input emotion/affect
 - `IconButton` to allow using the mouse to add the value 
 
+
+<h3>Backend Controllers</h3>
+`Entries` is what connects a `day_period` with an `emotion`
+

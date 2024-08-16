@@ -5,15 +5,13 @@ import { connect, useDispatch } from 'react-redux'
 import Chip from '@mui/material/Chip'
 import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-import { createEntries } from "../actions/entry"
-import { DELETE_EMOTION_REQUEST } from "../actions";
+import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions"
 
 const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
 const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
 
-function deleteEmotion(period, emotion) {
-  console.log("delete emotion : ", emotion);
-  console.log("for period : ", period);
+function deleteEmotion(dispatch, selectedDate, period, emotion) {
+  dispatch(deleteEntry(selectedDate, period.name, emotion.name))
 }
 
 function deleteEmotionSuccess(json) {
@@ -23,14 +21,14 @@ function deleteEmotionSuccess(json) {
   };
 }
 
-function renderEmotions(period) {
+function renderEmotions(dispatch, selectedDate, period) {
   return (
     <div>
       {period.emotions.map((emotion, index) => (
         <Chip
           key={emotion.name + index}
           label={emotion.name}
-          onDelete={() => deleteEmotion(period, emotion)}
+          onDelete={() => deleteEmotion(dispatch, selectedDate, period, emotion)}
         />
       ))}
     </div>
@@ -61,7 +59,7 @@ function renderDayForm(
     }
   }
 
-  function renderPeriod(period) {
+  function renderPeriod(dispatch, period) {
     const inputRef = useRef(null)
 
     return (
@@ -98,7 +96,7 @@ function renderDayForm(
           >
             <AddCircleIcon />
           </IconButton>
-          {renderEmotions(period)}
+          {renderEmotions(dispatch, selectedDate, period)}
         </CardContent>
       </Card>
     )
@@ -106,7 +104,7 @@ function renderDayForm(
 
   return day != null ? (
     <Stack spacing={2}>
-      {day.periods.map(period => renderPeriod(period))}
+      {day.periods.map(period => renderPeriod(dispatch, period))}
     </Stack>
   ) : (
     'temp - no entries'

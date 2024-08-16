@@ -1,6 +1,6 @@
 // entry.js
 
-import { postEntries } from "../clients/api"
+import { postEntries, deleteEntryAPI } from "../clients/api"
 
 const CREATE_ENTRIES = 'CREATE_ENTRIES'
 const CREATE_ENTRIES_SUCCESS = 'CREATE_ENTRIES_SUCCESS'
@@ -10,7 +10,7 @@ export {
   CREATE_ENTRIES_SUCCESS
 }
 
-export function createEntries(selectedDate, periodName, emotions) {
+function createEntries(selectedDate, periodName, emotions) {
   return async function getEntryThunk(dispatch, getState) {
     postEntries(selectedDate, periodName, emotions)
       .then(response => {
@@ -31,3 +31,18 @@ export function createEntries(selectedDate, periodName, emotions) {
       }).catch(error => console.log(error))
   }
 }
+function deleteEntry(selectedDate, periodName, emotionName) {
+  return async function deleteEntryThunk(dispatch) {
+    deleteEntryAPI(selectedDate, periodName, emotionName)
+      .then(response => {
+        if (response.status === 204) {
+          // Dispatch an action to update the store or refresh the data if needed
+          console.log("Successfully deleted entry")
+        } else {
+          console.log("Failed to delete entry")
+        }
+      }).catch(error => console.log(error))
+  }
+}
+
+export { createEntries, deleteEntry }
