@@ -10,8 +10,8 @@ import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions"
 const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
 const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
 
-function deleteEmotion(dispatch, selectedDate, period, emotion) {
-  dispatch(deleteEntry(selectedDate, period.name, emotion.name))
+function deleteEmotionEntry(dispatch, entryUuid) {
+  dispatch(deleteEntry(entryUuid))
 }
 
 function deleteEmotionSuccess(json) {
@@ -24,11 +24,11 @@ function deleteEmotionSuccess(json) {
 function renderEmotions(dispatch, selectedDate, period) {
   return (
     <div>
-      {period.emotions.map((emotion, index) => (
+      {period.emotions.map((entry, index) => (
         <Chip
-          key={emotion.name + index}
-          label={emotion.name}
-          onDelete={() => deleteEmotion(dispatch, selectedDate, period, emotion)}
+          key={entry.name + index}
+          label={entry.name}
+          onDelete={() => deleteEmotionEntry(dispatch, entry.uuid)}
         />
       ))}
     </div>

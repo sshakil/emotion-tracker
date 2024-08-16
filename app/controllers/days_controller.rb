@@ -13,7 +13,7 @@ class DaysController < ApplicationController
     # needed format: yyyy-mm-dd
     # date = Time.strptime(params['date'], "%m/%d/%Y ")
 
-    @day = Day.find_by(date: params['date'])
+    @day = Day.includes(day_periods: :period).find_by(date: params['date'])
 
     # see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data
     day_json = {}
@@ -32,7 +32,9 @@ class DaysController < ApplicationController
           periods: @day.day_periods.collect do |day_period|
             {
               name: day_period.period.name,
-              emotions: day_period.emotions.all.as_json(except: :id)
+              emotions: day_period.entries.includes(:emotion).map do |entry|
+                entry.emotion.as_json(except: :id).merge(uuid: entry.uuid)
+              end
             }
           end
         }

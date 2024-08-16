@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_11_042313) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_16_052456) do
   create_table "day_periods", force: :cascade do |t|
     t.integer "day_id", null: false
     t.integer "period_id", null: false
@@ -31,8 +31,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_11_042313) do
   create_table "entries", force: :cascade do |t|
     t.integer "day_period_id", null: false
     t.integer "emotion_id", null: false
+    t.string "uuid", null: false
     t.index ["day_period_id"], name: "index_entries_on_day_period_id"
     t.index ["emotion_id"], name: "index_entries_on_emotion_id"
+    t.index ["uuid"], name: "index_entries_on_uuid", unique: true
   end
 
   create_table "periods", force: :cascade do |t|

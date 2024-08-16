@@ -39,18 +39,16 @@ function postEntries(selectedDate, periodName, emotions) {
     body: JSON.stringify(body)
   })
 }
-function deleteEntryAPI(selectedDate, periodName, emotionName) {
-  return fetch(`/entries`, {
+function deleteEntryAPI(entryUuid) {
+  const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+  return fetch(`/entries/${entryUuid}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      day_id: selectedDate,
-      period_id: periodName,
-      emotion_id: emotionName,
-    })
-  });
+      'X-CSRF-Token': token,
+      'Content-Type': 'application/json'
+    }
+  })
 }
 
 export { fetchDay, fetchDayByDate, postEntries, deleteEntryAPI }

@@ -31,14 +31,16 @@ function createEntries(selectedDate, periodName, emotions) {
       }).catch(error => console.log(error))
   }
 }
-function deleteEntry(selectedDate, periodName, emotionName) {
+function deleteEntry(entryUuid) {
   return async function deleteEntryThunk(dispatch) {
-    deleteEntryAPI(selectedDate, periodName, emotionName)
+    deleteEntryAPI(entryUuid)
       .then(response => {
         if (response.status === 204) {
+          // todo: add action
           // Dispatch an action to update the store or refresh the data if needed
           console.log("Successfully deleted entry")
         } else {
+          // todo: add action
           console.log("Failed to delete entry")
         }
       }).catch(error => console.log(error))

@@ -49,23 +49,27 @@ class EntriesController < ApplicationController
 
   # DELETE /entries/1 or /entries/1.json
   def destroy
-    @entry.destroy
-
-    respond_to do |format|
-      format.html { redirect_to entries_url, notice: "Entry was successfully destroyed." }
-      format.json { head :no_content }
+    if @entry
+      @entry.destroy
+      respond_to do |format|
+        # Respond with a 204 No Content status on success
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { error: "Entry not found" }, status: :not_found }
+      end
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_entry
-      # @entry = Entry.find(params[:id])
-      @entry = Entry.find_by(day_id: params[:day_id], period_id: params[:period_id], emotion_id: params[:emotion_id])
+      @entry = Entry.find_by(uuid: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def entry_params
-      params.require(:entry).permit(:day_period_id, :emotion_id)
+      params.require(:entry).permit(:day_period_id, :emotion_id, :id)
     end
 end
