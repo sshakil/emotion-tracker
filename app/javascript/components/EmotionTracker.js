@@ -21,14 +21,41 @@ function deleteEmotionSuccess(json) {
   };
 }
 
-function renderEmotions(dispatch, selectedDate, period) {
+function renderEmotions(dispatch, selectedDate, period, inputRef) {
+  const chipRefs = useRef([])
+  useEffect(() => {
+    // Clean up chipRefs to match the number of emotions in the period
+    chipRefs.current = chipRefs.current.slice(0, period.emotions.length)
+  }, [period.emotions.length])
+
   return (
     <div>
       {period.emotions.map((entry, index) => (
         <Chip
           key={entry.name + index}
           label={entry.name}
-          onDelete={() => deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name)}
+          onDelete={() => {
+            deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name)
+            // After a mouse click, focus on the TextField
+            if (inputRef.current) {
+              inputRef.current.focus()
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Backspace' || e.key === 'Delete') {
+              deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name)
+              // After deletion, focus on the first chip if it exists
+              setTimeout(() => {
+                if (chipRefs.current[0]) {
+                  chipRefs.current[0].focus()
+                } else if (inputRef.current) {
+                  inputRef.current.focus()
+                }
+              }, 100)  // Adjust the delay if necessary
+            }
+          }}
+          tabIndex={0} // Ensure the Chip is focusable to detect key events
+          ref={(el) => chipRefs.current[index] = el}
         />
       ))}
     </div>
@@ -96,7 +123,7 @@ function renderDayForm(
           >
             <AddCircleIcon />
           </IconButton>
-          {renderEmotions(dispatch, selectedDate, period)}
+          {renderEmotions(dispatch, selectedDate, period, inputRef)}
         </CardContent>
       </Card>
     )
