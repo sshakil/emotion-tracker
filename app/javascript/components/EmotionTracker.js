@@ -56,6 +56,7 @@ function renderDayForm(
   setAllEmotionInputValues, allEmotionInputValues
 ) {
   const inputRefs = useRef([]); // Array to hold references for each TextField
+  const chipRefsArray = useRef([]); // Array to hold references for chips in each period
 
   function handleCreateEntries(periodName, inputRef) {
     dispatch(createEntries(
@@ -95,10 +96,9 @@ function renderDayForm(
       e.preventDefault();
       if (currentPeriodIndex > 0) {
         const previousInputRef = inputRefs.current[currentPeriodIndex - 1];
-        const previousPeriod = day.periods[currentPeriodIndex - 1];
-        if (previousPeriod.emotions.length > 0) {
-          const lastChipRef = previousInputRef.current?.parentNode?.querySelectorAll('div > div > *')?.[previousPeriod.emotions.length - 1];
-          lastChipRef?.focus();
+        const previousChipRefs = chipRefsArray.current[currentPeriodIndex - 1];
+        if (previousChipRefs?.current?.length > 0) {
+          previousChipRefs.current[previousChipRefs.current.length - 1]?.focus();
         } else {
           previousInputRef?.current?.focus();
         }
@@ -117,6 +117,7 @@ function renderDayForm(
     const isLastPeriod = period.name === "Before Bed";
 
     inputRefs.current[index] = inputRef;
+    chipRefsArray.current[index] = chipRefs;
 
     return (
       <Card key={`${selectedDate}-${period.name}`} variant="outlined">
