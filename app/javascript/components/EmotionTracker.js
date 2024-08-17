@@ -1,17 +1,17 @@
 // EmotionTracker.js
 
-import React, { useEffect, useState, useRef } from "react"
-import { connect, useDispatch } from 'react-redux'
-import Chip from '@mui/material/Chip'
-import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material"
-import AddCircleIcon from '@mui/icons-material/AddCircle'
-import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions"
+import React, { useEffect, useState, useRef } from "react";
+import { connect, useDispatch } from 'react-redux';
+import Chip from '@mui/material/Chip';
+import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions";
 
-const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
-const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
+const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"];
+const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }));
 
 function deleteEmotionEntry(dispatch, entryUuid, selectedDate, periodName) {
-  dispatch(deleteEntry(entryUuid, selectedDate, periodName))
+  dispatch(deleteEntry(entryUuid, selectedDate, periodName));
 }
 
 function deleteEmotionSuccess(json) {
@@ -21,12 +21,11 @@ function deleteEmotionSuccess(json) {
   };
 }
 
-function renderEmotions(dispatch, selectedDate, period, inputRef) {
-  const chipRefs = useRef([])
+function renderEmotions(dispatch, selectedDate, period, chipRefs, inputRef) {
   useEffect(() => {
     // Clean up chipRefs to match the number of emotions in the period
-    chipRefs.current = chipRefs.current.slice(0, period.emotions.length)
-  }, [period.emotions.length])
+    chipRefs.current = chipRefs.current.slice(0, period.emotions.length);
+  }, [period.emotions.length]);
 
   return (
     <div>
@@ -35,23 +34,23 @@ function renderEmotions(dispatch, selectedDate, period, inputRef) {
           key={entry.name + index}
           label={entry.name}
           onDelete={() => {
-            deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name)
+            deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name);
             // After a mouse click, focus on the TextField
             if (inputRef.current) {
-              inputRef.current.focus()
+              inputRef.current.focus();
             }
           }}
           onKeyDown={(e) => {
             if (e.key === 'Backspace' || e.key === 'Delete') {
-              deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name)
+              deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name);
               // After deletion, focus on the first chip if it exists
               setTimeout(() => {
                 if (chipRefs.current[0]) {
-                  chipRefs.current[0].focus()
+                  chipRefs.current[0].focus();
                 } else if (inputRef.current) {
-                  inputRef.current.focus()
+                  inputRef.current.focus();
                 }
-              }, 100)  // Adjust the delay if necessary
+              }, 100);  // Adjust the delay if necessary
             }
           }}
           tabIndex={0} // Ensure the Chip is focusable to detect key events
@@ -59,7 +58,7 @@ function renderEmotions(dispatch, selectedDate, period, inputRef) {
         />
       ))}
     </div>
-  )
+  );
 }
 
 function renderDayForm(
@@ -74,20 +73,45 @@ function renderDayForm(
       allEmotionInputValues[periodName]
         .split(",")
         .map(emotion => emotion.trim())
-    ))
+    ));
 
     // Clear the input and set focus back to it
     setAllEmotionInputValues({
       ...allEmotionInputValues,
       [periodName]: ''
-    })
+    });
     if (inputRef.current) {
-      inputRef.current.focus()
+      inputRef.current.focus();
+    }
+  }
+
+  function handleTabPress(e, periodName, period, chipRefs, inputRef) {
+    if (e.key === 'Tab') {
+      if (allEmotionInputValues[periodName].trim() === "") {
+        if (period.emotions.length > 0) {
+          // Focus on the first chip
+          e.preventDefault(); // Prevent default tab behavior
+          chipRefs.current[0]?.focus();
+        } else {
+          // Focus on the next period's TextField
+          const currentPeriodIndex = periodNames.indexOf(periodName);
+          if (currentPeriodIndex < periodNames.length - 1) {
+            const nextPeriodName = periodNames[currentPeriodIndex + 1];
+            const nextInputRef = document.getElementById(`${nextPeriodName}-${selectedDate}`);
+            if (nextInputRef) {
+              e.preventDefault(); // Prevent default tab behavior
+              nextInputRef.focus();
+            }
+          }
+          // If it's the last period, allow natural tab flow to the browser
+        }
+      }
     }
   }
 
   function renderPeriod(dispatch, period) {
-    const inputRef = useRef(null)
+    const inputRef = useRef(null);
+    const chipRefs = useRef([]); // Define chipRefs here
 
     return (
       <Card key={`${selectedDate}-${period.name}`} variant="outlined">
@@ -107,11 +131,13 @@ function renderDayForm(
               setAllEmotionInputValues({
                 ...allEmotionInputValues,
                 [e.target.name]: e.target.value
-              })
+              });
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                handleCreateEntries(period.name, inputRef)
+                handleCreateEntries(period.name, inputRef);
+              } else {
+                handleTabPress(e, period.name, period, chipRefs, inputRef);
               }
             }}
           />
@@ -123,10 +149,10 @@ function renderDayForm(
           >
             <AddCircleIcon />
           </IconButton>
-          {renderEmotions(dispatch, selectedDate, period, inputRef)}
+          {renderEmotions(dispatch, selectedDate, period, chipRefs, inputRef)}
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return day != null ? (
@@ -135,18 +161,18 @@ function renderDayForm(
     </Stack>
   ) : (
     'temp - no entries'
-  )
+  );
 }
 
 function EmotionTracker(props) {
   const [
     allEmotionInputValues, setAllEmotionInputValues
-  ] = useState(() => periodNames.reduce((acc, name) => ({ ...acc, [name]: '' }), {}))
+  ] = useState(() => periodNames.reduce((acc, name) => ({ ...acc, [name]: '' }), {}));
 
-  const dispatch = useDispatch()
-  const { selectedDate, day } = props
+  const dispatch = useDispatch();
+  const { selectedDate, day } = props;
 
-  useEffect(() => { }, [day])
+  useEffect(() => { }, [day]);
 
   const dayForm = renderDayForm(
     dispatch,
@@ -154,43 +180,43 @@ function EmotionTracker(props) {
     day,
     setAllEmotionInputValues,
     allEmotionInputValues
-  )
+  );
 
   return (
     <React.Fragment>
-      <br/>
+      <br />
       {dayForm}
     </React.Fragment>
-  )
+  );
 }
 
 function newDay(selectedDate) {
   return {
     date: selectedDate,
     periods: [...defaultPeriods]
-  }
+  };
 }
 
 function mergePeriods(day) {
   return defaultPeriods.map(defaultPeriod => {
-    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name)
-    return existingPeriod || defaultPeriod
-  })
+    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name);
+    return existingPeriod || defaultPeriod;
+  });
 }
 
 function mapStateToProps(state) {
-  const selectedDate = state.selectedDate.date
+  const selectedDate = state.selectedDate.date;
 
   return {
     selectedDate: selectedDate,
     day: (() => {
-      const foundDay = state.days.find(day => day.date === state.selectedDate.date) || newDay(selectedDate)
+      const foundDay = state.days.find(day => day.date === state.selectedDate.date) || newDay(selectedDate);
       return {
         ...foundDay,
         periods: mergePeriods(foundDay)
-      }
+      };
     })()
-  }
+  };
 }
 
-export default connect(mapStateToProps)(EmotionTracker)
+export default connect(mapStateToProps)(EmotionTracker);
