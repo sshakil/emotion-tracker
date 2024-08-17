@@ -24,7 +24,7 @@ function Calendar(props) {
     <StaticDatePicker
       orientation="portrait"
       openTo="day"
-      value={ convertDateStringToDate(selectedDate) }
+      value={convertDateStringToDate(selectedDate)}
       onChange={(newSelectedDate) => {
         const date = convertToYYYYMMDD(newSelectedDate)
         if (date !== selectedDate) {
@@ -32,7 +32,7 @@ function Calendar(props) {
           dispatch(setSelectedDate(date))
         }
       }}
-      renderInput={(params) => <TextField {...params} />}
+      slots={{ textField: TextField }} // Directly pass the TextField component here
     />
   )
 }
