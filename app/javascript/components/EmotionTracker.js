@@ -23,14 +23,14 @@ function EmotionTracker(props) {
 
     setTimeout(() => {
       const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)];
-      if (chipRefs && chipRefs.current.length > 0) {
-        const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[0];
+      if (chipRefs && chipRefs.current.length > 1) {
+        const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[chipIndex] || chipRefs.current[0];
         if (nextChip) {
           nextChip.focus();
-        } else {
-          const inputRef = inputRefs.current[periodNames.indexOf(periodName)];
-          inputRef?.current?.focus();
         }
+      } else {
+        const inputRef = inputRefs.current[periodNames.indexOf(periodName)];
+        inputRef?.current?.focus();
       }
     }, 100);
   };
@@ -103,6 +103,7 @@ function EmotionTracker(props) {
               color="primary"
               aria-label="add emotion to period"
               onClick={() => handleCreateEntries(period.name, inputRef)}
+              tabIndex={-1} // This effectively skips the IconButton from receiving focus
             >
               <AddCircleIcon />
             </IconButton>
