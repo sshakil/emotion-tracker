@@ -8,28 +8,24 @@ function fetchDayByDate(date) {
       "Content-Type": "application/json"
     },
     method: 'POST',
-    body: JSON.stringify({ "date": date })
+    body: JSON.stringify({"date": date})
   })
 }
 
 function postEntries(selectedDate, periodName, emotions) {
-  console.log("POST ENTRIES")
 
-  const body =
-    {
-      "day": {
-        "date": selectedDate,
-        "periods_attributes": [
-          {
-            "name": periodName,
-            "emotions_attributes": Array.isArray(emotions) ? emotions.map(emotion => {
-              return {"name": emotion}
-            }) : [{"name": emotions}]
-          }]
-      }
+  const body = {
+    "day": {
+      "date": selectedDate,
+      "periods_attributes": [
+        {
+          "name": periodName,
+          "emotions_attributes": Array.isArray(emotions) ? emotions.map(emotion => {
+            return {"name": emotion}
+          }) : [{"name": emotions}]
+        }]
     }
-
-  console.log("BODY: ", JSON.stringify(body))
+  }
 
   return fetch(`days`, {
     headers: {
@@ -39,6 +35,7 @@ function postEntries(selectedDate, periodName, emotions) {
     body: JSON.stringify(body)
   })
 }
+
 function deleteEntryAPI(entryUuid) {
   const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -51,4 +48,4 @@ function deleteEntryAPI(entryUuid) {
   })
 }
 
-export { fetchDay, fetchDayByDate, postEntries, deleteEntryAPI }
+export {fetchDay, fetchDayByDate, postEntries, deleteEntryAPI}

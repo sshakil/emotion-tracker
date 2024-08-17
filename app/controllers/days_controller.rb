@@ -54,6 +54,8 @@ class DaysController < ApplicationController
   # POST /days or /days.json
   def create
     errors = []
+    created_entries = []
+
     begin
       @day = Day.find_or_create_by(date: params['day']['date'])
       if @day.nil?
@@ -76,13 +78,20 @@ class DaysController < ApplicationController
                 day_period: @day_period,
                 emotion: @emotion
               )
+
+              created_entries << {
+                uuid: @entry.uuid,
+                emotion_name: @emotion.name,
+                period_name: @period.name,
+                date: @day.date.iso8601
+              }
             end
           end
         end
       end
 
       if errors.empty?
-        render json: {}, status: :no_content
+        render json: { entries: created_entries }, status: :created
       else
         render json: { error: errors.as_json }, status: :bad_request
       end

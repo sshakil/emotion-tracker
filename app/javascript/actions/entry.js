@@ -15,25 +15,27 @@ export {
 
 function createEntries(selectedDate, periodName, emotions) {
   return async function getEntryThunk(dispatch, getState) {
-    postEntries(selectedDate, periodName, emotions)
-      .then(response => {
-        if (response.status === 204) {
-          // Dispatch success action to update the store
-          dispatch({
-            type: CREATE_ENTRIES_SUCCESS,
-            payload: {
-              date: selectedDate,
-              periodName,
-              emotions: emotions.map(emotion => ({ name: emotion }))
-            }
-          })
-          console.log("successfully created entries")
-        } else {
-          console.log("bad request or error")
-        }
-      }).catch(error => console.log(error))
+    try {
+      const response = await postEntries(selectedDate, periodName, emotions)
+      if (response.ok) {
+        const data = await response.json()
+        dispatch({
+          type: CREATE_ENTRIES_SUCCESS,
+          payload: {
+            date: selectedDate,
+            periodName,
+            entries: data.entries
+          }
+        })
+      } else {
+        console.log("bad request or error")
+      }
+    } catch (error) {
+      console.log("Error:", error)
+    }
   }
 }
+
 function deleteEntry(entryUuid, selectedDate, periodName) {
   return async function deleteEntryThunk(dispatch) {
     deleteEntryAPI(entryUuid)

@@ -119,9 +119,7 @@ function EmotionTracker(props) {
   const dispatch = useDispatch()
   const { selectedDate, day } = props
 
-  useEffect(() => {
-    // console.log("EmotionTracker rendered")
-  }, [day]) // Ensure the component re-renders when `day` changes
+  useEffect(() => { }, [day])
 
   const dayForm = renderDayForm(
     dispatch,
