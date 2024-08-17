@@ -102,6 +102,7 @@ function EmotionTracker(props) {
           <Typography variant="string">{period.name}</Typography>
           <Stack direction="row" alignItems="center" spacing={1}>
             <TextField
+              className="text-input"
               id={`${period.name}-${selectedDate}`}
               name={period.name}
               type="search"
@@ -121,7 +122,7 @@ function EmotionTracker(props) {
               <AddCircleIcon />
             </IconButton>
           </Stack>
-          <div>
+          <div className="chips-container">
             {period.emotions.map((entry, chipIndex) => (
               <Chip
                 key={entry.uuid}
