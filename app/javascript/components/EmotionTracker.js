@@ -15,7 +15,7 @@ function EmotionTracker(props) {
 
   const inputRefs = useRef([]);
   const chipRefsArray = useRef([]);
-  const buttonRefsArray = useRef([]); // To hold references to IconButtons
+  const buttonRefsArray = useRef([]);
   const dispatch = useDispatch();
   const { selectedDate, day } = props;
 
@@ -51,14 +51,12 @@ function EmotionTracker(props) {
 
   const handleTabPress = (e, periodName, period, chipRefs, inputRef, buttonRef, isLastPeriod, currentPeriodIndex) => {
     if (e.key === 'Tab' && !e.shiftKey) {
+      e.preventDefault();
       if (allEmotionInputValues[periodName].trim() !== "") {
-        e.preventDefault();
         buttonRef.current?.focus(); // Focus on the IconButton if there is text in the TextField
       } else if (period.emotions.length > 0) {
-        e.preventDefault();
         chipRefs.current[0]?.focus();
       } else if (!isLastPeriod) {
-        e.preventDefault();
         const nextInputRef = inputRefs.current[currentPeriodIndex + 1];
         nextInputRef?.current?.focus();
       }
@@ -75,6 +73,9 @@ function EmotionTracker(props) {
         } else {
           previousInputRef?.current?.focus();
         }
+      } else {
+        // Allow natural shift-tab behavior to move focus to prior elements in the DOM
+        inputRef.current.blur();
       }
     }
 
@@ -87,7 +88,7 @@ function EmotionTracker(props) {
   const renderPeriod = (period, index) => {
     const inputRef = useRef(null);
     const chipRefs = useRef([]);
-    const buttonRef = useRef(null); // Ref for the IconButton
+    const buttonRef = useRef(null);
     const isLastPeriod = period.name === "Before Bed";
 
     inputRefs.current[index] = inputRef;
@@ -113,7 +114,8 @@ function EmotionTracker(props) {
               color="primary"
               aria-label="add emotion to period"
               onClick={() => handleCreateEntries(period.name, inputRef)}
-              ref={buttonRef} // Store the reference for the IconButton
+              ref={buttonRef}
+              tabIndex={allEmotionInputValues[period.name].trim() !== "" ? 0 : -1}
             >
               <AddCircleIcon />
             </IconButton>
