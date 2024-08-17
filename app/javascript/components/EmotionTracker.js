@@ -21,23 +21,31 @@ function EmotionTracker(props) {
   const { selectedDate, day } = props
 
   const handleDeleteChip = (entryUuid, periodName, chipIndex) => {
-    dispatch(deleteEntry(entryUuid, selectedDate, periodName))
+    const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)]
+    const chip = chipRefs.current[chipIndex]
+
+    if (chip) {
+      chip.classList.add('removing')
+    }
 
     setTimeout(() => {
-      const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)]
-      if (chipRefs && chipRefs.current.length > 1) {
-        const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[chipIndex] || chipRefs.current[0]
-        if (nextChip) {
-          nextChip.focus()
+      dispatch(deleteEntry(entryUuid, selectedDate, periodName))
+
+      setTimeout(() => {
+        if (chipRefs && chipRefs.current.length > 1) {
+          const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[chipIndex] || chipRefs.current[0]
+          if (nextChip) {
+            nextChip.focus()
+          } else {
+            const inputRef = inputRefs.current[periodNames.indexOf(periodName)]
+            inputRef?.current?.focus()
+          }
         } else {
           const inputRef = inputRefs.current[periodNames.indexOf(periodName)]
           inputRef?.current?.focus()
         }
-      } else {
-        const inputRef = inputRefs.current[periodNames.indexOf(periodName)]
-        inputRef?.current?.focus()
-      }
-    }, 100)
+      }, 100)
+    }, 300) // Matches the animation duration
   }
 
   const handleCreateEntries = (periodName, inputRef) => {
@@ -46,6 +54,15 @@ function EmotionTracker(props) {
     setAllEmotionInputValues(prev => ({ ...prev, [periodName]: '' }))
 
     setTimeout(() => {
+      const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)]
+      if (chipRefs && chipRefs.current.length > 0) {
+        const newChip = chipRefs.current[chipRefs.current.length - 1]
+        if (newChip) {
+          newChip.classList.add('adding')
+          newChip.focus()
+        }
+      }
+
       inputRef.current.focus()
     }, 100)
   }
@@ -102,7 +119,6 @@ function EmotionTracker(props) {
           <Typography variant="string">{period.name}</Typography>
           <Stack direction="row" alignItems="center" spacing={1}>
             <TextField
-              className="text-input"
               id={`${period.name}-${selectedDate}`}
               name={period.name}
               type="search"
@@ -111,6 +127,7 @@ function EmotionTracker(props) {
               inputRef={inputRef}
               onChange={(e) => setAllEmotionInputValues(prev => ({ ...prev, [e.target.name]: e.target.value }))}
               onKeyDown={(e) => handleTabPress(e, period.name, period, chipRefs, inputRef, buttonRef, isLastPeriod, index)}
+              className="text-input"
             />
             <IconButton
               color="primary"
@@ -130,6 +147,7 @@ function EmotionTracker(props) {
                 onDelete={() => handleDeleteChip(entry.uuid, period.name, chipIndex)}
                 tabIndex={0}
                 ref={el => chipRefs.current[chipIndex] = el}
+                className="chip"
               />
             ))}
           </div>
