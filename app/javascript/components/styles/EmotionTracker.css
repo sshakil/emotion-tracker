@@ -1,0 +1,28 @@
+.EmotionTracker-Card {
+    margin-bottom: 10px
+}
+
+.EmotionTracker-TextField {
+    flex-grow: 1
+}
+
+.EmotionTracker-Chip {
+    margin: 2px;
+}
+
+.EmotionTracker-IconButton {
+    padding: 5px
+}
+
+body {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif
+}
+
+.MuiPaper-root {
+    width: fit-content;
+}
+
+/*.MuiChip-root {*/
+/*    padding: 2px;*/
+/*    margin: 2px;*/
+/*}*/

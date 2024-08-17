@@ -1,99 +1,100 @@
-import React, { useEffect, useState, useRef } from "react";
-import { connect, useDispatch } from 'react-redux';
-import Chip from '@mui/material/Chip';
-import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions";
+import React, { useEffect, useState, useRef } from "react"
+import { connect, useDispatch } from 'react-redux'
+import Chip from '@mui/material/Chip'
+import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material"
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions"
+import './styles/EmotionTracker.css'
 
-const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"];
-const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }));
+const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
+const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
 
 function EmotionTracker(props) {
   const [allEmotionInputValues, setAllEmotionInputValues] = useState(() =>
     periodNames.reduce((acc, name) => ({ ...acc, [name]: '' }), {})
-  );
+  )
 
-  const inputRefs = useRef([]);
-  const chipRefsArray = useRef([]);
-  const buttonRefsArray = useRef([]);
-  const dispatch = useDispatch();
-  const { selectedDate, day } = props;
+  const inputRefs = useRef([])
+  const chipRefsArray = useRef([])
+  const buttonRefsArray = useRef([])
+  const dispatch = useDispatch()
+  const { selectedDate, day } = props
 
   const handleDeleteChip = (entryUuid, periodName, chipIndex) => {
-    dispatch(deleteEntry(entryUuid, selectedDate, periodName));
+    dispatch(deleteEntry(entryUuid, selectedDate, periodName))
 
     setTimeout(() => {
-      const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)];
+      const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)]
       if (chipRefs && chipRefs.current.length > 1) {
-        const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[chipIndex] || chipRefs.current[0];
+        const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[chipIndex] || chipRefs.current[0]
         if (nextChip) {
-          nextChip.focus();
+          nextChip.focus()
         } else {
-          const inputRef = inputRefs.current[periodNames.indexOf(periodName)];
-          inputRef?.current?.focus();
+          const inputRef = inputRefs.current[periodNames.indexOf(periodName)]
+          inputRef?.current?.focus()
         }
       } else {
-        const inputRef = inputRefs.current[periodNames.indexOf(periodName)];
-        inputRef?.current?.focus();
+        const inputRef = inputRefs.current[periodNames.indexOf(periodName)]
+        inputRef?.current?.focus()
       }
-    }, 100);
-  };
+    }, 100)
+  }
 
   const handleCreateEntries = (periodName, inputRef) => {
-    const emotionsToAdd = allEmotionInputValues[periodName].split(",").map(emotion => emotion.trim());
-    dispatch(createEntries(selectedDate, periodName, emotionsToAdd));
-    setAllEmotionInputValues(prev => ({ ...prev, [periodName]: '' }));
+    const emotionsToAdd = allEmotionInputValues[periodName].split(",").map(emotion => emotion.trim())
+    dispatch(createEntries(selectedDate, periodName, emotionsToAdd))
+    setAllEmotionInputValues(prev => ({ ...prev, [periodName]: '' }))
 
     setTimeout(() => {
-      inputRef.current.focus();
-    }, 100);
-  };
+      inputRef.current.focus()
+    }, 100)
+  }
 
   const handleTabPress = (e, periodName, period, chipRefs, inputRef, buttonRef, isLastPeriod, currentPeriodIndex) => {
     if (e.key === 'Tab' && !e.shiftKey) {
-      e.preventDefault();
+      e.preventDefault()
       if (allEmotionInputValues[periodName].trim() !== "") {
-        buttonRef.current?.focus(); // Focus on the IconButton if there is text in the TextField
+        buttonRef.current?.focus() // Focus on the IconButton if there is text in the TextField
       } else if (period.emotions.length > 0) {
-        chipRefs.current[0]?.focus();
+        chipRefs.current[0]?.focus()
       } else if (!isLastPeriod) {
-        const nextInputRef = inputRefs.current[currentPeriodIndex + 1];
-        nextInputRef?.current?.focus();
+        const nextInputRef = inputRefs.current[currentPeriodIndex + 1]
+        nextInputRef?.current?.focus()
       }
     }
 
     if (e.key === 'Tab' && e.shiftKey) {
-      e.preventDefault();
+      e.preventDefault()
       if (currentPeriodIndex > 0) {
-        const previousInputRef = inputRefs.current[currentPeriodIndex - 1];
-        const previousPeriod = day.periods[currentPeriodIndex - 1];
-        const previousChipRefs = chipRefsArray.current[currentPeriodIndex - 1];
+        const previousInputRef = inputRefs.current[currentPeriodIndex - 1]
+        const previousPeriod = day.periods[currentPeriodIndex - 1]
+        const previousChipRefs = chipRefsArray.current[currentPeriodIndex - 1]
         if (previousPeriod.emotions.length > 0) {
-          previousChipRefs.current[previousPeriod.emotions.length - 1]?.focus();
+          previousChipRefs.current[previousPeriod.emotions.length - 1]?.focus()
         } else {
-          previousInputRef?.current?.focus();
+          previousInputRef?.current?.focus()
         }
       } else {
         // Allow natural shift-tab behavior to move focus to prior elements in the DOM
-        inputRef.current.blur();
+        inputRef.current.blur()
       }
     }
 
     if (e.key === 'Enter') {
-      e.preventDefault();
-      handleCreateEntries(periodName, inputRef);
+      e.preventDefault()
+      handleCreateEntries(periodName, inputRef)
     }
-  };
+  }
 
   const renderPeriod = (period, index) => {
-    const inputRef = useRef(null);
-    const chipRefs = useRef([]);
-    const buttonRef = useRef(null);
-    const isLastPeriod = period.name === "Before Bed";
+    const inputRef = useRef(null)
+    const chipRefs = useRef([])
+    const buttonRef = useRef(null)
+    const isLastPeriod = period.name === "Before Bed"
 
-    inputRefs.current[index] = inputRef;
-    chipRefsArray.current[index] = chipRefs;
-    buttonRefsArray.current[index] = buttonRef;
+    inputRefs.current[index] = inputRef
+    chipRefsArray.current[index] = chipRefs
+    buttonRefsArray.current[index] = buttonRef
 
     return (
       <Card key={`${selectedDate}-${period.name}`} variant="outlined">
@@ -133,17 +134,17 @@ function EmotionTracker(props) {
           </div>
         </CardContent>
       </Card>
-    );
-  };
+    )
+  }
 
   useEffect(() => {
     for (let i = 0; i < day.periods.length; i++) {
       if (day.periods[i].emotions.length === 0) {
-        inputRefs.current[i]?.current?.focus();
-        break;
+        inputRefs.current[i]?.current?.focus()
+        break
       }
     }
-  }, [day, selectedDate]);
+  }, [day, selectedDate])
 
   return day ? (
     <Stack spacing={2}>
@@ -151,35 +152,35 @@ function EmotionTracker(props) {
     </Stack>
   ) : (
     'temp - no entries'
-  );
+  )
 }
 
 function newDay(selectedDate) {
   return {
     date: selectedDate,
     periods: [...defaultPeriods]
-  };
+  }
 }
 
 function mergePeriods(day) {
   return defaultPeriods.map(defaultPeriod => {
-    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name);
-    return existingPeriod || defaultPeriod;
-  });
+    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name)
+    return existingPeriod || defaultPeriod
+  })
 }
 
 function mapStateToProps(state) {
-  const selectedDate = state.selectedDate.date;
+  const selectedDate = state.selectedDate.date
   return {
     selectedDate,
     day: (() => {
-      const foundDay = state.days.find(day => day.date === selectedDate) || newDay(selectedDate);
+      const foundDay = state.days.find(day => day.date === selectedDate) || newDay(selectedDate)
       return {
         ...foundDay,
         periods: mergePeriods(foundDay)
-      };
+      }
     })()
-  };
+  }
 }
 
-export default connect(mapStateToProps)(EmotionTracker);
+export default connect(mapStateToProps)(EmotionTracker)
