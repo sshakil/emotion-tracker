@@ -15,6 +15,7 @@ function EmotionTracker(props) {
 
   const inputRefs = useRef([]);
   const chipRefsArray = useRef([]);
+  const buttonRefsArray = useRef([]); // To hold references to IconButtons
   const dispatch = useDispatch();
   const { selectedDate, day } = props;
 
@@ -27,6 +28,9 @@ function EmotionTracker(props) {
         const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[chipIndex] || chipRefs.current[0];
         if (nextChip) {
           nextChip.focus();
+        } else {
+          const inputRef = inputRefs.current[periodNames.indexOf(periodName)];
+          inputRef?.current?.focus();
         }
       } else {
         const inputRef = inputRefs.current[periodNames.indexOf(periodName)];
@@ -45,12 +49,16 @@ function EmotionTracker(props) {
     }, 100);
   };
 
-  const handleTabPress = (e, periodName, period, chipRefs, inputRef, isLastPeriod, currentPeriodIndex) => {
+  const handleTabPress = (e, periodName, period, chipRefs, inputRef, buttonRef, isLastPeriod, currentPeriodIndex) => {
     if (e.key === 'Tab' && !e.shiftKey) {
-      e.preventDefault();
-      if (period.emotions.length > 0) {
+      if (allEmotionInputValues[periodName].trim() !== "") {
+        e.preventDefault();
+        buttonRef.current?.focus(); // Focus on the IconButton if there is text in the TextField
+      } else if (period.emotions.length > 0) {
+        e.preventDefault();
         chipRefs.current[0]?.focus();
       } else if (!isLastPeriod) {
+        e.preventDefault();
         const nextInputRef = inputRefs.current[currentPeriodIndex + 1];
         nextInputRef?.current?.focus();
       }
@@ -79,10 +87,12 @@ function EmotionTracker(props) {
   const renderPeriod = (period, index) => {
     const inputRef = useRef(null);
     const chipRefs = useRef([]);
+    const buttonRef = useRef(null); // Ref for the IconButton
     const isLastPeriod = period.name === "Before Bed";
 
     inputRefs.current[index] = inputRef;
     chipRefsArray.current[index] = chipRefs;
+    buttonRefsArray.current[index] = buttonRef;
 
     return (
       <Card key={`${selectedDate}-${period.name}`} variant="outlined">
@@ -97,13 +107,13 @@ function EmotionTracker(props) {
               value={allEmotionInputValues[period.name]}
               inputRef={inputRef}
               onChange={(e) => setAllEmotionInputValues(prev => ({ ...prev, [e.target.name]: e.target.value }))}
-              onKeyDown={(e) => handleTabPress(e, period.name, period, chipRefs, inputRef, isLastPeriod, index)}
+              onKeyDown={(e) => handleTabPress(e, period.name, period, chipRefs, inputRef, buttonRef, isLastPeriod, index)}
             />
             <IconButton
               color="primary"
               aria-label="add emotion to period"
               onClick={() => handleCreateEntries(period.name, inputRef)}
-              tabIndex={-1} // This effectively skips the IconButton from receiving focus
+              ref={buttonRef} // Store the reference for the IconButton
             >
               <AddCircleIcon />
             </IconButton>
