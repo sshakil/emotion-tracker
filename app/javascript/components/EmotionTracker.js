@@ -40,9 +40,12 @@ function renderEmotions(dispatch, selectedDate, period, chipRefs, inputRef) {
                   inputRef.current.focus();
                 }
               }, 100);
+            } else if (e.key === 'Tab' && e.shiftKey) {
+              e.preventDefault();
+              inputRef.current.focus(); // Shift+Tab should skip the button and go back to the TextField
             }
           }}
-          tabIndex={0}
+          tabIndex={0} // Ensure the Chip is focusable to detect key events
           ref={(el) => chipRefs.current[index] = el}
         />
       ))}
@@ -56,7 +59,7 @@ function renderDayForm(
   setAllEmotionInputValues, allEmotionInputValues
 ) {
   const inputRefs = useRef([]); // Array to hold references for each TextField
-  const chipRefsArray = useRef([]); // Array to hold references for chips in each period
+  const chipRefsArray = useRef([]); // Array to hold references for each chipRefs
 
   function handleCreateEntries(periodName, inputRef) {
     dispatch(createEntries(
@@ -96,9 +99,10 @@ function renderDayForm(
       e.preventDefault();
       if (currentPeriodIndex > 0) {
         const previousInputRef = inputRefs.current[currentPeriodIndex - 1];
+        const previousPeriod = day.periods[currentPeriodIndex - 1];
         const previousChipRefs = chipRefsArray.current[currentPeriodIndex - 1];
-        if (previousChipRefs?.current?.length > 0) {
-          previousChipRefs.current[previousChipRefs.current.length - 1]?.focus();
+        if (previousPeriod.emotions.length > 0) {
+          previousChipRefs.current[previousPeriod.emotions.length - 1]?.focus();
         } else {
           previousInputRef?.current?.focus();
         }
