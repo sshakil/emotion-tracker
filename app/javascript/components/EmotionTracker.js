@@ -12,13 +12,6 @@ function deleteEmotionEntry(dispatch, entryUuid, selectedDate, periodName) {
   dispatch(deleteEntry(entryUuid, selectedDate, periodName));
 }
 
-function deleteEmotionSuccess(json) {
-  return {
-    type: DELETE_EMOTION_REQUEST,
-    json
-  };
-}
-
 function renderEmotions(dispatch, selectedDate, period, chipRefs, inputRef) {
   useEffect(() => {
     // Clean up chipRefs to match the number of emotions in the period
@@ -33,7 +26,6 @@ function renderEmotions(dispatch, selectedDate, period, chipRefs, inputRef) {
           label={entry.name}
           onDelete={() => {
             deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name);
-            // After a mouse click, focus on the TextField
             if (inputRef.current) {
               inputRef.current.focus();
             }
@@ -41,17 +33,16 @@ function renderEmotions(dispatch, selectedDate, period, chipRefs, inputRef) {
           onKeyDown={(e) => {
             if (e.key === 'Backspace' || e.key === 'Delete') {
               deleteEmotionEntry(dispatch, entry.uuid, selectedDate, period.name);
-              // After deletion, focus on the first chip if it exists
               setTimeout(() => {
                 if (chipRefs.current[0]) {
                   chipRefs.current[0].focus();
                 } else if (inputRef.current) {
                   inputRef.current.focus();
                 }
-              }, 100);  // Adjust the delay if necessary
+              }, 100);
             }
           }}
-          tabIndex={0} // Ensure the Chip is focusable to detect key events
+          tabIndex={0}
           ref={(el) => chipRefs.current[index] = el}
         />
       ))}
@@ -64,6 +55,8 @@ function renderDayForm(
   selectedDate, day,
   setAllEmotionInputValues, allEmotionInputValues
 ) {
+  const inputRefs = useRef([]); // Array to hold references for each TextField
+
   function handleCreateEntries(periodName, inputRef) {
     dispatch(createEntries(
       selectedDate,
@@ -73,46 +66,57 @@ function renderDayForm(
         .map(emotion => emotion.trim())
     ));
 
-    // Clear the input and set focus back to it
     setAllEmotionInputValues({
       ...allEmotionInputValues,
       [periodName]: ''
     });
+
     if (inputRef.current) {
-      inputRef.current.focus();
+      setTimeout(() => {
+        inputRef.current.focus(); // Maintain focus on the current input field
+      }, 100);
     }
   }
 
-  function handleTabPress(e, periodName, period, chipRefs, inputRef, isLastPeriod) {
-    if (e.key === 'Tab') {
+  function handleTabPress(e, periodName, period, chipRefs, inputRef, isLastPeriod, currentPeriodIndex) {
+    if (e.key === 'Tab' && !e.shiftKey) {
       if (allEmotionInputValues[periodName].trim() === "") {
+        e.preventDefault();
         if (period.emotions.length > 0) {
-          // Focus on the first chip
-          e.preventDefault(); // Prevent default tab behavior
           chipRefs.current[0]?.focus();
         } else if (!isLastPeriod) {
-          // Focus on the next period's TextField
-          const currentPeriodIndex = periodNames.indexOf(periodName);
-          if (currentPeriodIndex < periodNames.length - 1) {
-            const nextPeriodName = periodNames[currentPeriodIndex + 1];
-            const nextInputRef = document.getElementById(`${nextPeriodName}-${selectedDate}`);
-            if (nextInputRef) {
-              e.preventDefault(); // Prevent default tab behavior
-              nextInputRef.focus();
-            }
-          }
-        } else if (isLastPeriod) {
-          // If it's the last period, allow natural tab flow to the browser
-          inputRef.current.blur();
+          const nextInputRef = inputRefs.current[currentPeriodIndex + 1];
+          nextInputRef?.current?.focus();
         }
       }
     }
+
+    if (e.key === 'Tab' && e.shiftKey) {
+      e.preventDefault();
+      if (currentPeriodIndex > 0) {
+        const previousInputRef = inputRefs.current[currentPeriodIndex - 1];
+        const previousPeriod = day.periods[currentPeriodIndex - 1];
+        if (previousPeriod.emotions.length > 0) {
+          const lastChipRef = previousInputRef.current?.parentNode?.querySelectorAll('div > div > *')?.[previousPeriod.emotions.length - 1];
+          lastChipRef?.focus();
+        } else {
+          previousInputRef?.current?.focus();
+        }
+      }
+    }
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleCreateEntries(periodName, inputRef);
+    }
   }
 
-  function renderPeriod(dispatch, period) {
+  function renderPeriod(dispatch, period, index) {
     const inputRef = useRef(null);
-    const chipRefs = useRef([]); // Define chipRefs here
+    const chipRefs = useRef([]);
     const isLastPeriod = period.name === "Before Bed";
+
+    inputRefs.current[index] = inputRef;
 
     return (
       <Card key={`${selectedDate}-${period.name}`} variant="outlined">
@@ -134,20 +138,14 @@ function renderDayForm(
                 [e.target.name]: e.target.value
               });
             }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleCreateEntries(period.name, inputRef);
-              } else {
-                handleTabPress(e, period.name, period, chipRefs, inputRef, isLastPeriod);
-              }
-            }}
+            onKeyDown={(e) => handleTabPress(e, period.name, period, chipRefs, inputRef, isLastPeriod, index)}
           />
           <IconButton
             color="primary"
             aria-label="add emotion to period"
             name={period.name}
             onClick={() => handleCreateEntries(period.name, inputRef)}
-            tabIndex={(isLastPeriod && allEmotionInputValues[period.name].trim() === "") ? -1 : 0} // Skip button for Before Bed if no text
+            tabIndex={(isLastPeriod && allEmotionInputValues[period.name].trim() === "") ? -1 : 0}
           >
             <AddCircleIcon />
           </IconButton>
@@ -157,9 +155,19 @@ function renderDayForm(
     );
   }
 
+  useEffect(() => {
+    // Focus on the first input for the period without any entries
+    for (let i = 0; i < day.periods.length; i++) {
+      if (day.periods[i].emotions.length === 0) {
+        inputRefs.current[i]?.current?.focus();
+        break;
+      }
+    }
+  }, [day, selectedDate]);
+
   return day != null ? (
     <Stack spacing={2}>
-      {day.periods.map(period => renderPeriod(dispatch, period))}
+      {day.periods.map((period, index) => renderPeriod(dispatch, period, index))}
     </Stack>
   ) : (
     'temp - no entries'
