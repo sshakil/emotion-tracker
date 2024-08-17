@@ -1,5 +1,3 @@
-// EmotionTracker.js
-
 import React, { useEffect, useState, useRef } from "react";
 import { connect, useDispatch } from 'react-redux';
 import Chip from '@mui/material/Chip';
@@ -85,14 +83,14 @@ function renderDayForm(
     }
   }
 
-  function handleTabPress(e, periodName, period, chipRefs, inputRef) {
+  function handleTabPress(e, periodName, period, chipRefs, inputRef, isLastPeriod) {
     if (e.key === 'Tab') {
       if (allEmotionInputValues[periodName].trim() === "") {
         if (period.emotions.length > 0) {
           // Focus on the first chip
           e.preventDefault(); // Prevent default tab behavior
           chipRefs.current[0]?.focus();
-        } else {
+        } else if (!isLastPeriod) {
           // Focus on the next period's TextField
           const currentPeriodIndex = periodNames.indexOf(periodName);
           if (currentPeriodIndex < periodNames.length - 1) {
@@ -103,7 +101,9 @@ function renderDayForm(
               nextInputRef.focus();
             }
           }
+        } else if (isLastPeriod) {
           // If it's the last period, allow natural tab flow to the browser
+          inputRef.current.blur();
         }
       }
     }
@@ -112,6 +112,7 @@ function renderDayForm(
   function renderPeriod(dispatch, period) {
     const inputRef = useRef(null);
     const chipRefs = useRef([]); // Define chipRefs here
+    const isLastPeriod = period.name === "Before Bed";
 
     return (
       <Card key={`${selectedDate}-${period.name}`} variant="outlined">
@@ -137,7 +138,7 @@ function renderDayForm(
               if (e.key === 'Enter') {
                 handleCreateEntries(period.name, inputRef);
               } else {
-                handleTabPress(e, period.name, period, chipRefs, inputRef);
+                handleTabPress(e, period.name, period, chipRefs, inputRef, isLastPeriod);
               }
             }}
           />
@@ -146,6 +147,7 @@ function renderDayForm(
             aria-label="add emotion to period"
             name={period.name}
             onClick={() => handleCreateEntries(period.name, inputRef)}
+            tabIndex={(isLastPeriod && allEmotionInputValues[period.name].trim() === "") ? -1 : 0} // Skip button for Before Bed if no text
           >
             <AddCircleIcon />
           </IconButton>
