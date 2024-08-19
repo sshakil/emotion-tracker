@@ -18,12 +18,13 @@ class DaysController < ApplicationController
 
     unless @day.nil?
       # Perform a single query to fetch all necessary data
-      data = DayPeriod.joins(entries: :emotion)
-                      .select('day_periods.id as dp_id, periods.name as period_name, entries.uuid as entry_uuid, emotions.name as emotion_name')
-                      .joins(:period)
-                      .where(day_id: @day.id)
+      data = DayPeriod
+               .joins(entries: :emotion)
+               .select('day_periods.id as dp_id, periods.name as period_name, entries.uuid as entry_uuid, emotions.name as emotion_name')
+               .joins(:period)
+               .where(day_id: @day.id)
 
-      # Group the data by day_period_id
+      # Manually group the data in memory
       periods_json = data.group_by(&:dp_id).map do |dp_id, records|
         {
           name: records.first.period_name,
@@ -52,7 +53,6 @@ class DaysController < ApplicationController
   def create
     errors = []
     created_entries = []
-
     begin
       @day = Day.find_or_create_by(date: params['day']['date'])
       if @day.nil?
@@ -129,16 +129,6 @@ class DaysController < ApplicationController
 
     # Only allow a list of trusted parameters through.
   def day_params
-    # params.require(:day).permit(
-    #   :date,
-    #   periods_attributes: [
-    #     :id,
-    #     :name,
-    #     emotions_attributes: [
-    #       :id,
-    #       :name
-    #     ]
-    #   ]
-    # )
+    params.require(:day).permit(:date, periods_attributes: [:name, emotions_attributes: [:name]])
   end
 end

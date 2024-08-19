@@ -81,3 +81,34 @@ Each `Card` contains `CardContent` which wraps:
 <h3>Backend Controllers</h3>
 `Entries` is what connects a `day_period` with an `emotion`
 
+
+<h2>DB</h2>
+Started switching to PG on 19/08/2024.
+To start a daemon:
+```
+brew services start postgresql@15
+```
+
+Manual:
+```
+pg_ctl -D /usr/local/var/postgres start
+```
+
+
+The first two GRANTs didn't work for `rails db:migrate`, probably one or both of the last two were needed:
+```
+createdb emotion_tracker
+createdb emotion_tracker_test
+psql -d emotion_tracker
+CREATE USER demo WITH PASSWORD <password>;
+GRANT ALL PRIVILEGES ON DATABASE emotion_tracker TO demo;
+GRANT ALL PRIVILEGES ON SCHEMA public TO demo;
+ALTER SCHEMA public OWNER TO demo;
+GRANT CREATE ON SCHEMA public TO demo;
+```
+
+Run the following before starting server and hitting the app (otherwise current date seed will clash):
+```
+rails db:migrate
+rails db:seed
+```

@@ -140,6 +140,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.1-x86_64-darwin)
       racc (~> 1.4)
+    pg (1.5.7)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -198,17 +199,8 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     semantic_range (3.0.0)
-    sprockets (4.2.0)
-      concurrent-ruby (~> 1.0)
-      rack (>= 2.2.4, < 4)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
-      sprockets (>= 3.0.0)
     sql_queries_count (0.0.1)
       rails (> 3.0.0)
-    sqlite3 (1.6.0-arm64-darwin)
-    sqlite3 (1.6.0-x86_64-darwin)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     thor (1.2.1)
@@ -254,14 +246,13 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
+  pg
   pry-byebug
   puma (~> 5.6)
   rails (~> 7.0.4, >= 7.0.4.2)
   react-rails
   selenium-webdriver
-  sprockets-rails
   sql_queries_count
-  sqlite3 (~> 1.6)
   stimulus-rails
   turbo-rails
   tzinfo-data
