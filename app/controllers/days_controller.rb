@@ -17,14 +17,14 @@ class DaysController < ApplicationController
     day_json = {}
 
     unless @day.nil?
-      # Use a single query to fetch all the required data with joins
+      # Perform a single query to fetch all necessary data
       data = DayPeriod.joins(entries: :emotion)
                       .select('day_periods.id as dp_id, periods.name as period_name, entries.uuid as entry_uuid, emotions.name as emotion_name')
                       .joins(:period)
                       .where(day_id: @day.id)
-                      .group_by(&:dp_id)
 
-      periods_json = data.map do |dp_id, records|
+      # Group the data by day_period_id
+      periods_json = data.group_by(&:dp_id).map do |dp_id, records|
         {
           name: records.first.period_name,
           emotions: records.map { |record| { name: record.emotion_name, uuid: record.entry_uuid } }
