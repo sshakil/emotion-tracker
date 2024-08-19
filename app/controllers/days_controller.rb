@@ -17,12 +17,12 @@ class DaysController < ApplicationController
     day_json = {}
 
     unless @day.nil?
-      period_ids = @day.day_periods.pluck(:id)
+      # Fetch all necessary data with a single query
       emotions_data = Entry.joins(:emotion)
-                           .where(day_period_id: period_ids)
+                           .where(day_period_id: @day.day_periods.select(:id))
                            .pluck('entries.uuid', 'emotions.name', 'entries.day_period_id')
 
-      periods_json = @day.day_periods.collect do |day_period|
+      periods_json = @day.day_periods.map do |day_period|
         {
           name: day_period.period.name,
           emotions: emotions_data.select { |_, _, dp_id| dp_id == day_period.id }
@@ -35,6 +35,7 @@ class DaysController < ApplicationController
         periods: periods_json
       }
     end
+
     render json: day_json
   end
 
