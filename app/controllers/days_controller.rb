@@ -17,35 +17,39 @@ class DaysController < ApplicationController
     day_json = {}
 
     unless @day.nil?
-      # Perform a single query to fetch all necessary data as JSON
+      # Perform a single query to fetch all necessary data without JSON aggregation in the DB
       data = ActiveRecord::Base.connection.execute(
         <<-SQL
-        SELECT
-          periods.name as period_name,
-          json_agg(json_build_object('uuid', entries.uuid, 'name', emotions.name)) as emotions_json
-        FROM day_periods
-        INNER JOIN periods ON periods.id = day_periods.period_id
-        INNER JOIN entries ON entries.day_period_id = day_periods.id
-        INNER JOIN emotions ON emotions.id = entries.emotion_id
-        WHERE day_periods.day_id = #{@day.id}
-        GROUP BY periods.name
-      SQL
-      ).map do |record|
+      SELECT
+        day_periods.id as dp_id,
+        periods.name as period_name,
+        entries.uuid as entry_uuid,
+        emotions.name as emotion_name
+      FROM day_periods
+      INNER JOIN periods ON periods.id = day_periods.period_id
+      INNER JOIN entries ON entries.day_period_id = day_periods.id
+      INNER JOIN emotions ON emotions.id = entries.emotion_id
+      WHERE day_periods.day_id = #{@day.id}
+      ORDER BY day_periods.id
+    SQL
+      ).to_a
+
+      # Group the data in Ruby
+      periods_json = data.group_by { |record| record['dp_id'] }.map do |_, records|
         {
-          name: record['period_name'],
-          emotions: JSON.parse(record['emotions_json'])
+          name: records.first['period_name'],
+          emotions: records.map { |record| { name: record['emotion_name'], uuid: record['entry_uuid'] } }
         }
       end
 
       day_json = {
         date: @day.date.iso8601,
-        periods: data
+        periods: periods_json
       }
     end
 
     render json: day_json
   end
-
 
   # GET /days/new
   def new
