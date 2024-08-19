@@ -8,36 +8,32 @@ class DaysController < ApplicationController
   end
 
   # GET /days/1 or /days/1.json
+  # day_json = {} because: see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data
+  # to handle front sending format mm/dd/yyyy
+  # needed format: yyyy-mm-dd
+  # date = Time.strptime(params['date'], "%m/%d/%Y ")
   def show
-    # to handle front sending format mm/dd/yyyy
-    # needed format: yyyy-mm-dd
-    # date = Time.strptime(params['date'], "%m/%d/%Y ")
-
     @day = Day.includes(day_periods: :period).find_by(date: params['date'])
-
-    # see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data
     day_json = {}
 
     unless @day.nil?
-      puts "------------------------date------------------------"
-      puts "@day.date.to_date.to_s"
-      puts @day.date.to_date.to_s
-      puts "@day.date.iso8601"
-      puts @day.date.iso8601
+      period_ids = @day.day_periods.pluck(:id)
+      emotions_data = Entry.joins(:emotion)
+                           .where(day_period_id: period_ids)
+                           .pluck('entries.uuid', 'emotions.name', 'entries.day_period_id')
 
-      day_json =
+      periods_json = @day.day_periods.collect do |day_period|
         {
-          date: @day.date.iso8601,
-          # date: @day.date.to_date.to_s,
-          periods: @day.day_periods.collect do |day_period|
-            {
-              name: day_period.period.name,
-              emotions: day_period.entries.includes(:emotion).map do |entry|
-                entry.emotion.as_json(except: :id).merge(uuid: entry.uuid)
-              end
-            }
-          end
+          name: day_period.period.name,
+          emotions: emotions_data.select { |_, _, dp_id| dp_id == day_period.id }
+                                 .map { |uuid, emotion_name, _| { name: emotion_name, uuid: uuid } }
         }
+      end
+
+      day_json = {
+        date: @day.date.iso8601,
+        periods: periods_json
+      }
     end
     render json: day_json
   end
