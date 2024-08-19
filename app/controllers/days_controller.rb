@@ -13,20 +13,21 @@ class DaysController < ApplicationController
   # needed format: yyyy-mm-dd
   # date = Time.strptime(params['date'], "%m/%d/%Y ")
   def show
-    @day = Day.includes(day_periods: :period).find_by(date: params['date'])
+    @day = Day.find_by(date: params['date'])
     day_json = {}
 
     unless @day.nil?
-      # Fetch all necessary data with a single query
-      emotions_data = Entry.joins(:emotion)
-                           .where(day_period_id: @day.day_periods.select(:id))
-                           .pluck('entries.uuid', 'emotions.name', 'entries.day_period_id')
+      # Use a single query to fetch all the required data with joins
+      data = DayPeriod.joins(entries: :emotion)
+                      .select('day_periods.id as dp_id, periods.name as period_name, entries.uuid as entry_uuid, emotions.name as emotion_name')
+                      .joins(:period)
+                      .where(day_id: @day.id)
+                      .group_by(&:dp_id)
 
-      periods_json = @day.day_periods.map do |day_period|
+      periods_json = data.map do |dp_id, records|
         {
-          name: day_period.period.name,
-          emotions: emotions_data.select { |_, _, dp_id| dp_id == day_period.id }
-                                 .map { |uuid, emotion_name, _| { name: emotion_name, uuid: uuid } }
+          name: records.first.period_name,
+          emotions: records.map { |record| { name: record.emotion_name, uuid: record.entry_uuid } }
         }
       end
 
@@ -38,7 +39,6 @@ class DaysController < ApplicationController
 
     render json: day_json
   end
-
   # GET /days/new
   def new
     @day = Day.new
