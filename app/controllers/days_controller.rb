@@ -17,29 +17,36 @@ class DaysController < ApplicationController
     day_json = {}
 
     unless @day.nil?
-      # Perform a single query to fetch all necessary data
-      data = DayPeriod
-               .joins(entries: :emotion)
-               .select('day_periods.id as dp_id, periods.name as period_name, entries.uuid as entry_uuid, emotions.name as emotion_name')
-               .joins(:period)
-               .where(day_id: @day.id)
-
-      # Manually group the data in memory
-      periods_json = data.group_by(&:dp_id).map do |dp_id, records|
+      # Perform a single query to fetch all necessary data as JSON
+      data = ActiveRecord::Base.connection.execute(
+        <<-SQL
+        SELECT
+          periods.name as period_name,
+          json_agg(json_build_object('uuid', entries.uuid, 'name', emotions.name)) as emotions_json
+        FROM day_periods
+        INNER JOIN periods ON periods.id = day_periods.period_id
+        INNER JOIN entries ON entries.day_period_id = day_periods.id
+        INNER JOIN emotions ON emotions.id = entries.emotion_id
+        WHERE day_periods.day_id = #{@day.id}
+        GROUP BY periods.name
+      SQL
+      ).map do |record|
         {
-          name: records.first.period_name,
-          emotions: records.map { |record| { name: record.emotion_name, uuid: record.entry_uuid } }
+          name: record['period_name'],
+          emotions: JSON.parse(record['emotions_json'])
         }
       end
 
       day_json = {
         date: @day.date.iso8601,
-        periods: periods_json
+        periods: data
       }
     end
 
     render json: day_json
   end
+
+
   # GET /days/new
   def new
     @day = Day.new
