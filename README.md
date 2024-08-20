@@ -1,39 +1,57 @@
-<h1>Emotion Tracker</h1>
+# Emotion Tracker
 
-### What, Why, Who & When
+## Table of Contents
 
-<div style="display: flex; align-items: flex-start;">
-  <div style="flex: 7;">
-    <h4>What</h4>
-    <ul>
-      <li><strong>Emotion Tracking</strong>: Provides a calendar date picker and a custom form to track emotions through the various periods of the day.</li>
-      <li><strong>Web App</strong>: A pet project in <a href="https://rubyonrails.org/">Ruby on Rails (RoR)</a>, <a href="https://react.dev/">ReactJS</a>, <a href="https://mui.com/x/react-date-pickers/date-picker/">MUI</a>, and MUI X.</li>
-      <li><strong>Keyboard Navigation</strong>: Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.</li>
-    </ul>
-    <h4>Why</h4>
-    <ul>
-      <li><strong>Skill Maintenance</strong>: I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.</li>
-      <li><strong>Re-familiarization</strong>: Upon my graduation with a <a href="https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext">Master's in Engineering, Management</a> (similar to an MBA) in June 2024, I resumed working on this part-time to refamiliarize myself with full-stack web application development through the MVP framework.</li>
-      <li><strong>Enjoyment</strong>: Also, I just find coding enjoyable, especially more so now with AI making it easier and more effective in some ways!</li>
-    </ul>
-    <h4>Who & When</h4>
-    <ul>
-      <li>Link to my <a href="https://sshakil.github.io" target="_blank">cover letter</a></li>
-      <li>Link to my <a href="https://github.com/sshakil/sshakil.github.io/blob/master/Saad-Shakil-Resume-August-2024-No-Address.pdf" target="_blank">resume</a></li>
-      <li>Link to my <a href="https://www.linkedin.com/in/saadshakil/" target="_blank">LinkedIn</a></li>
-    </ul>
-    <p>I started this in March 2022, paused while I was in grad school, and resumed as of summer 2024.</p>
-  </div>
-  <div style="flex: 3; text-align: left;">
-    <h3>Screenshot</h3>
-    <p>Full video demo coming soon.</p>
-    <img src="EmotionTracker.png" alt="EmotionTracker" width="500px">
-  </div>
-</div>
+- [What, Why, Who & When](#what-why-who--when)
+    - [What](#what)
+    - [Why](#why)
+    - [Who & When](#who--when)
+- [How - AI-Assisted Coding](#how---ai-assisted-coding)
+    - [Current Preference](#current-preference)
+    - [Learning Opportunity](#learning-opportunity)
+    - [Privacy and Ethics](#privacy-and-ethics)
+- [How - Setup and Run](#how---setup-and-run)
+    - [Clone the Repo](#clone-the-repo)
+    - [Change Directory to emotion-tracker](#change-directory-to-emotion-tracker)
+    - [Database Setup](#database-setup)
+    - [Front-End Setup](#front-end-setup)
+    - [Backend Setup](#backend-setup)
+    - [Run](#run)
+- [How - Project Initialization](#how---project-initialization)
+- [Issues](#issues)
+- [Front-End Dev Docs/Guide](#front-end-dev-docsguide)
+- [Backend Controllers](#backend-controllers)
+- [DB](#db)
+- [Next Steps](#next-steps)
+- [License](#license)
 
+### What
+- **Emotion Tracking**: Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
+- **Web App**: A pet project in [Ruby on Rails (RoR)](https://rubyonrails.org/), [ReactJS](https://react.dev/), [MUI](https://mui.com/x/react-date-pickers/date-picker/), and MUI X.
+- **Keyboard Navigation**: Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
 
+### Why
+- **Skill Maintenance**: I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
+- **Re-familiarization**: Upon my graduation with a [Master's in Engineering, Management](https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext) (similar to an MBA) in June 2024, I resumed working on this part-time to refamiliarize myself with full-stack web application development through the MVP framework.
+- **Enjoyment**: Also, I just find coding enjoyable, especially more so now with AI making it easier and more effective in some ways!
 
-<h2>How - AI-Assisted Coding</h2>
+### Who & When
+- Link to my [cover letter](https://sshakil.github.io)
+- Link to my [resume](https://github.com/sshakil/sshakil.github.io/blob/master/Saad-Shakil-Resume-August-2024-No-Address.pdf)
+- Link to my [LinkedIn](https://www.linkedin.com/in/saadshakil/)
+
+I started this in March 2022, paused while I was in grad school, and resumed as of summer 2024.
+
+[Back to Top](#emotion-tracker)
+
+### Screenshot
+**Full video demo coming soon.**
+
+<img src="EmotionTracker.png" alt="EmotionTracker" width="500px">
+
+[Back to Top](#emotion-tracker)
+
+## How - AI-Assisted Coding
 <p>
    Later in the project, I experimented with the usage of:
    <ul>
@@ -45,32 +63,36 @@
       <li><a href="https://blog.google/technology/ai/next-generation-ai-for-google-and-developers/" target="_blank">Gemini Advanced</a></li>
    </ul>
 </p>
-<h4>Current Preference</h4>
+
+### Current Preference
 <p>
    I found myself using the MacOS native ChatGPT app the most due to the ability to resume particular conversations with most accurate context enrichment (even though it has cross-session memory). The AI Assistant was also fairly good as it provided great commit messages and offered code changes that could be incorporated more directly within the IDEs.
 </p>
-<h4>Learning Opportunity</h4>
+
+### Learning Opportunity
 <p>
    I've learned a few things along the way about how to effectively use AI in aiding development of this app along with doing data-transormation heavy coding with <a href="https://www.r-project.org/" target="_blank">R</a> for the Data Science course I took, along with my experience using AI effectively and ethically for several other courses (todo: blog article[s]). For example, when repeated prompts are unable to achieve a desired result, including "try a different approach" often gets it to backtrack and get it right.
 </p>
-<h4>Privacy and Ethics</h4>
+
+### Privacy and Ethics
 <p>
    As it's a passion pet project for practicing coding, I didn't mind letting ChatGPT (Plus) have full knowledge of my code. For business use, I would only use an enterprise account which wouldn't be training their models, with maybe a system hook to scrub buffers to ensure copy-paste doesn't accidently transfer sensitive stuff (todo: experiment with this).
 </p>
 
+[Back to Top](#emotion-tracker)
 
-<h2>How - Setup and Run</h2>
+## How - Setup and Run
 <p>
    This assumes you can use MacOS package manager <code>brew</code> on the CLI to install <code>postgresql</code> and <code>git</code>, update RubyGems(<code>gem</code>) to install </code>bundler</code>, Ruby on Rails, and <code>npm</code> to install MUI, among other libraries.
 </p>
 
-<h3>Clone the Repo</h3>
+### Clone the Repo
 
 ```
 git clone git@github.com:sshakil/emotion-tracker.git
 ```
 
-<h3>Change Directory to emotion-tracker</h3>
+### Change Directory to emotion-tracker
 
 ```
 cd emotion-tracker
@@ -79,8 +101,10 @@ cd emotion-tracker
    As it's an RoR project which typically starts from the Model layer in the Model-View-Controller (MVP) approach and goes up, let's setup the DB first.
 </p>
 
-<h3>Database Setup</h3>
-<h4>Start PostgreSQL</h4>
+[Back to Top](#emotion-tracker)
+
+### Database Setup
+#### Start PostgreSQL
 As system daemon
 
 ```
@@ -91,7 +115,7 @@ Or, manually
 pg_ctl -D /usr/local/var/postgres start
 ```
 
-<h4>Create Databases, User, and grant Privileges</h4>
+#### Create Databases, User, and grant Privileges
 This creates the development and test databases, creates the user 'demo' and grants it all privileges (create schema, read, write, etc).
 The first two GRANTs didn't work for `rails db:migrate` (run later), as likely one or both of the last two were needed. Leaving in to maybe investigate later.
 
@@ -105,7 +129,7 @@ GRANT ALL PRIVILEGES ON SCHEMA public TO demo;
 ALTER SCHEMA public OWNER TO demo;
 GRANT CREATE ON SCHEMA public TO demo;
 ```
-<h4>Create Schema and Seed Data</h4>
+#### Create Schema and Seed Data<
 This is done before starting the Rails server and attempting to load the app as current date seed will clash due to current setup (todo: check if seed date is needed/remove it):
 
 ```
@@ -113,14 +137,16 @@ rails db:migrate
 rails db:seed
 ```
 
-<h3>Front-End Setup</h3>
+[Back to Top](#emotion-tracker)
+
+### Front-End Setup
 Install Javascript libraries
 
 ```
 npm install
 ```
 
-<h3>Backend Setup</h3>
+### Backend Setup
 
 Install Gems
 
@@ -128,24 +154,28 @@ Install Gems
 bundle install
 ```
 
-<h3>Run</h3>
+[Back to Top](#emotion-tracker)
 
-<h4>Backend</h4>
+### Run
+
+#### Backend
 
 ```
 rails s -p 3000
 ```
-<h4>Front-End</h4>
+#### Front-End
 
 ```
 npx webpack --watch --config ./webpack.config.js
 ```
 
-<h4>Load the App</h4>
+#### Load the App
 
 Visit: <a href="http://127.0.0.1:3000/" target="_blank">http://127.0.0.1:3000/</a>
 
-<h2>How - Project Initialization</h2>
+[Back to Top](#emotion-tracker)
+
+## How - Project Initialization
 
 Started with Yarn and SQLite then switched to npm and PostgreSQL later.
 This is just some of the how. I may add more granular details, for my own records as well, from my CLI history.
@@ -176,8 +206,12 @@ config.output.filename = "js/[name]-[hash].js
 
 ```
 
-<h3>Issues</h3>
-formatted date conversion issue
+[Back to Top](#emotion-tracker)
+
+### Issues and Next ToDos
+<p>
+    Formatted date conversion issue
+</p>
 
 ```
 return (
@@ -205,7 +239,21 @@ return (
 );
 ```
 
-<h3>Front-End Dev Docs/Guide</h3>
+<p>
+    Emotion/Entry cards popping issue
+</p>
+
+<p>
+    Newly entered entries not showing for newly selected date until refresh 
+</p>
+
+<p>
+    Focus not on TextField upon using mouse to delete card
+</p>
+
+[Back to Top](#emotion-tracker)
+
+### Front-End Dev Docs/Guide<
 App layout starts in <code>/emotion-tracker/app/javascript/components/App.js</code>.
 
 <code>App</code> references <code>Day</code>, which is a <code>Grid</code> containing 2 Grids containing <code>Calendar</code> and <code>EmotionTracker</code>.
@@ -218,13 +266,15 @@ Each <code>Card</code> contains <code>CardContent</code> which wraps:
 - <code>IconButton</code> to allow using the mouse to add the value 
 
 
-<h3>Backend Controllers</h3>
+### Backend Controllers
 <code>Entries</code> is what connects a <code>day_period</code> with an <code>emotion</code>
 
-<h3>DB</h3>
+### DB
 Started switching to PG on 19/08/2024.
 
-<h2>Next Steps</h2>
+[Back to Top](#emotion-tracker)
+
+## Next Steps
 <p>
 The following items in this order would isolate all the required changes on the infrastructure side to more or less one go.
 </p>
@@ -241,6 +291,7 @@ However, since I'd like to demonstrate the app ASAP, I'll be proceeding with #4,
 Though I didn't proceed with TDD/BDD, it's something I would prefer to do at orgs for greenfield as well as existing projects.
 </p>
 
+[Back to Top](#emotion-tracker)
 
 ## License
 
@@ -255,4 +306,4 @@ This project is licensed under a private license for educational purposes only. 
 
 For any questions or permissions, please contact [Saad Shakil](mailto:saadshakil@gmail.com).
 
-
+[Back to Top](#emotion-tracker)
