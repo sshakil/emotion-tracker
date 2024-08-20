@@ -24,9 +24,9 @@
 <h3>AI-assisted Coding</h3>
 <p>
    I experimented usage of <a href="https://chat.openai.com/" target="_blank">ChatGPT Plus</a>, 
-<a href="https://www.jetbrains.com/idea/whatsnew/#ai-assistant" target="_blank">IntelliJ's AI Assistant</a>, 
-<a href="https://github.com/kicoe/CodeGPT" target="_blank">CodeGPT plugin in RubyMine</a>, 
-<a href="https://github.com/TheR1D/shell_gpt" target="_blank">the sgpt plugin on the CLI</a>, 
+<a href="[https://www.jetbrains.com/idea/whatsnew/#ai-assistant](https://www.jetbrains.com/help/idea/ai-assistant.html)" target="_blank">JetBrains's AI Assistant</a>, 
+<a href="https://github.com/kicoe/CodeGPT" target="_blank">CodeGPT plugin</a> in JetBrains IDEs (including RubyMine, WebStorm, and PyCharm that I use), 
+<a href="https://github.com/TheR1D/shell_gpt" target="_blank">the Shell GPT plugin</a> on iTerms with ZSH, 
 <a href="https://github.com/features/copilot" target="_blank">Co-Pilot</a>, 
 <a href="https://blog.google/technology/ai/next-generation-ai-for-google-and-developers/" target="_blank">Gemini Advanced</a> later in the project.
 </p>
