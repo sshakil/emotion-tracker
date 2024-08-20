@@ -37,10 +37,10 @@
    I found myself using the MacOS native ChatGPT app the most due to the ability to resume particular conversations with most accurate context enrichment (even though it has cross-session memory).
 </p>
 <p>
-   I've learned a few things along the way about how to effectively use AI in aiding development. Todo: Blog article.
+   I've learned a few things along the way about how to effectively use AI in aiding development of this app along with doing data-transormation heavy coding with <a href="https://www.r-project.org/" target="_blank">R</a> for the Data Science course I took, along with my experience using AI effectively and ethically for several other courses (todo: blog article[s]).
 </p>
 <p>
-   As it's a pet project, I didn't mind letting ChatGPT have full knowledge of my code. For business use, I would only use an enterprise account which wouldn't be training their models.
+   As it's a passion pet project for practicing coding, I didn't mind letting ChatGPT (Plus) have full knowledge of my code. For business use, I would only use an enterprise account which wouldn't be training their models, with maybe a system hook to scrub buffers to ensure copy-paste doesn't accidently transfer sensitive stuff (todo: experiment with this).
 </p>
 
 
