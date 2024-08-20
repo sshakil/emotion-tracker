@@ -36,32 +36,34 @@
 </p>
 
 
-<h2>Running the App</h2>
+<h2>Setup and Run</h2>
 <p>
-   This assumes you can use MacOS package manager `brew` on the CLI to install `postgresql` and `git`, update RubyGems to install Ruby on Rails, and `npm` to install MUI, among other libraries.
+   This assumes you can use MacOS package manager `brew` on the CLI to install `postgresql` and `git`, update RubyGems to install `bundler`, Ruby on Rails, and `npm` to install MUI, among other libraries.
 </p>
 
-Clone the Repo<br>
+<h3>Clone the Repo</h3>
 `git clone git@github.com:sshakil/emotion-tracker.git`
 
-Change Directory to emotion-tracker<br>
+<h3>Change Directory to emotion-tracker</h3>
 `cd emotion-tracker`
 <p>
    As it's an RoR project which typically starts from the Model layer in the Model-View-Controller (MVP) approach and goes up, let's setup the DB first.
 </p>
 
-Start PostgreSQL<br>
-Daemon<
+<h3>Database Setup</h3>
+<h4>Start PostgreSQL</h4>
+As system daemon
 ```
 brew services start postgresql@15
 ```
-Manual:
+Or, manually
 ```
 pg_ctl -D /usr/local/var/postgres start
 ```
 
-Create the Development and Test Databases, Create the DB user and grant permissions<br>
-The first two GRANTs didn't work for `rails db:migrate`, probably one or both of the last two were needed:
+<h4>Create Databases, User, and grant Privileges</h4>
+This creates the development and test databases, creates the user 'demo' and grants it all privileges (create schema, read, write, etc).
+The first two GRANTs didn't work for `rails db:migrate` (run later), as likely one or both of the last two were needed. Leaving in to maybe investigate later.
 ```
 createdb emotion_tracker
 createdb emotion_tracker_test
@@ -72,32 +74,43 @@ GRANT ALL PRIVILEGES ON SCHEMA public TO demo;
 ALTER SCHEMA public OWNER TO demo;
 GRANT CREATE ON SCHEMA public TO demo;
 ```
-
-Run the following before starting server and hitting the app (otherwise current date seed will clash):
+<h4>Create Schema and Seed Data</h4>
+This is done before starting the Rails server and attempting to load the app as current date seed will clash due to current setup (todo: check if seed date is needed/remove it):
 ```
 rails db:migrate
 rails db:seed
 ```
 
-
-
+<h3>Front-End Setup</h3>
 Install Javascript libraries
 ```
 npm install
 ```
 
+<h3>Backend Setup</h3>
 
+Install Gems
+```
+bundle install
+```
 
-Backend
+<h3>Run</h3>
+
+<h4>Backend</h4>
 ```
 rails s -p 3000
 ```
-Front-End
+<h4>Front-End</h4>
 ```
 npx webpack --watch --config ./webpack.config.js
 ```
-http://127.0.0.1:3000/
 
+<h4>Load the App</h4>
+
+Visit:<br>
+```
+http://127.0.0.1:3000/
+```
 
 <h2>Project Initialization</h2>
 
