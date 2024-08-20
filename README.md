@@ -1,26 +1,39 @@
 <h1>Emotion Tracker</h1>
-<h3>What</h3>
-<p>
-   Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
-</p>
-<p>
-   A pet project in <a href="https://rubyonrails.org/" target="_blank">Ruby on Rails (RoR)</a>, <a href="https://react.dev/" target="_blank">ReactJS</a>, <a href="https://mui.com/x/react-date-pickers/date-picker/" target="_blank">MUI</a>, and MUI X.
-</p>
-<p>
-   Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
-</p>
 
-<h3>Why</h3>
-<p>
-   I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
-</p>
-<p>
-   Upon my graduation with <a href="https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext">Master's in Engineering, Management</a> (similar to an MBA) in June 2024, I resumed working on this part time to refamiliarize myself with the full-stack web application development through the MVP framework.
-</p>
-<p>
-   Also, I just find coding enjoyable, espcially more so now with AI making it easier and more effective in some ways!
-</p>
-<h3>AI-assisted Coding</h3>
+### What, Why, Who & When
+
+<div style="display: flex; align-items: flex-start;">
+  <div style="flex: 7;">
+    <h4>What</h4>
+    <ul>
+      <li><strong>Emotion Tracking</strong>: Provides a calendar date picker and a custom form to track emotions through the various periods of the day.</li>
+      <li><strong>Web App</strong>: A pet project in <a href="https://rubyonrails.org/">Ruby on Rails (RoR)</a>, <a href="https://react.dev/">ReactJS</a>, <a href="https://mui.com/x/react-date-pickers/date-picker/">MUI</a>, and MUI X.</li>
+      <li><strong>Keyboard Navigation</strong>: Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.</li>
+    </ul>
+    <h4>Why</h4>
+    <ul>
+      <li><strong>Skill Maintenance</strong>: I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.</li>
+      <li><strong>Re-familiarization</strong>: Upon my graduation with a <a href="https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext">Master's in Engineering, Management</a> (similar to an MBA) in June 2024, I resumed working on this part-time to refamiliarize myself with full-stack web application development through the MVP framework.</li>
+      <li><strong>Enjoyment</strong>: Also, I just find coding enjoyable, especially more so now with AI making it easier and more effective in some ways!</li>
+    </ul>
+    <h4>Who & When</h4>
+    <ul>
+      <li>Link to my <a href="https://sshakil.github.io" target="_blank">cover letter</a></li>
+      <li>Link to my <a href="https://github.com/sshakil/sshakil.github.io/blob/master/Saad-Shakil-Resume-August-2024-No-Address.pdf" target="_blank">resume</a></li>
+      <li>Link to my <a href="https://www.linkedin.com/in/saadshakil/" target="_blank">LinkedIn</a></li>
+    </ul>
+    <p>I started this in March 2022, paused while I was in grad school, and resumed as of summer 2024.</p>
+  </div>
+  <div style="flex: 3; text-align: left;">
+    <h3>Screenshot</h3>
+    <p>Full video demo coming soon.</p>
+    <img src="EmotionTracker.png" alt="EmotionTracker" width="500px">
+  </div>
+</div>
+
+
+
+<h2>How - AI-Assisted Coding</h2>
 <p>
    Later in the project, I experimented with the usage of:
    <ul>
@@ -32,18 +45,21 @@
       <li><a href="https://blog.google/technology/ai/next-generation-ai-for-google-and-developers/" target="_blank">Gemini Advanced</a></li>
    </ul>
 </p>
+<h4>Current Preference</h4>
 <p>
-   I found myself using the MacOS native ChatGPT app the most due to the ability to resume particular conversations with most accurate context enrichment (even though it has cross-session memory).
+   I found myself using the MacOS native ChatGPT app the most due to the ability to resume particular conversations with most accurate context enrichment (even though it has cross-session memory). The AI Assistant was also fairly good as it provided great commit messages and offered code changes that could be incorporated more directly within the IDEs.
 </p>
+<h4>Learning Opportunity</h4>
 <p>
-   I've learned a few things along the way about how to effectively use AI in aiding development of this app along with doing data-transormation heavy coding with <a href="https://www.r-project.org/" target="_blank">R</a> for the Data Science course I took, along with my experience using AI effectively and ethically for several other courses (todo: blog article[s]).
+   I've learned a few things along the way about how to effectively use AI in aiding development of this app along with doing data-transormation heavy coding with <a href="https://www.r-project.org/" target="_blank">R</a> for the Data Science course I took, along with my experience using AI effectively and ethically for several other courses (todo: blog article[s]). For example, when repeated prompts are unable to achieve a desired result, including "try a different approach" often gets it to backtrack and get it right.
 </p>
+<h4>Privacy and Ethics</h4>
 <p>
    As it's a passion pet project for practicing coding, I didn't mind letting ChatGPT (Plus) have full knowledge of my code. For business use, I would only use an enterprise account which wouldn't be training their models, with maybe a system hook to scrub buffers to ensure copy-paste doesn't accidently transfer sensitive stuff (todo: experiment with this).
 </p>
 
 
-<h2>Setup and Run</h2>
+<h2>How - Setup and Run</h2>
 <p>
    This assumes you can use MacOS package manager <code>brew</code> on the CLI to install <code>postgresql</code> and <code>git</code>, update RubyGems(<code>gem</code>) to install </code>bundler</code>, Ruby on Rails, and <code>npm</code> to install MUI, among other libraries.
 </p>
@@ -127,15 +143,12 @@ npx webpack --watch --config ./webpack.config.js
 
 <h4>Load the App</h4>
 
-Visit:<br>
+Visit: <a href="http://127.0.0.1:3000/" target="_blank">http://127.0.0.1:3000/</a>
 
-```
-http://127.0.0.1:3000/
-```
-
-<h2>Project Initialization</h2>
+<h2>How - Project Initialization</h2>
 
 Started with Yarn and SQLite then switched to npm and PostgreSQL later.
+This is just some of the how. I may add more granular details, for my own records as well, from my CLI history.
 ```
 https://www.freecodecamp.org/news/how-to-create-a-rails-project-with-a-react-and-redux-front-end-8b01e17a1db/
 
@@ -208,7 +221,38 @@ Each <code>Card</code> contains <code>CardContent</code> which wraps:
 <h3>Backend Controllers</h3>
 <code>Entries</code> is what connects a <code>day_period</code> with an <code>emotion</code>
 
-
-<h2>DB</h2>
+<h3>DB</h3>
 Started switching to PG on 19/08/2024.
+
+<h2>Next Steps</h2>
+<p>
+The following items in this order would isolate all the required changes on the infrastructure side to more or less one go.
+</p>
+
+1. Identity/User Account Management (Authentication and Authorization)
+2. Testing (including pen/sec), Continuous Integration, Continuous Deployment
+3. Data Analytics using AI
+4. Containerization & Deployment to Cloud (AWS)
+
+<p>
+However, since I'd like to demonstrate the app ASAP, I'll be proceeding with #4, then 1, 3, and 2.
+</p>
+<p>
+Though I didn't proceed with TDD/BDD, it's something I would prefer to do at orgs for greenfield as well as existing projects.
+</p>
+
+
+## License
+
+© 2024 Saad Shakil. All rights reserved.
+
+This project is licensed under a private license for educational purposes only. You may use, modify, and learn from the code provided here solely for your personal educational use. Redistribution, commercial use, or sharing of this code in any form is strictly prohibited without explicit permission from the author.
+
+### Key Points:
+- **Attribution**: You must give appropriate credit to the original author, Saad Shakil, if you use or reference this code in any form.
+- **Educational Use Only**: The code may be used for private learning and educational purposes. It cannot be used for commercial purposes or shared with others.
+- **Non-Releasable**: The code cannot be released or distributed publicly in any form.
+
+For any questions or permissions, please contact [Saad Shakil](mailto:saadshakil@gmail.com).
+
 

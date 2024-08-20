@@ -34,7 +34,7 @@ class DaysController < ApplicationController
     SQL
       ).to_a
 
-      # Group the data in Ruby
+      # Group the data
       periods_json = data.group_by { |record| record['dp_id'] }.map do |_, records|
         {
           name: records.first['period_name'],
