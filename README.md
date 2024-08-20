@@ -23,7 +23,7 @@
 
 <h3>AI-assisted Coding</h3>
 <p>
-   I experimented usage of ChatGPT Plus, IntelliJ's AI Assistant, CodeGPT plugin in RubyMine, the `sgpt` plugin on the CLI, Co-Pilot, and Gemini Advanced later in the project.
+   I experimented usage of ChatGPT Plus, IntelliJ's AI Assistant, CodeGPT plugin in RubyMine, the ```sgpt``` plugin on the CLI, Co-Pilot, and Gemini Advanced later in the project.
 </p>
 <p>
    I found myself using the native ChatGPT app the most due to the ability to resume particular conversations with most enriched context.
