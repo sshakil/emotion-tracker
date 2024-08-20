@@ -41,17 +41,17 @@
    This assumes you can use MacOS package manager `brew` on the CLI to install `postgresql` and `git`, update RubyGems to install Ruby on Rails, and `npm` to install MUI, among other libraries.
 </p>
 
-Clone the Repo
+Clone the Repo<br>
 `git clone git@github.com:sshakil/emotion-tracker.git`
 
-Change Directory to emotion-tracker
+Change Directory to emotion-tracker<br>
 `cd emotion-tracker`
 <p>
    As it's an RoR project which typically starts from the Model layer in the Model-View-Controller (MVP) approach and goes up, let's setup the DB first.
 </p>
 
-Start PostgreSQL
-Daemon
+Start PostgreSQL<br>
+Daemon<
 ```
 brew services start postgresql@15
 ```
@@ -60,7 +60,7 @@ Manual:
 pg_ctl -D /usr/local/var/postgres start
 ```
 
-Create the Development and Test Databases, Create the D
+Create the Development and Test Databases, Create the DB user and grant permissions<br>
 The first two GRANTs didn't work for `rails db:migrate`, probably one or both of the last two were needed:
 ```
 createdb emotion_tracker
