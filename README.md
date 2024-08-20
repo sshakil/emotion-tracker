@@ -1,25 +1,9 @@
 <h1>Emotion Tracker</h1>
-<h3>What</h3>
-<p>
-   Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
-</p>
-<p>
-   A pet project in <a href="https://rubyonrails.org/" target="_blank">Ruby on Rails (RoR)</a>, <a href="https://react.dev/" target="_blank">ReactJS</a>, <a href="https://mui.com/x/react-date-pickers/date-picker/" target="_blank">MUI</a>, and MUI X.
-</p>
-<p>
-   Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
-</p>
-
-<h3>Why</h3>
-<p>
-   I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
-</p>
-<p>
-   Upon my graduation with <a href="https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext">Master's in Engineering, Management</a> (similar to an MBA) in June 2024, I resumed working on this part time to refamiliarize myself with the full-stack web application development through the MVP framework.
-</p>
-<p>
-   Also, I just find coding enjoyable, espcially more so now with AI making it easier and more effective in some ways!
-</p>
+| What | Why |
+|------|-----|
+| Provides a calendar date picker and a custom form to track emotions through the various periods of the day. | I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies. |
+| A pet project in [Ruby on Rails (RoR)](https://rubyonrails.org/), [ReactJS](https://react.dev/), [MUI](https://mui.com/x/react-date-pickers/date-picker/), and MUI X. | Upon my graduation with a [Master's in Engineering, Management](https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext) (similar to an MBA) in June 2024, I resumed working on this part-time to refamiliarize myself with full-stack web application development through the MVP framework. |
+| Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality. | Also, I just find coding enjoyable, especially more so now with AI making it easier and more effective in some ways! |
 
 <h3>AI-assisted Coding</h3>
 <p>
