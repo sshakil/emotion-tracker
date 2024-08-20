@@ -38,7 +38,7 @@
 
 <h2>Setup and Run</h2>
 <p>
-   This assumes you can use MacOS package manager `brew` on the CLI to install `postgresql` and `git`, update RubyGems to install `bundler`, Ruby on Rails, and `npm` to install MUI, among other libraries.
+   This assumes you can use MacOS package manager <code>brew</code> on the CLI to install <code>postgresql</code> and <code>git</code>, update RubyGems(<code>gem</code>) to install </code>bundler</code>, Ruby on Rails, and <code>npm</code> to install MUI, among other libraries.
 </p>
 
 <h3>Clone the Repo</h3>
@@ -186,20 +186,20 @@ return (
 ```
 
 <h3>Front-End Dev Docs/Guide</h3>
-App layout starts in `/emotion-tracker/app/javascript/components/App.js`.
+App layout starts in <code>/emotion-tracker/app/javascript/components/App.js</code>.
 
-`App` references `Day`, which is a `Grid` containing 2 Grids containing `Calendar` and `EmotionTracker`.
+<code>App</code> references <code>Day</code>, which is a <code>Grid</code> containing 2 Grids containing <code>Calendar</code> and <code>EmotionTracker</code>.
 
-`EmotionTracker` is rendered through `renderDayForm`, which renders a `Stack` of `Card`s through `renderPeriod`.
+<code>EmotionTracker</code> is rendered through <code>renderDayForm</code>, which renders a <code>Stack</code> of <code>Card</code>'s through <code>renderPeriod</code>.
 
-Each `Card` contains `CardContent` which wraps:
-- `Typography` to display period name, <TextField>
-- `TextField` to input emotion/affect
-- `IconButton` to allow using the mouse to add the value 
+Each <code>Card</code> contains <code>CardContent</code> which wraps:
+- <code>Typography</code> to display period name, <TextField>
+- <code>TextField</code> to input emotion/affect
+- <code>IconButton</code> to allow using the mouse to add the value 
 
 
 <h3>Backend Controllers</h3>
-`Entries` is what connects a `day_period` with an `emotion`
+<code>Entries</code> is what connects a <code>day_period</code> with an <code>emotion</code>
 
 
 <h2>DB</h2>
