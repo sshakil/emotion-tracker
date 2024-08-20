@@ -297,12 +297,14 @@ Though I didn't proceed with TDD/BDD, it's something I would prefer to do at org
 
 © 2024 Saad Shakil. All rights reserved.
 
-This project is licensed under a private license for educational purposes only. You may use, modify, and learn from the code provided here solely for your personal educational use. Redistribution, commercial use, or sharing of this code in any form is strictly prohibited without explicit permission from the author.
+This project is licensed under a private license for educational purposes and the author's skill-set evaluation for job or contract applications only. You may use, modify, and learn from the code provided here solely for your personal educational use or the evaluation of the author's skill-set during a job or contract application process. Redistribution, commercial use, or privately sharing of this code for any other purpose than identified or sharing it publicly in any form for any purpose is strictly prohibited without explicit permission from the author.
 
 ### Key Points:
-- **Attribution**: You must give appropriate credit to the original author, Saad Shakil, if you use or reference this code in any form.
-- **Educational Use Only**: The code may be used for private learning and educational purposes. It cannot be used for commercial purposes or shared with others.
-- **Non-Releasable**: The code cannot be released or distributed publicly in any form.
+- **Skill-set Evaluation**: The code may be used to evaluate the author's skill-set during job or contract application processes.
+- **Educational Use**: The code may be used for private learning and educational purposes. It cannot be used for commercial purposes or shared with others.
+- **Attribution**: If referencing the code within private only for educational use or in evaluations (e.g., in private communications during a job/contract application), you must give appropriate credit to the original author, Saad Shakil.
+- **Non-Releasable**: The code cannot be released or distributed privately for any other purpose than listed or publicly for any purpose in any form without explicit permission.
+- **Non-Harm/Indemnity**: By using this code for private educational purposes or in skill-set evaluations, you agree to indemnify and hold harmless the author, Saad Shakil, from any claims, damages, or liabilities arising from its use. This includes, but is not limited to, any issues related to the functionality, reliability, or performance of the code in your own or third-party environments.
 
 For any questions or permissions, please contact [Saad Shakil](mailto:saadshakil@gmail.com).
 
