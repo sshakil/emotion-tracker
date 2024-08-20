@@ -1,3 +1,12 @@
+<h1>Emotion Tracker</h1>
+A pet project in Ruby on Rails, ReactJS, MUI, and MUI X.
+
+Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
+
+Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
+
+<h2>Project Initialization</h2>
+Started with Yarn and SQLite then switched to npm and PostgreSQL later.
 ````
 https://www.freecodecamp.org/news/how-to-create-a-rails-project-with-a-react-and-redux-front-end-8b01e17a1db/
 
