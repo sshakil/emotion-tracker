@@ -1,11 +1,73 @@
 <h1>Emotion Tracker</h1>
-A pet project in Ruby on Rails, ReactJS, MUI, and MUI X.
+A pet project in Ruby on Rails (RoR), ReactJS, MUI, and MUI X.
 
 Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
 
 Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
 
+<h2>Running the App</h2>
+
+This assumes you can use MacOS package manager `brew` on the CLI to install `postgresql` and `git`, update RubyGems to install Ruby on Rails, and `npm` to install MUI, among other libraries.
+
+Clone the Repo
+`git clone git@github.com:sshakil/emotion-tracker.git`
+
+Change Directory to emotion-tracker
+`cd emotion-tracker`
+
+As it's an RoR project which typically starts from the Model layer in the Model-View-Controller (MVP) approach and goes up, let's setup the DB first.
+
+Start PostgreSQL
+Daemon
+```
+brew services start postgresql@15
+```
+Manual:
+```
+pg_ctl -D /usr/local/var/postgres start
+```
+
+Create the Development and Test Databases, Create the D
+The first two GRANTs didn't work for `rails db:migrate`, probably one or both of the last two were needed:
+```
+createdb emotion_tracker
+createdb emotion_tracker_test
+psql -d emotion_tracker
+CREATE USER demo WITH PASSWORD <password>;
+GRANT ALL PRIVILEGES ON DATABASE emotion_tracker TO demo;
+GRANT ALL PRIVILEGES ON SCHEMA public TO demo;
+ALTER SCHEMA public OWNER TO demo;
+GRANT CREATE ON SCHEMA public TO demo;
+```
+
+Run the following before starting server and hitting the app (otherwise current date seed will clash):
+```
+rails db:migrate
+rails db:seed
+```
+
+
+
+Install Javascript libraries
+```
+npm install
+```
+
+
+
+Backend
+```
+rails s -p 3000
+```
+Front-End
+```
+npx webpack --watch --config ./webpack.config.js
+```
+http://127.0.0.1:3000/
+
+
 <h2>Project Initialization</h2>
+
 Started with Yarn and SQLite then switched to npm and PostgreSQL later.
 ````
 https://www.freecodecamp.org/news/how-to-create-a-rails-project-with-a-react-and-redux-front-end-8b01e17a1db/
@@ -30,20 +92,9 @@ add:
 const config = environment.toWebpackConfig();
 config.output.filename = "js/[name]-[hash].js
 
-# diverged here with ChatGPT
+# diverged here with ChatGPT here
 
 ````
-<h3>Startup</h3>
-
-Backend
-```
-rails s -p 3000
-```
-Front-End
-```
-npx webpack --watch --config ./webpack.config.js
-```
-http://127.0.0.1:3000/
 
 <h3>Issues</h3>
 formatted date conversion issue
@@ -93,31 +144,4 @@ Each `Card` contains `CardContent` which wraps:
 
 <h2>DB</h2>
 Started switching to PG on 19/08/2024.
-To start a daemon:
-```
-brew services start postgresql@15
-```
 
-Manual:
-```
-pg_ctl -D /usr/local/var/postgres start
-```
-
-
-The first two GRANTs didn't work for `rails db:migrate`, probably one or both of the last two were needed:
-```
-createdb emotion_tracker
-createdb emotion_tracker_test
-psql -d emotion_tracker
-CREATE USER demo WITH PASSWORD <password>;
-GRANT ALL PRIVILEGES ON DATABASE emotion_tracker TO demo;
-GRANT ALL PRIVILEGES ON SCHEMA public TO demo;
-ALTER SCHEMA public OWNER TO demo;
-GRANT CREATE ON SCHEMA public TO demo;
-```
-
-Run the following before starting server and hitting the app (otherwise current date seed will clash):
-```
-rails db:migrate
-rails db:seed
-```
