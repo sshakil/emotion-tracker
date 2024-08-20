@@ -42,10 +42,16 @@
 </p>
 
 <h3>Clone the Repo</h3>
-`git clone git@github.com:sshakil/emotion-tracker.git`
+
+```
+git clone git@github.com:sshakil/emotion-tracker.git
+```
 
 <h3>Change Directory to emotion-tracker</h3>
-`cd emotion-tracker`
+
+```
+cd emotion-tracker
+```
 <p>
    As it's an RoR project which typically starts from the Model layer in the Model-View-Controller (MVP) approach and goes up, let's setup the DB first.
 </p>
@@ -53,6 +59,7 @@
 <h3>Database Setup</h3>
 <h4>Start PostgreSQL</h4>
 As system daemon
+
 ```
 brew services start postgresql@15
 ```
@@ -64,6 +71,7 @@ pg_ctl -D /usr/local/var/postgres start
 <h4>Create Databases, User, and grant Privileges</h4>
 This creates the development and test databases, creates the user 'demo' and grants it all privileges (create schema, read, write, etc).
 The first two GRANTs didn't work for `rails db:migrate` (run later), as likely one or both of the last two were needed. Leaving in to maybe investigate later.
+
 ```
 createdb emotion_tracker
 createdb emotion_tracker_test
@@ -76,6 +84,7 @@ GRANT CREATE ON SCHEMA public TO demo;
 ```
 <h4>Create Schema and Seed Data</h4>
 This is done before starting the Rails server and attempting to load the app as current date seed will clash due to current setup (todo: check if seed date is needed/remove it):
+
 ```
 rails db:migrate
 rails db:seed
@@ -83,6 +92,7 @@ rails db:seed
 
 <h3>Front-End Setup</h3>
 Install Javascript libraries
+
 ```
 npm install
 ```
@@ -90,6 +100,7 @@ npm install
 <h3>Backend Setup</h3>
 
 Install Gems
+
 ```
 bundle install
 ```
@@ -97,10 +108,12 @@ bundle install
 <h3>Run</h3>
 
 <h4>Backend</h4>
+
 ```
 rails s -p 3000
 ```
 <h4>Front-End</h4>
+
 ```
 npx webpack --watch --config ./webpack.config.js
 ```
@@ -108,6 +121,7 @@ npx webpack --watch --config ./webpack.config.js
 <h4>Load the App</h4>
 
 Visit:<br>
+
 ```
 http://127.0.0.1:3000/
 ```
@@ -115,7 +129,7 @@ http://127.0.0.1:3000/
 <h2>Project Initialization</h2>
 
 Started with Yarn and SQLite then switched to npm and PostgreSQL later.
-````
+```
 https://www.freecodecamp.org/news/how-to-create-a-rails-project-with-a-react-and-redux-front-end-8b01e17a1db/
 
 brew install node
@@ -140,7 +154,7 @@ config.output.filename = "js/[name]-[hash].js
 
 # diverged here with ChatGPT here
 
-````
+```
 
 <h3>Issues</h3>
 formatted date conversion issue
