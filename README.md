@@ -4,7 +4,7 @@
    Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
 </p>
 <p>
-   A pet project in Ruby on Rails (RoR), ReactJS, MUI, and MUI X.
+   A pet project in <a href="https://rubyonrails.org/" target="_blank">Ruby on Rails (RoR)</a>, <a href="https://react.dev/" target="_blank">ReactJS</a>, <a href="https://mui.com/x/react-date-pickers/date-picker/" target="_blank">MUI</a>, and MUI X.
 </p>
 <p>
    Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
@@ -23,7 +23,12 @@
 
 <h3>AI-assisted Coding</h3>
 <p>
-   I experimented usage of ChatGPT Plus, IntelliJ's AI Assistant, CodeGPT plugin in RubyMine, the <code>sgpt</code> plugin on the CLI, Co-Pilot, and Gemini Advanced later in the project.
+   I experimented usage of <a href="https://chat.openai.com/" target="_blank">ChatGPT Plus</a>, 
+<a href="https://www.jetbrains.com/idea/whatsnew/#ai-assistant" target="_blank">IntelliJ's AI Assistant</a>, 
+<a href="https://github.com/kicoe/CodeGPT" target="_blank">CodeGPT plugin in RubyMine</a>, 
+<a href="https://github.com/TheR1D/shell_gpt" target="_blank">the sgpt plugin on the CLI</a>, 
+<a href="https://github.com/features/copilot" target="_blank">Co-Pilot</a>, 
+<a href="https://blog.google/technology/ai/next-generation-ai-for-google-and-developers/" target="_blank">Gemini Advanced</a> later in the project.
 </p>
 <p>
    I found myself using the native ChatGPT app the most due to the ability to resume particular conversations with most enriched context.
