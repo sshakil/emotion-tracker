@@ -1,7 +1,17 @@
 <h1>Emotion Tracker</h1>
+<h3>What is it</h3>
+Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
+
 A pet project in Ruby on Rails (RoR), ReactJS, MUI, and MUI X.
 
-Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
+<h3>Rationales</h3>
+I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
+Upon my graduation with Master's in Engineering, Management (similar to an MBA) in June 2024, I resumed working on this part time to refamiliarize myself with the full-stack web application development through the MVP framework.
+
+Also, I just find coding enjoyable, espcially more so now with AI making it easier and more effective in some ways!
+
+<h3>AI-assisted Coding</h3>
+I experimented usage of ChatGPT Plus, IntelliJ's AI Assistant, CodeGPT plugin in RubyMine, the `sgpt` plugin on the CLI, Co-Pilot, and Gemini Advanced later in the project. I found myself using the native ChatGPT app the most due to the ability to resume particular conversations with most enriched context. I've learned a few things along the way about how to effectively use AI in aiding development. As it's a pet project, I didn't mind letting ChatGPT have full knowledge of my code. For business use, I would only use an enterprise account which wouldn't be training their models.
 
 Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
 
