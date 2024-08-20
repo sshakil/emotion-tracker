@@ -19,9 +19,10 @@
     - [Run](#run)
 - [How - Project Initialization](#how---project-initialization)
 - [Issues and Next TODOs](#issues-and-Next-TODOs)
-- [Front-End Dev Docs/Guide](#front-end-dev-docsguide)
-- [Backend Controllers](#backend-controllers)
-- [DB](#db)
+- [Dev Docs/Guides](#dev-docsguides)
+     - [Front-End](#front-end)
+     - [Backend](#backend)
+     - [DB](#db)
 - [Significant Next Steps](#significant-next-steps)
 - [License](#license)
 
@@ -251,9 +252,15 @@ return (
     Focus not on TextField upon using mouse to delete card
 </p>
 
+<p>
+    TextField jumps forward and back
+</p>
+
 [Back to Top](#emotion-tracker)
 
-### Front-End Dev Docs/Guide<
+## Dev Docs/Guides
+
+### Front-End
 App layout starts in <code>/emotion-tracker/app/javascript/components/App.js</code>.
 
 <code>App</code> references <code>Day</code>, which is a <code>Grid</code> containing 2 Grids containing <code>Calendar</code> and <code>EmotionTracker</code>.
@@ -265,12 +272,17 @@ Each <code>Card</code> contains <code>CardContent</code> which wraps:
 - <code>TextField</code> to input emotion/affect
 - <code>IconButton</code> to allow using the mouse to add the value 
 
+TODO: expand
 
-### Backend Controllers
+### Backend
 <code>Entries</code> is what connects a <code>day_period</code> with an <code>emotion</code>
+
+TODO: expand
 
 ### DB
 Started switching to PG on 19/08/2024.
+
+TODO: Expand
 
 [Back to Top](#emotion-tracker)
 
