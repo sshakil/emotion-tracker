@@ -2,10 +2,9 @@
 
 ## Table of Contents
 
-- [What, Why, Who & When](#what-why-who--when)
-    - [What](#what)
-    - [Why](#why)
-    - [Who & When](#who--when)
+- [What](#what)
+- [Why](#why)
+- [Who & When](#who--when)
 - [How - AI-Assisted Coding](#how---ai-assisted-coding)
     - [Current Preference](#current-preference)
     - [Learning Opportunity](#learning-opportunity)
