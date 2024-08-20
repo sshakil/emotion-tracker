@@ -18,11 +18,11 @@
     - [Backend Setup](#backend-setup)
     - [Run](#run)
 - [How - Project Initialization](#how---project-initialization)
-- [Issues](#issues)
+- [Issues and Next TODOs](#issues-and-Next-TODOs)
 - [Front-End Dev Docs/Guide](#front-end-dev-docsguide)
 - [Backend Controllers](#backend-controllers)
 - [DB](#db)
-- [Next Steps](#next-steps)
+- [Significant Next Steps](#significant-next-steps)
 - [License](#license)
 
 ### What
@@ -208,7 +208,7 @@ config.output.filename = "js/[name]-[hash].js
 
 [Back to Top](#emotion-tracker)
 
-### Issues and Next ToDos
+### Issues and Next TODOs
 <p>
     Formatted date conversion issue
 </p>
@@ -274,7 +274,7 @@ Started switching to PG on 19/08/2024.
 
 [Back to Top](#emotion-tracker)
 
-## Next Steps
+## Significant Next Steps
 <p>
 The following items in this order would isolate all the required changes on the infrastructure side to more or less one go.
 </p>
