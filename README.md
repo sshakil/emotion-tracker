@@ -1,16 +1,20 @@
 <h1>Emotion Tracker</h1>
-<h3>What is it</h3>
+<h3>What</h3>
 <p>
    Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
 </p>
 <p>
    A pet project in Ruby on Rails (RoR), ReactJS, MUI, and MUI X.
 </p>
+<p>
+   Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
+</p>
 
-<h3>Rationales</h3>
+<h3>Why</h3>
 <p>
    I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
-   <br>
+</p>
+<p>
    Upon my graduation with Master's in Engineering, Management (similar to an MBA) in June 2024, I resumed working on this part time to refamiliarize myself with the full-stack web application development through the MVP framework.
 </p>
 <p>
@@ -20,27 +24,31 @@
 <h3>AI-assisted Coding</h3>
 <p>
    I experimented usage of ChatGPT Plus, IntelliJ's AI Assistant, CodeGPT plugin in RubyMine, the `sgpt` plugin on the CLI, Co-Pilot, and Gemini Advanced later in the project.
-   <br>
+</p>
+<p>
    I found myself using the native ChatGPT app the most due to the ability to resume particular conversations with most enriched context.
-   <br>
+</p>
+<p>
    I've learned a few things along the way about how to effectively use AI in aiding development.
-   <br>
+</p>
+<p>
    As it's a pet project, I didn't mind letting ChatGPT have full knowledge of my code. For business use, I would only use an enterprise account which wouldn't be training their models.
 </p>
 
-Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
 
 <h2>Running the App</h2>
-
-This assumes you can use MacOS package manager `brew` on the CLI to install `postgresql` and `git`, update RubyGems to install Ruby on Rails, and `npm` to install MUI, among other libraries.
+<p>
+   This assumes you can use MacOS package manager `brew` on the CLI to install `postgresql` and `git`, update RubyGems to install Ruby on Rails, and `npm` to install MUI, among other libraries.
+</p>
 
 Clone the Repo
 `git clone git@github.com:sshakil/emotion-tracker.git`
 
 Change Directory to emotion-tracker
 `cd emotion-tracker`
-
-As it's an RoR project which typically starts from the Model layer in the Model-View-Controller (MVP) approach and goes up, let's setup the DB first.
+<p>
+   As it's an RoR project which typically starts from the Model layer in the Model-View-Controller (MVP) approach and goes up, let's setup the DB first.
+</p>
 
 Start PostgreSQL
 Daemon
