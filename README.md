@@ -15,7 +15,7 @@
    I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
 </p>
 <p>
-   Upon my graduation with Master's in Engineering, Management (similar to an MBA) in June 2024, I resumed working on this part time to refamiliarize myself with the full-stack web application development through the MVP framework.
+   Upon my graduation with <a href="https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext">Master's in Engineering, Management</a> (similar to an MBA) in June 2024, I resumed working on this part time to refamiliarize myself with the full-stack web application development through the MVP framework.
 </p>
 <p>
    Also, I just find coding enjoyable, espcially more so now with AI making it easier and more effective in some ways!
