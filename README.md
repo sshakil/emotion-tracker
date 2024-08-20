@@ -1,8 +1,11 @@
 <h1>Emotion Tracker</h1>
 <h3>What is it</h3>
-Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
-
+<p>
+   Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
+</p>
+<p>
 A pet project in Ruby on Rails (RoR), ReactJS, MUI, and MUI X.
+</p>
 
 <h3>Rationales</h3>
 I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
