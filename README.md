@@ -23,14 +23,14 @@
 
 <h3>AI-assisted Coding</h3>
 <p>
-   I experimented with the usage of:
+   Later in the project, I experimented with the usage of:
    <ul>
       <li><a href="https://chat.openai.com/" target="_blank">ChatGPT Plus</a></li>
       <li><a href="https://www.jetbrains.com/help/idea/ai-assistant.html" target="_blank">JetBrains's AI Assistant</a></li>
       <li><a href="https://github.com/kicoe/CodeGPT" target="_blank">CodeGPT plugin</a> in <a href="https://www.jetbrains.com/" target="_blank">JetBrains IDEs</a> (including <a href="https://www.jetbrains.com/ruby/" target="_blank">RubyMine</a>, <a href="https://www.jetbrains.com/webstorm/" target="_blank">WebStorm</a>, and <a href="https://www.jetbrains.com/pycharm/" target="_blank">PyCharm</a> that I use)</li>
       <li><a href="https://github.com/TheR1D/shell_gpt" target="_blank">the Shell GPT plugin</a> on <a href="https://iterm2.com/" target="_blank">iTerm2</a> with <a href="https://www.zsh.org/" target="_blank">Zsh</a></li>
       <li><a href="https://github.com/features/copilot" target="_blank">Co-Pilot</a></li>
-      <li><a href="https://blog.google/technology/ai/next-generation-ai-for-google-and-developers/" target="_blank">Gemini Advanced</a> later in the project</li>
+      <li><a href="https://blog.google/technology/ai/next-generation-ai-for-google-and-developers/" target="_blank">Gemini Advanced</a></li>
    </ul>
 </p>
 <p>
