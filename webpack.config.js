@@ -63,4 +63,5 @@ module.exports = {
             publicPath: '/packs/', // Ensure this matches your public_output_path in webpacker.yml
         }),
     ],
+    devtool: 'cheap-module-source-map',
 }

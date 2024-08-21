@@ -244,7 +244,7 @@ return (
 </p>
 
 <p>
-    Newly entered entries not showing for newly selected date until refresh 
+    [Fixed] <strike>Newly entered entries not showing for newly selected date until refresh</strike>  
 </p>
 
 <p>
