@@ -47,7 +47,7 @@ I started this in March 2022, paused while I was in grad school, and resumed as 
 ### Screenshot
 **Full video demo coming soon.**
 
-<img src="EmotionTracker.png" alt="EmotionTracker" width="500px">
+<img src="EmotionTracker.png" alt="EmotionTracker" width="501px">
 
 [Back to Top](#emotion-tracker)
 
