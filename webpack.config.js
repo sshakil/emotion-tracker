@@ -1,8 +1,9 @@
 const path = require('path')
-const webpack = require('webpack')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin') // Import the plugin
+const { HotModuleReplacementPlugin, ProvidePlugin } = require('webpack')
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
     entry:  {
@@ -11,16 +12,29 @@ module.exports = {
     output: {
         filename: 'application.js',
         path: path.resolve(__dirname, 'public/packs'),
-        clean: true, // Clean the output directory before emitting
+        publicPath: '/packs/',
+        // clean: true, // Clean the output directory before emitting
+        // clean: isProduction
+        clean: false
     },
     mode: 'development',
     devServer: {
-        static: path.resolve(__dirname, 'public'),
+        static: path.resolve(__dirname, 'public/packs'),
         compress: true,
-        port: 8080,
+        port: 8081,
+        host: 'localhost',
         historyApiFallback: true,
         open: true,
+        liveReload: true,
         hot: true,
+        proxy: [
+          {
+            context: () => true, // Proxy all requests
+            target: 'http://localhost:3000', // Proxy requests to the Rails server
+            changeOrigin: true,
+            secure: false,
+          }
+        ]
     },
     module: {
         rules: [
@@ -51,11 +65,11 @@ module.exports = {
         },
     },
     plugins: [
-        new webpack.ProvidePlugin({
+        new ProvidePlugin({
             Buffer: ['buffer', 'Buffer'],
             process: 'process/browser',
         }),
-        new webpack.HotModuleReplacementPlugin(),
+        new HotModuleReplacementPlugin(),
         new ReactRefreshWebpackPlugin(),
         new NodePolyfillPlugin(),
         new WebpackManifestPlugin({ // Add the plugin here

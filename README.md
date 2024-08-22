@@ -255,6 +255,11 @@ return (
     TextField jumps forward and back
 </p>
 
+<p>
+    Hot reload through <code>HotModuleReplacementPlugin</code> and <code>ReactRefreshWebpackPlugin</code> currently not working through <code>npm start</code> and the script in <code>package.json</code>. Intuitively, this may be due to the nature of <code>EmotionTracker.js</code> in combination with component HMR being too brittle.
+</p>
+
+
 [Back to Top](#emotion-tracker)
 
 ## Dev Docs/Guides

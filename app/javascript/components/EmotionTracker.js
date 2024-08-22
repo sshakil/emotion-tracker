@@ -1,17 +1,17 @@
 import React, { useEffect, useState, useRef } from "react"
-import { connect, useDispatch } from 'react-redux'
-import Chip from '@mui/material/Chip'
+import { connect, useDispatch } from "react-redux"
+import Chip from "@mui/material/Chip"
 import { Card, CardContent, IconButton, Stack, TextField, Typography } from "@mui/material"
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+import AddCircleIcon from "@mui/icons-material/AddCircle"
 import { DELETE_EMOTION_REQUEST, createEntries, deleteEntry } from "../actions"
-import './styles/EmotionTracker.css'
+import "./styles/EmotionTracker.css"
 
 const periodNames = ["Early Morning", "Morning", "Afternoon", "Evening", "Before Bed"]
 const defaultPeriods = periodNames.map(name => ({ name, emotions: [] }))
 
 function EmotionTracker(props) {
   const [allEmotionInputValues, setAllEmotionInputValues] = useState(() =>
-    periodNames.reduce((acc, name) => ({ ...acc, [name]: '' }), {})
+    periodNames.reduce((acc, name) => ({ ...acc, [name]: "" }), {})
   )
 
   const inputRefs = useRef([])
@@ -25,7 +25,7 @@ function EmotionTracker(props) {
     const chip = chipRefs.current[chipIndex]
 
     if (chip) {
-      chip.classList.add('removing')
+      chip.classList.add("removing")
     }
 
     setTimeout(() => {
@@ -51,14 +51,14 @@ function EmotionTracker(props) {
   const handleCreateEntries = (periodName, inputRef) => {
     const emotionsToAdd = allEmotionInputValues[periodName].split(",").map(emotion => emotion.trim())
     dispatch(createEntries(selectedDate, periodName, emotionsToAdd))
-    setAllEmotionInputValues(prev => ({ ...prev, [periodName]: '' }))
+    setAllEmotionInputValues(prev => ({ ...prev, [periodName]: "" }))
 
     setTimeout(() => {
       const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)]
       if (chipRefs && chipRefs.current.length > 0) {
         const newChip = chipRefs.current[chipRefs.current.length - 1]
         if (newChip) {
-          newChip.classList.add('adding')
+          newChip.classList.add("adding")
           newChip.focus()
         }
       }
@@ -68,7 +68,7 @@ function EmotionTracker(props) {
   }
 
   const handleTabPress = (e, periodName, period, chipRefs, inputRef, buttonRef, isLastPeriod, currentPeriodIndex) => {
-    if (e.key === 'Tab' && !e.shiftKey) {
+    if (e.key === "Tab" && !e.shiftKey) {
       e.preventDefault()
       if (allEmotionInputValues[periodName].trim() !== "") {
         buttonRef.current?.focus() // Focus on the IconButton if there is text in the TextField
@@ -80,7 +80,7 @@ function EmotionTracker(props) {
       }
     }
 
-    if (e.key === 'Tab' && e.shiftKey) {
+    if (e.key === "Tab" && e.shiftKey) {
       e.preventDefault()
       if (currentPeriodIndex > 0) {
         const previousInputRef = inputRefs.current[currentPeriodIndex - 1]
@@ -92,12 +92,11 @@ function EmotionTracker(props) {
           previousInputRef?.current?.focus()
         }
       } else {
-        // Allow natural shift-tab behavior to move focus to prior elements in the DOM
-        inputRef.current.blur()
+        inputRef.current.blur() // Allow natural shift-tab behavior to move focus to prior elements in the DOM
       }
     }
 
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault()
       handleCreateEntries(periodName, inputRef)
     }
@@ -170,14 +169,14 @@ function EmotionTracker(props) {
       {day.periods.map((period, index) => renderPeriod(period, index))}
     </Stack>
   ) : (
-    'temp - no entries'
+    "temp - no entries"
   )
 }
 
 function newDay(selectedDate) {
   return {
     date: selectedDate,
-    periods: [...defaultPeriods]
+    periods: [...defaultPeriods],
   }
 }
 
@@ -196,9 +195,9 @@ function mapStateToProps(state) {
       const foundDay = state.days.find(day => day.date === selectedDate) || newDay(selectedDate)
       return {
         ...foundDay,
-        periods: mergePeriods(foundDay)
+        periods: mergePeriods(foundDay),
       }
-    })()
+    })(),
   }
 }
 
