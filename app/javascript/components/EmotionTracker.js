@@ -21,9 +21,11 @@ function EmotionTracker(props) {
   const { selectedDate, day } = props
 
   const handleDeleteChip = (entryUuid, periodName, chipIndex) => {
-    const chipRefs = chipRefsArray.current[periodNames.indexOf(periodName)]
-    const chip = chipRefs.current[chipIndex]
+    const periodIndex = periodNames.indexOf(periodName)
+    const chipRefs = chipRefsArray.current[periodIndex]
 
+    // Add the "removing" class for animation
+    const chip = chipRefs.current[chipIndex]
     if (chip) {
       chip.classList.add("removing")
     }
@@ -32,17 +34,18 @@ function EmotionTracker(props) {
       dispatch(deleteEntry(entryUuid, selectedDate, periodName))
 
       setTimeout(() => {
-        if (chipRefs && chipRefs.current.length > 1) {
+        // After deletion, focus on the nearest chip
+        if (chipRefs.current.length > 1) {
           const nextChip = chipRefs.current[chipIndex - 1] || chipRefs.current[chipIndex] || chipRefs.current[0]
           if (nextChip) {
             nextChip.focus()
-          } else {
-            const inputRef = inputRefs.current[periodNames.indexOf(periodName)]
-            inputRef?.current?.focus()
           }
+        } else if (chipRefs.current.length === 1) {
+          // If only one chip is left, focus it
+          chipRefs.current[0]?.focus()
         } else {
-          const inputRef = inputRefs.current[periodNames.indexOf(periodName)]
-          inputRef?.current?.focus()
+          // If no chips are left, focus the TextField
+          inputRefs.current[periodIndex]?.current?.focus()
         }
       }, 100)
     }, 300) // Matches the animation duration
@@ -69,15 +72,18 @@ function EmotionTracker(props) {
 
   const handleTabPress = (e, periodName, period, chipRefs, inputRef, buttonRef, isLastPeriod, currentPeriodIndex) => {
     if (e.key === "Tab" && !e.shiftKey) {
-      e.preventDefault()
       if (allEmotionInputValues[periodName].trim() !== "") {
+        e.preventDefault()
         buttonRef.current?.focus() // Focus on the IconButton if there is text in the TextField
       } else if (period.emotions.length > 0) {
+        e.preventDefault()
         chipRefs.current[0]?.focus()
       } else if (!isLastPeriod) {
+        e.preventDefault()
         const nextInputRef = inputRefs.current[currentPeriodIndex + 1]
         nextInputRef?.current?.focus()
       }
+      // Allow natural tab behavior when it's the last period and there are no chips
     }
 
     if (e.key === "Tab" && e.shiftKey) {
