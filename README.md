@@ -123,11 +123,12 @@ The first two GRANTs didn't work for `rails db:migrate` (run later), as likely o
 createdb emotion_tracker
 createdb emotion_tracker_test
 psql -d emotion_tracker
-CREATE USER demo WITH PASSWORD <password>;
-GRANT ALL PRIVILEGES ON DATABASE emotion_tracker TO demo;
-GRANT ALL PRIVILEGES ON SCHEMA public TO demo;
-ALTER SCHEMA public OWNER TO demo;
-GRANT CREATE ON SCHEMA public TO demo;
+psql -d emotion_tracker -c "CREATE USER demo WITH PASSWORD P@ssword!1;"
+psql -d emotion_tracker -c "GRANT ALL PRIVILEGES ON DATABASE emotion_tracker TO demo;"
+psql -d emotion_tracker -c "GRANT ALL PRIVILEGES ON SCHEMA public TO demo;"
+psql -d emotion_tracker -c "ALTER SCHEMA public OWNER TO demo;"
+psql -d emotion_tracker -c "GRANT CREATE ON SCHEMA public TO demo;"
+psql -d emotion_tracker -c "ALTER DATABASE emotion_tracker OWNER TO demo;"
 ```
 #### Create Schema and Seed Data<
 This is done before starting the Rails server and attempting to load the app as current date seed will clash due to current setup (todo: check if seed date is needed/remove it):

@@ -8,22 +8,28 @@ services:
       POSTGRES_PASSWORD: P@ssword!1
       POSTGRES_DB: emotion_tracker
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-d", "emotion_tracker", "-U", "demo" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     build: .
-    command: bundle exec puma -C config/puma.rb
+    command: bash -c "until pg_isready -h db -U demo; do sleep 1; done; bundle exec rails db:create db:migrate db:seed && bundle exec puma -C config/puma.rb"
     volumes:
       - .:/app
       - bundle_cache:/usr/local/bundle
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      DATABASE_URL: postgres://demo:P@ssword!1@db:5432/emotion_tracker
+      DATABASE_URL: postgres://demo:P%40ssword%211@db:5432/emotion_tracker
       RAILS_ENV: development
 
 volumes:

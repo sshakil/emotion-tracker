@@ -14,8 +14,8 @@ module.exports = {
         path: path.resolve(__dirname, 'public/packs'),
         publicPath: '/packs/',
         // clean: true, // Clean the output directory before emitting
-        // clean: isProduction
-        clean: false
+        clean: isProduction
+        // clean: false
     },
     mode: 'development',
     devServer: {

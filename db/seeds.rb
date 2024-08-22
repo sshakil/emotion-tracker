@@ -1,48 +1,42 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+# Seed Periods
+[
+  { name: 'Early Morning' },
+  { name: 'Morning' },
+  { name: 'Afternoon' },
+  { name: 'Evening' },
+  { name: 'Before Bed' }
+].each do |period_attributes|
+  Period.find_or_create_by(period_attributes)
+end
 
-Period.create([
-                { name: 'Early Morning' },
-                { name: 'Morning' },
-                { name: 'Afternoon' },
-                { name: 'Evening' },
-                { name: 'Before Bed' }
-              ])
+# Seed Emotions
+[
+  { name: 'Happy' },
+  { name: 'Angry' },
+  { name: 'Sad' },
+  { name: 'Fearful' }
+].each do |emotion_attributes|
+  Emotion.find_or_create_by(emotion_attributes)
+end
 
-Emotion.create([
-                 { name: 'Happy' },
-                 { name: 'Angry' },
-                 { name: 'Sad' },
-                 { name: 'Fearful' }
-               ])
+# Seed Days
+[
+  { date: Date.today },
+  { date: Date.yesterday }
+].each do |day_attributes|
+  Day.find_or_create_by(day_attributes)
+end
 
-Day.create([
-             { date: Date.today },
-             { date: Date.yesterday }
-           ])
-
+# Seed DayPeriods
 Day.all.each do |day|
   Period.all.each do |period|
-    DayPeriod.create([
-                       { day: day, period: period }
-                     ])
+    DayPeriod.find_or_create_by(day: day, period: period)
   end
 end
 
-arr = []
-
-DayPeriod.all.collect do |day_period|
+# Seed Entries
+DayPeriod.all.each do |day_period|
   Emotion.all.each do |emotion|
-    arr << {
-      day_period: day_period,
-      emotion: emotion
-    }
+    Entry.find_or_create_by(day_period: day_period, emotion: emotion)
   end
 end
-
-Entry.create(arr)
