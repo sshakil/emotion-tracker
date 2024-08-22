@@ -248,7 +248,7 @@ return (
 </p>
 
 <p>
-    Focus not on TextField upon using mouse to delete card
+    <strike>Focus not on TextField upon using mouse to delete card</strike>
 </p>
 
 <p>
