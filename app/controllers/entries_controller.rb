@@ -1,4 +1,6 @@
 class EntriesController < ApplicationController
+  before_action -> { doorkeeper_authorize! :read, :write, :public }
+
   before_action :set_entry, only: %i[ destroy ]
 
   # GET /entries or /entries.json

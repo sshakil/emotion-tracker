@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  # adds:
+  # Authorization (/oauth/authorize)
+  # Token management (/oauth/token)
+  # Revocation (/oauth/revoke)
+  # Introspection (/oauth/introspect)
+  # Admin Interface (/oauth/applications): Where you manage OAuth2 applications.
+  use_doorkeeper
+
+  devise_for :users
+  root "static#index"
+
   # resources :day_periods
   # resources :emotions
   # resources :periods
@@ -29,6 +40,5 @@ Rails.application.routes.draw do
   end
 
   # Defines the root path route ("/")
-  root "static#index"
 
 end

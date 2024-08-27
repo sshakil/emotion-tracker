@@ -79,5 +79,9 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
+
+  # for Devise, for confirmation emails, reset password instructions, etc.
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
   config.active_record.logger = Logger.new(STDOUT)
 end

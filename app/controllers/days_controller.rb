@@ -1,4 +1,6 @@
 class DaysController < ApplicationController
+  before_action -> { doorkeeper_authorize! :read, :write, :public }
+
   before_action :set_day, only: %i[ edit update destroy ]
   skip_before_action :verify_authenticity_token
 
@@ -142,4 +144,8 @@ class DaysController < ApplicationController
   def day_params
     params.require(:day).permit(:date, periods_attributes: [:name, emotions_attributes: [:name]])
   end
+  #
+  # def current_user
+  #   @current_user ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+  # end
 end

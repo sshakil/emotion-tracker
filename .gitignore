@@ -45,3 +45,6 @@ yarn-debug.log*
 app/.DS_Store
 db/~$erd.drawio.bkp
 /nltk_env/
+model/fine-tuned-bert/
+model/label_map.json
+model/results/
