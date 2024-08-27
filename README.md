@@ -299,7 +299,7 @@ The following items in this order would isolate all the required changes on the 
 1. Identity/User Account Management (Authentication and Authorization)
 2. Testing (including pen/sec), Continuous Integration, Continuous Deployment
 3. Data Analytics using AI
-4. Containerization & Deployment to Cloud (AWS)
+4. [done] <strike>Containerization</strike> & Deployment to Cloud (AWS)
 
 <p>
 However, since I'd like to demonstrate the app ASAP, I'll be proceeding with #4, then 1, 3, and 2.

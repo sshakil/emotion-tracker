@@ -1,0 +1,180 @@
+{
+  "Happiness": {
+    "Strong": [
+      "Delighted", "Ebullient", "Ecstatic", "Elated", "Energetic", "Enthusiastic",
+      "Euphoric", "Excited", "Exhilarated", "Overjoyed", "Thrilled", "Tickled pink",
+      "Turned on", "Vibrant", "Zippy"
+    ],
+    "Medium": [
+      "Aglow", "Buoyant", "Cheerful", "Elevated", "Gleeful", "Happy",
+      "In high spirits", "Jovial", "Light-hearted", "Lively", "Merry",
+      "Riding high", "Sparkling", "Up"
+    ],
+    "Light": [
+      "Contented", "Cool", "Fine", "Genial", "Glad", "Gratified",
+      "Keen", "Pleasant", "Pleased", "Satisfied", "Serene", "Sunny"
+    ]
+  },
+  "Caring": {
+    "Strong": [
+      "Adoring", "Ardent", "Cherishing", "Compassionate", "Crazy about",
+      "Devoted", "Doting", "Fervent", "Idolizing", "Infatuated",
+      "Passionate", "Wild about", "Worshipful", "Zealous"
+    ],
+    "Medium": [
+      "Admiring", "Affectionate", "Attached", "Fond", "Fond of", "Huggy",
+      "Kind", "Kind-hearted", "Loving", "Partial", "Soft on",
+      "Sympathetic", "Tender", "Trusting", "Warm-hearted"
+    ],
+    "Light": [
+      "Appreciative", "Attentive", "Considerate", "Friendly",
+      "Interested in", "Kind", "Like", "Respecting", "Thoughtful",
+      "Tolerant", "Warm toward", "Yielding"
+    ]
+  },
+  "Depression": {
+    "Strong": [
+      "Alienated", "Barren", "Beaten", "Bleak", "Dejected", "Depressed",
+      "Desolate", "Despondent", "Dismal", "Empty", "Gloomy",
+      "Grieved", "Grim", "Hopeless", "In despair", "Woeful", "Worried"
+    ],
+    "Medium": [
+      "Awful", "Blue", "Crestfallen", "Demoralized", "Devalued",
+      "Discouraged", "Dispirited", "Distressed", "Downcast",
+      "Downhearted", "Fed up", "Lost", "Melancholy", "Miserable",
+      "Regretful", "Rotten", "Sorrowful", "Tearful", "Upset", "Weepy"
+    ],
+    "Light": [
+      "Blah", "Disappointed", "Down", "Funk", "Glum", "Low",
+      "Moody", "Morose", "Somber", "Subdued", "Uncomfortable",
+      "Unhappy"
+    ]
+  },
+  "Inadequate": {
+    "Strong": [
+      "Blemished", "Broken", "Crippled", "Damaged", "Feeble", "Finished",
+      "Flawed", "Helpless", "Impotent", "Inferior", "Invalid",
+      "Powerless", "Useless", "Washed up", "Whipped", "Worthless", "Zero"
+    ],
+    "Medium": [
+      "Ailing", "Defeated", "Deficient", "Dopey", "Feeble", "Helpless",
+      "Impaired", "Imperfect", "Incapable", "Incompetent", "Incomplete",
+      "Ineffective", "Inept", "Insignificant", "Lacking", "Lame",
+      "Overwhelmed", "Small", "Substandard", "Unimportant"
+    ],
+    "Light": [
+      "Dry", "Incomplete", "Meager", "Puny", "Tenuous", "Tiny",
+      "Uncertain", "Unconvincing", "Unsure", "Weak", "Wishful"
+    ]
+  },
+  "Fear": {
+    "Strong": [
+      "Appalled", "Desperate", "Distressed", "Frightened", "Horrified",
+      "Intimidated", "Panicky", "Paralyzed", "Petrified", "Shocked",
+      "Terrified", "Terror-stricken", "Wrecked"
+    ],
+    "Medium": [
+      "Afraid", "Alarmed", "Apprehensive", "Awkward", "Defensive",
+      "Fearful", "Fidgety", "Fretful", "Jumpy", "Nervous", "Scared",
+      "Shaky", "Skittish", "Spineless", "Taut", "Threatened", "Troubled", "Wired"
+    ],
+    "Light": [
+      "Anxious", "Careful", "Cautious", "Disquieted", "Goose-bumpy",
+      "Shy", "Tense", "Timid", "Uneasy", "Unsure", "Watchful", "Worried"
+    ]
+  },
+  "Confusion": {
+    "Strong": [
+      "Baffled", "Befuddled", "Chaotic", "Confounded", "Confused",
+      "Flustered", "Rattled", "Reeling", "Shocked", "Shook up",
+      "Speechless", "Startled", "Stumped", "Stunned", "Taken aback",
+      "Thrown", "Trapped"
+    ],
+    "Medium": [
+      "Adrift", "Ambivalent", "Bewildered", "Puzzled", "Blurred",
+      "Disconcerted", "Disordered", "Disorganized", "Disquieted",
+      "Disturbed", "Dizzy", "Foggy", "Frozen", "Frustrated",
+      "Misled", "Mistaken", "Misunderstood", "Mixed up", "Perplexed",
+      "Troubled"
+    ],
+    "Light": [
+      "Distracted", "Uncertain", "Uncomfortable", "Undecided",
+      "Unsettled", "Unsure"
+    ]
+  },
+  "Hurt": {
+    "Strong": [
+      "Abused", "Aching", "Anguished", "Crushed", "Degraded",
+      "Destroyed", "Devastated", "Discarded", "Disgraced",
+      "Forsaken", "Humiliated", "Mocked", "Punished",
+      "Rejected", "Ridiculed", "Ruined", "Scorned"
+    ],
+    "Medium": [
+      "Belittled", "Cheapened", "Criticized", "Damaged",
+      "Depreciated", "Devalued", "Discredited", "Distressed",
+      "Impaired", "Injured", "Maligned", "Marred", "Miffed",
+      "Mistreated", "Resentful", "Tortured", "Troubled", "Wounded"
+    ],
+    "Light": [
+      "Annoyed", "Let down", "Minimized", "Neglected",
+      "Put away", "Put down", "Rueful", "Tender", "Touched",
+      "Unhappy", "Used"
+    ]
+  },
+  "Anger": {
+    "Strong": [
+      "Affronted", "Belligerent", "Bitter", "Burned up",
+      "Enraged", "Fuming", "Furious", "Heated", "Incensed",
+      "Infuriated", "Outraged", "Provoked", "Seething",
+      "Storming", "Truculent", "Vengeful", "Vindictive"
+    ],
+    "Medium": [
+      "Aggravated", "Annoyed", "Antagonistic", "Crabby",
+      "Cranky", "Exasperated", "Fuming", "Grouchy", "Hostile",
+      "Ill-tempered", "Indignant", "Irate", "Irritated",
+      "Offended", "Ratty", "Resentful", "Sore", "Spiteful",
+      "Testy", "Ticked off"
+    ],
+    "Light": [
+      "Bugged", "Chagrined", "Dismayed", "Galled",
+      "Grim", "Impatient", "Irked", "Petulant", "Resentful",
+      "Sullen", "Uptight"
+    ]
+  },
+  "Loneliness": {
+    "Strong": [
+      "Abandoned", "Black", "Cut off", "Deserted", "Destroyed",
+      "Empty", "Forsaken", "Isolated", "Marooned",
+      "Neglected", "Ostracized", "Outcast", "Rejected", "Shunned"
+    ],
+    "Medium": [
+      "Alienated", "Alone", "Apart", "Cheerless",
+      "Companionless", "Dejected", "Despondent",
+      "Estranged", "Excluded", "Left out", "Leftover",
+      "Lonely", "Oppressed", "Uncherished"
+    ],
+    "Light": [
+      "Blue", "Detached", "Discouraged", "Distant",
+      "Insulated", "Melancholy", "Remote", "Separate",
+      "Withdrawn"
+    ]
+  },
+  "Remorse": {
+    "Strong": [
+      "Abashed", "Debased", "Degraded", "Delinquent",
+      "Depraved", "Disgraced", "Evil", "Exposed",
+      "Humiliated", "Judged", "Mortified", "Shamed",
+      "Sinful", "Wicked", "Wrong"
+    ],
+    "Medium": [
+      "Apologetic", "Ashamed", "Contrite", "Crestfallen",
+      "Culpable", "Demeaned", "Downhearted", "Flustered",
+      "Guilty", "Penitent", "Regretful", "Remorseful",
+      "Repentant", "Shamefaced", "Sorrowful", "Sorry"
+    ],
+    "Light": [
+      "Bashful", "Blushing", "Chagrined", "Chastened",
+      "Embarrassed", "Hesitant", "Humble", "Meek", "Sheepish"
+    ]
+  }
+}
