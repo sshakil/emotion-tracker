@@ -1,37 +1,27 @@
-import React, { useEffect } from "react"
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react"
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"
 import { Provider } from "react-redux"
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
-import { redirectToOauthAuthorization, exchangeAuthorizationCodeForToken } from '../clients/api'
-import configureStore from '../configureStore'
+import configureStore from "../configureStore"
 import Day from "./Day"
+import { exchangeAuthorizationCodeForToken } from "../clients/api"
 
-// Initialize the Redux store
 const store = configureStore()
 
-// PKCE Step 4: Handle OAuth Callback and Exchange Authorization Code for Access Token
-function OAuthCallback() {
+const OAuthHandler = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const authorizationCode = params.get('code')
-    const status = params.get('status')
+    const authorizationCode = params.get("code")
 
     if (authorizationCode) {
-      // Step 5: Exchange Authorization Code for Access Token
       exchangeAuthorizationCodeForToken(authorizationCode)
         .then(() => {
-          // Redirect to the main app (e.g., Day component) after successful token exchange
-          navigate('/')
+          navigate("/")  // Navigate to the home page after a successful exchange
         })
-        .catch(error => console.error('Error exchanging authorization code for token:', error))
-    } else if (status === 'Pre-authorization') {
-      // Option 2: Automatically handle the pre-authorization step
-      // You may need to handle this based on your API's response format
-      console.log('Pre-authorization detected, proceeding automatically.')
-      redirectToOauthAuthorization()
+        .catch(error => console.error("Error exchanging authorization code for token:", error))
     }
   }, [navigate])
 
@@ -39,11 +29,29 @@ function OAuthCallback() {
 }
 
 const App = () => {
-  // Redirect to OAuth Authorization when the component is mounted
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  // Check for authentication token in localStorage
   useEffect(() => {
-    // Todo: trigger this based on user actions (e.g., clicking a login button).
-    redirectToOauthAuthorization()
+    const token = localStorage.getItem("token")
+    if (token) {
+      setIsAuthenticated(true)
+    }
+    setLoading(false) // Set loading to false after checking
   }, [])
+
+  // Handle redirects and authentication state
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      window.location.href = "/users/sign_in" // Redirect to login if not authenticated
+    }
+  }, [loading, isAuthenticated])
+
+  // Render the application once authentication is confirmed
+  if (loading) {
+    return <div>Loading...</div> // Display a loading message while checking auth state
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -51,7 +59,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Day />} />
-            <Route path="/oauth/callback" element={<OAuthCallback />} />
+            <Route path="/callback" element={<OAuthHandler />} />
           </Routes>
         </BrowserRouter>
       </Provider>
