@@ -9,6 +9,42 @@ import { initiateOAuthFlow } from "../clients/api"
 
 const store = configureStore()
 
+const OAuthHandler = ({ onAuthSuccess, onAuthFailure }) => {
+  useEffect(() => {
+    let isMounted = true
+
+    const startOAuthFlow = async () => {
+      try {
+        const result = await initiateOAuthFlow()
+        if (isMounted && result) {
+          onAuthSuccess()
+        }
+      } catch (error) {
+        console.error('OAuth flow failed.', error)
+        if (isMounted) {
+          onAuthFailure()
+        }
+      }
+    }
+
+    startOAuthFlow().then(() => {
+      if (isMounted) {
+        onAuthSuccess()
+      }
+    }).catch(() => {
+      if (isMounted) {
+        onAuthFailure()
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [onAuthSuccess, onAuthFailure])
+
+  return <div>Authenticating...</div>
+}
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -19,23 +55,25 @@ const App = () => {
       setIsAuthenticated(true)
       setLoading(false)
     } else {
-      initiateOAuthFlow()
-        .then(() => {
-          setIsAuthenticated(true)
-          setLoading(false)
-        })
-        .catch(() => {
-          setLoading(false)
-        })
+      setLoading(false)
     }
   }, [])
+
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true)
+    setLoading(false)
+  }
+
+  const handleAuthFailure = () => {
+    setLoading(false)
+  }
 
   if (loading) {
     return <div>Loading...</div>
   }
 
   if (!isAuthenticated) {
-    return null // If not authenticated, render nothing (OAuth flow will be initiated)
+    return <OAuthHandler onAuthSuccess={handleAuthSuccess} onAuthFailure={handleAuthFailure} />
   }
 
   return (
