@@ -17,13 +17,8 @@ Doorkeeper.configure do
 
   api_only
 
-  access_token_expires_in 2.hours
+  access_token_expires_in 48.hours
 
-  custom_access_token_expires_in do |context|
-    context.client.application.additional_settings[:custom_expiration] || 48.hours
-  rescue NoMethodError
-    48.hours
-  end
   access_token_generator '::Doorkeeper::JWT'
 
   reuse_access_token
@@ -36,6 +31,20 @@ Doorkeeper.configure do
   optional_scopes :write, :update
 
   grant_flows %w[authorization_code client_credentials password]
+
+  # skip_authorization can be configured to automatically approve access for certain applications.
+  # Option 1: Auto-approve for trusted applications.
+  # Example: skip_authorization { |resource_owner, client| client.trusted? }
+  # Option 2: For applications that require pre-authorization, you'll need to implement
+  # logic in the front-end to handle the pre-auth state. Typically, this involves:
+  # - Displaying the pre-authorization form returned by the server.
+  # - Handling the form submission to confirm the authorization.
+  # - Resubmitting the OAuth request after confirmation.
+  #
+  # Skip authorization for trusted clients
+  skip_authorization do |resource_owner, client|
+    true
+  end
 
   realm "Doorkeeper"
 end
