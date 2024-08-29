@@ -1,10 +1,11 @@
 # Emotion Tracker
 
 ## Table of Contents
-
-- [What](#what)
-- [Why](#why)
+- 
 - [Who & When](#who--when)
+- [What](#what)
+  - [Languages, Frameworks, & Competencies](#languages-frameworks--competencies)
+- [Why](#why)
 - [How - AI-Assisted Coding](#how---ai-assisted-coding)
     - [Current Preference](#current-preference)
     - [Learning Opportunity](#learning-opportunity)
@@ -25,31 +26,50 @@
 - [Significant Next Steps](#significant-next-steps)
 - [License](#license)
 
+### Who
+My name is Saad Shakil, I'm a Software Engineer currently located in Ottawa, ON. See the links below for my career bio, resume, and LinkedIn.
+- [Career bio/cover letter](https://sshakil.github.io)
+- [Resume](https://github.com/sshakil/sshakil.github.io/blob/master/Saad-Shakil-Resume-August-2024-No-Address.pdf)
+- [LinkedIn](https://www.linkedin.com/in/saadshakil/)
+
 ### What
 - **Emotion Tracking**: Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
 - **Web App**: A pet project in [Ruby on Rails (RoR)](https://rubyonrails.org/), [ReactJS](https://react.dev/), [MUI](https://mui.com/x/react-date-pickers/date-picker/), and MUI X.
 - **Keyboard Navigation**: Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
 
+#### Languages, Frameworks, & Competencies
+- **Languages** 
+  - Ruby
+  - JavaScript
+  - SQL
+- **Frameworks** 
+  - Ruby on Rails
+  - React
+  - Redux
+- **Competencies**
+  - OAuth 2.0 Authentication: Doorkeeper, Devise
+  - RESTful API Design
+  - Database Management
+  - Containerization
+  - Front-end State Management
+  - Environment Configuration
+  - Bundling and Asset Management
+
+[Back to Top](#emotion-tracker)
 ### Why
-- **Skill Maintenance**: I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
+I started this in March 2022, paused while I was in grad school, and resumed as of summer 2024.
+- **Skill Maintenance & Demonstration**: I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
 - **Re-familiarization**: Upon my graduation with a [Master's in Engineering, Management](https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext) (similar to an MBA) in June 2024, I resumed working on this part-time to refamiliarize myself with full-stack web application development through the MVP framework.
 - **Enjoyment**: Also, I just find coding enjoyable, especially more so now with AI making it easier and more effective in some ways!
 
-### Who & When
-- Link to my [cover letter](https://sshakil.github.io)
-- Link to my [resume](https://github.com/sshakil/sshakil.github.io/blob/master/Saad-Shakil-Resume-August-2024-No-Address.pdf)
-- Link to my [LinkedIn](https://www.linkedin.com/in/saadshakil/)
 
-I started this in March 2022, paused while I was in grad school, and resumed as of summer 2024.
 
-[Back to Top](#emotion-tracker)
 
-### Screenshot
-**Full video demo coming soon.**
+### Demo
+Full video demo coming soon.
 
+#### Screenshot
 <img src="EmotionTracker.png" alt="EmotionTracker" width="503px">
-
-[Back to Top](#emotion-tracker)
 
 ## How - AI-Assisted Coding
 <p>
