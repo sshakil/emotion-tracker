@@ -1,9 +1,6 @@
+/* Styles for EmotionTracker Component */
 .EmotionTracker-Card {
-    margin-bottom: 10px
-}
-
-.EmotionTracker-TextField {
-    flex-grow: 1
+    margin-bottom: 10px;
 }
 
 .EmotionTracker-Chip {
@@ -11,22 +8,26 @@
 }
 
 .EmotionTracker-IconButton {
-    padding: 5px
+    padding: 5px;
 }
 
-body {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif
+.EmotionTracker-TextField {
+    flex-grow: 1;
 }
 
-.MuiPaper-root {
-    width: fit-content;
+.chip.adding {
+    animation: fadeIn 0.3s forwards;
+}
+
+.chip.removing {
+    animation: fadeOut 0.3s forwards;
 }
 
 .chips-container {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 8px;
     gap: 8px;
+    margin-top: 8px;
     width: 250px;
 }
 
@@ -34,23 +35,33 @@ body {
     width: 250px;
 }
 
-/* Animation for Chip disappearing */
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-        transform: scale(1);
-    }
-    to {
-        opacity: 0;
-        transform: scale(0.8);
-    }
+/* Styles for Day Component */
+.day-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
 }
 
-.chip.removing {
-    animation: fadeOut 0.3s forwards;
+.heading {
+    font-weight: lighter !important;
 }
 
-/* Animation for Chip appearing */
+/* General Styles */
+body {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.MuiDatePickerToolbar-title {
+    font-weight: lighter !important;
+}
+
+.MuiPaper-root {
+    width: fit-content;
+}
+
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -62,14 +73,13 @@ body {
     }
 }
 
-.chip.adding {
-    animation: fadeIn 0.3s forwards;
-}
-
-.MuiDatePickerToolbar-title {
-    font-weight: lighter !important;
-}
-
-.heading {
-    font-weight: lighter !important;
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
 }

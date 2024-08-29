@@ -1,8 +1,31 @@
 const apiBaseUrl = 'http://localhost:3000'
+const defaultClientId = 'akqEmVXu2kchRkRp1QTw6jMInXNGb3B5r0W1d5SHsSo'
+const defaultScope = 'public read write'
 
-// Initiate OAuth Flow
-const initiateOAuthFlow = () => {
-  const authUrl = `${apiBaseUrl}/oauth/authorize?client_id=akqEmVXu2kchRkRp1QTw6jMInXNGb3B5r0W1d5SHsSo&redirect_uri=${encodeURIComponent(apiBaseUrl + '/oauth/callback')}&response_type=code&scope=public+read+write`
+// OAuth: Step 1: Register Web Clients as an Application: was done manually in backend db in this case
+
+// Helper function to handle API responses
+const handleApiResponse = (response) => {
+  if (response.ok) return response.json()
+  if (response.status === 401) {
+    console.error('Authorization required. Redirecting to login.')
+    window.location.href = '/users/sign_in'
+    throw new Error('401 Unauthorized')
+  }
+  console.error('Unexpected error:', response.statusText)
+  throw new Error('Unexpected error during API call')
+}
+
+// OAuth: Step 2: Request Authorization Code - Redirect the user to the authorization endpoint to obtain an authorization code from /oauth/authorize.
+const initiateOAuthFlow = (clientId = defaultClientId, scope = defaultScope) => {
+  const params = new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: `${apiBaseUrl}/oauth/callback`,
+    response_type: 'code',
+    scope,
+  })
+
+  const authUrl = `${apiBaseUrl}/oauth/authorize?${params.toString()}`
 
   return fetch(authUrl, {
     method: 'GET',
@@ -10,43 +33,27 @@ const initiateOAuthFlow = () => {
       'Accept': 'application/json'
     }
   })
-    .then(response => {
-      if (response.ok) {
-        return response.json() // Returning the parsed JSON response as a Promise
-      } else if (response.status === 401) {
-        console.error('Authorization required. Redirecting to login.')
-        window.location.href = '/users/sign_in'
-        throw new Error('401 Unauthorized')
-      } else {
-        console.error('Unexpected error during authorization:', response.statusText)
-        throw new Error('Unexpected error during authorization')
-      }
-    })
+    .then(handleApiResponse)
+    // OAuth: Step 3: Obtain Authorization Code - Obtain the authorization code from the response after user authorization.
     .then(data => {
-      if (data.status === 'redirect' && data.redirect_uri) {
-        const urlParams = new URLSearchParams(new URL(data.redirect_uri).search)
-        const authorizationCode = urlParams.get('code')
-        if (authorizationCode) {
-          return exchangeAuthorizationCodeForToken(authorizationCode) // Handle the token exchange and store the token
-        } else {
-          console.error('Authorization code not found in redirect_uri')
-          throw new Error('Authorization code not found')
-        }
-      }
+      const urlParams = new URLSearchParams(new URL(data.redirect_uri).search)
+      const authorizationCode = urlParams.get('code')
+      if (!authorizationCode) throw new Error('Authorization code not found')
+      // OAuth: Step 4: Exchange Authorization Code for Access Token - Exchange the authorization code for an access token at /oauth/token
+      return exchangeAuthorizationCodeForToken(authorizationCode, clientId)
     })
 }
 
-// Exchange Authorization Code for Token
-const exchangeAuthorizationCodeForToken = (authorizationCode) => {
-  const tokenUrl = `${apiBaseUrl}/oauth/token`
+// OAuth: Step 4: Exchange Authorization Code for Access Token - Exchange at /oauth/token
+const exchangeAuthorizationCodeForToken = (authorizationCode, clientId = defaultClientId) => {
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
     code: authorizationCode,
-    client_id: 'akqEmVXu2kchRkRp1QTw6jMInXNGb3B5r0W1d5SHsSo',
+    client_id: clientId,
     redirect_uri: `${apiBaseUrl}/oauth/callback`
   })
 
-  console.log('About to fetch token with authorizationCode:', authorizationCode)
+  const tokenUrl = `${apiBaseUrl}/oauth/token`
 
   return fetch(tokenUrl, {
     method: 'POST',
@@ -55,71 +62,62 @@ const exchangeAuthorizationCodeForToken = (authorizationCode) => {
     },
     body: body.toString()
   })
-    .then(response => response.json())
+    .then(handleApiResponse)
     .then(data => {
-      console.log('Token data:', data)
       if (data.access_token) {
-        localStorage.setItem('token', data.access_token) // Store the token for subsequent API calls
+        localStorage.setItem('token', data.access_token)
         return data
-      } else {
-        console.error('Token exchange failed:', data)
-        throw new Error('Token exchange failed')
       }
+      throw new Error('Token exchange failed')
     })
 }
 
-function getAuthorizationHeader() {
-  const token = localStorage.getItem('token')
-  return `Bearer ${token}`
-}
+// OAuth: Step 5: Handle Token Expiry and Use Refresh Tokens to Obtain New Access Tokens - TODO
 
-function fetchDay(id) {
-  return fetch(`${apiBaseUrl}/days/${id}`, {
-    method: 'GET',
+// OAuth: Step 6: Invalidate Tokens When No Longer Needed - TODO
+
+// OAuth: Step 7: Implement a User Logout Endpoint - TODO
+
+const getAuthorizationHeader = () => `Bearer ${localStorage.getItem('token')}`
+
+// Generic function to make authenticated API requests
+const apiRequest = (endpoint, method, body = null) => {
+  const options = {
+    method,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader()
     }
-  })
+  }
+  if (body) options.body = JSON.stringify(body)
+  return fetch(`${apiBaseUrl}${endpoint}`, options)
 }
 
-function fetchDayByDate(date) {
-  return fetch(`${apiBaseUrl}/days/fetch`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': getAuthorizationHeader()
-    },
-    body: JSON.stringify({ date })
-  })
-}
+// OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
+const fetchDay = (id) => apiRequest(`/days/${id}`, 'GET')
 
-function postEntries(selectedDate, periodName, emotions) {
+// OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
+const fetchDayByDate = (date) => apiRequest('/days/fetch', 'POST', { date })
+
+// OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
+const postEntries = (selectedDate, periodName, emotions) => {
   const body = {
     day: {
       date: selectedDate,
       periods_attributes: [
         {
           name: periodName,
-          emotions_attributes: Array.isArray(emotions) ? emotions.map(emotion => ({ name: emotion })) : [{ name: emotions }]
+          emotions_attributes: Array.isArray(emotions) ? emotions.map(name => ({ name })) : [{ name: emotions }]
         }
       ]
     }
   }
-
-  return fetch(`${apiBaseUrl}/days`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': getAuthorizationHeader()
-    },
-    body: JSON.stringify(body)
-  })
+  return apiRequest('/days', 'POST', body)
 }
 
-function deleteEntryAPI(entryUuid) {
+// OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
+const deleteEntryAPI = (entryUuid) => {
   const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-
   return fetch(`${apiBaseUrl}/entries/${entryUuid}`, {
     method: 'DELETE',
     headers: {

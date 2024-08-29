@@ -14,41 +14,34 @@ const App = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      setIsAuthenticated(true)
-      setLoading(false)
-    } else {
-      initiateOAuthFlow()
-        .then(() => {
+    const authenticate = async () => {
+      const token = localStorage.getItem('token')
+      if (token) {
+        setIsAuthenticated(true)
+      } else {
+        try {
+          // OAuth: Step 2: Request Authorization Code - Redirect user to obtain authorization code from /oauth/authorize
+          await initiateOAuthFlow()
           setIsAuthenticated(true)
-        })
-        .catch(() => {
+        } catch {
           setIsAuthenticated(false)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
+        }
+      }
+      setLoading(false)
     }
+
+    authenticate()
   }, [])
+
+  if (loading) return <div>Loading...</div>
+  if (!isAuthenticated) return <div>Authentication failed. Please try again.</div>
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={
-                loading ? (
-                  <div>Loading...</div>
-                ) : isAuthenticated ? (
-                  <Day />
-                ) : (
-                  <div>Authentication failed. Please try again.</div>
-                )
-              }
-            />
+            <Route path="/" element={<Day />} />
           </Routes>
         </BrowserRouter>
       </Provider>
