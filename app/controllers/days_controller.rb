@@ -9,7 +9,7 @@ class DaysController < ApplicationController
     @days = Day.all
   end
 
-  # GET /days/1 or /days/1.json
+  # GET /days/1 or /days/1.json or /days/fetch
   # day_json = {} because: see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data
   # to handle front sending format mm/dd/yyyy
   # needed format: yyyy-mm-dd
@@ -51,15 +51,6 @@ class DaysController < ApplicationController
     end
 
     render json: day_json
-  end
-
-  # GET /days/new
-  def new
-    @day = Day.new
-  end
-
-  # GET /days/1/edit
-  def edit
   end
 
   # POST /days or /days.json
@@ -111,29 +102,6 @@ class DaysController < ApplicationController
     end
   end
 
-  # PATCH/PUT /days/1 or /days/1.json
-  def update
-    respond_to do |format|
-      if @day.update(day_params)
-        format.html { redirect_to day_url(@day), notice: "Day was successfully updated." }
-        format.json { render :show, status: :ok, location: @day }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @day.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /days/1 or /days/1.json
-  def destroy
-    @day.destroy
-
-    respond_to do |format|
-      format.html { redirect_to days_url, notice: "Day was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
   def set_day
@@ -144,8 +112,5 @@ class DaysController < ApplicationController
   def day_params
     params.require(:day).permit(:date, periods_attributes: [:name, emotions_attributes: [:name]])
   end
-  #
-  # def current_user
-  #   @current_user ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
-  # end
+
 end

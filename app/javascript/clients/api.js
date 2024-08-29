@@ -94,12 +94,8 @@ const apiRequest = (endpoint, method, body = null) => {
 }
 
 // OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
-const fetchDay = (id) => apiRequest(`/days/${id}`, 'GET')
-
-// OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
 const fetchDayByDate = (date) => apiRequest('/days/fetch', 'POST', { date })
 
-// OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
 const postEntries = (selectedDate, periodName, emotions) => {
   const body = {
     day: {
@@ -115,7 +111,6 @@ const postEntries = (selectedDate, periodName, emotions) => {
   return apiRequest('/days', 'POST', body)
 }
 
-// OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
 const deleteEntryAPI = (entryUuid) => {
   const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   return fetch(`${apiBaseUrl}/entries/${entryUuid}`, {
@@ -128,4 +123,4 @@ const deleteEntryAPI = (entryUuid) => {
   })
 }
 
-export { fetchDay, fetchDayByDate, postEntries, deleteEntryAPI, initiateOAuthFlow, exchangeAuthorizationCodeForToken }
+export { fetchDayByDate, postEntries, deleteEntryAPI, initiateOAuthFlow, exchangeAuthorizationCodeForToken }

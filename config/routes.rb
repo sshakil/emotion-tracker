@@ -10,10 +10,6 @@ Rails.application.routes.draw do
   devise_for :users
   root "static#index"
 
-  # resources :day_periods
-  # resources :emotions
-  # resources :periods
-
   resources :entries, only: [:create, :destroy]
 
   resources :days, shallow: true do
@@ -24,12 +20,6 @@ Rails.application.routes.draw do
   # todo - error when moving this into the resource above (with 'days' removed)
   post 'days/fetch', to: 'days#show'
 
-
-  # resources :periods do
-  #   resoruces :emotions
-  # end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
   # forward all request to StaticController#index, but requests
   # # must be non-Ajax (!req.xhr?) and HTML Mime type (req.format.html7)
   # this does not include the root ("/") path.
@@ -38,7 +28,5 @@ Rails.application.routes.draw do
   get '*page', to: 'static#index', constraints: ->(req) do
     !req.xhr? && req.format.html?
   end
-
-  # Defines the root path route ("/")
 
 end
