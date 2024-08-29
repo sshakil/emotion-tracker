@@ -6,17 +6,8 @@
   - [Languages, Frameworks, & Competencies](#languages-frameworks--competencies)
 - [Why](#why)
 - [How - AI-Assisted Coding](#how---ai-assisted-coding)
-    - [Current Preference](#current-preference)
-    - [Learning Opportunity](#learning-opportunity)
-    - [Privacy and Ethics](#privacy-and-ethics)
 - [How - Setup and Run](#how---setup-and-run)
-    - [Clone the Repo](#clone-the-repo)
-    - [Change Directory to emotion-tracker](#change-directory-to-emotion-tracker)
-    - [Database Setup](#database-setup)
-    - [Front-End Setup](#front-end-setup)
-    - [Backend Setup](#backend-setup)
-    - [Run](#run)
-- [How - Project Initialization](#how---project-initialization)
+- [How - Project Creation](#how---project-creation)
 - [Issues and Next TODOs](#issues-and-Next-TODOs)
 - [Dev Docs/Guides](#dev-docsguides)
      - [Front-End](#front-end)
@@ -61,15 +52,14 @@ I started this in March 2022, paused while I was in grad school, and resumed as 
 - **Re-familiarization**: Upon my graduation with a [Master's in Engineering, Management](https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext) (similar to an MBA) in June 2024, I resumed working on this part-time to refamiliarize myself with full-stack web application development through the MVP framework.
 - **Enjoyment**: Also, I just find coding enjoyable, especially more so now with AI making it easier and more effective in some ways!
 
-
-
-
+[Back to Top](#emotion-tracker)
 ### Demo
 Full video demo coming soon.
 
 #### Screenshot
 <img src="EmotionTracker.png" alt="EmotionTracker" width="503px">
 
+[Back to Top](#emotion-tracker)
 ## How - AI-Assisted Coding
 <p>
    Later in the project, I experimented with the usage of:
@@ -195,7 +185,7 @@ Visit: <a href="http://127.0.0.1:3000/" target="_blank">http://127.0.0.1:3000/</
 
 [Back to Top](#emotion-tracker)
 
-## How - Project Initialization
+## How - Project Creation
 
 Started with Yarn and SQLite then switched to npm and PostgreSQL later.
 This is just some of the how. I may add more granular details, for my own records as well, from my CLI history.
@@ -315,9 +305,9 @@ TODO: Expand
 The following items in this order would isolate all the required changes on the infrastructure side to more or less one go.
 </p>
 
-1. Identity/User Account Management (Authentication and Authorization)
+1. [OAuth2 - done, UAM - todo] Identity/User Account Management (Authentication and Authorization)
 2. Testing (including pen/sec), Continuous Integration, Continuous Deployment
-3. Data Analytics using AI
+3. [Experiment - done, Implementation - todo] Data Analytics using AI
 4. [done] <strike>Containerization</strike> & Deployment to Cloud (AWS)
 
 <p>
