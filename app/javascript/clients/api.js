@@ -1,32 +1,7 @@
 const apiBaseUrl = 'http://localhost:3000'
 
-// Flip switch to enable or disable debounce
-const debounceEnabled = false
-
-// Debounce function with immediate execution option
-function debounce(delay, immediate, func) {
-  let timeout
-  return function (...args) {
-    const callNow = immediate && !timeout
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      timeout = null
-      if (!immediate) func.apply(this, args)
-    }, delay)
-    if (callNow) func.apply(this, args)
-  }
-}
-
-// Function to handle API calls with debounce applied based on the flip switch
-function apiCallWithDebounce(func, ...args) {
-  const delay = 500
-  const immediate = true
-  const debouncedFunc = debounceEnabled ? debounce(delay, immediate, func) : func
-  return debouncedFunc(...args)
-}
-
 // Initiate OAuth Flow
-const initiateOAuthFlow = () => apiCallWithDebounce(function () {
+const initiateOAuthFlow = () => {
   const authUrl = `${apiBaseUrl}/oauth/authorize?client_id=akqEmVXu2kchRkRp1QTw6jMInXNGb3B5r0W1d5SHsSo&redirect_uri=${encodeURIComponent(apiBaseUrl + '/oauth/callback')}&response_type=code&scope=public+read+write`
 
   return fetch(authUrl, {
@@ -59,10 +34,10 @@ const initiateOAuthFlow = () => apiCallWithDebounce(function () {
         }
       }
     })
-})
+}
 
 // Exchange Authorization Code for Token
-const exchangeAuthorizationCodeForToken = (authorizationCode) => apiCallWithDebounce(function () {
+const exchangeAuthorizationCodeForToken = (authorizationCode) => {
   const tokenUrl = `${apiBaseUrl}/oauth/token`
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
@@ -91,7 +66,7 @@ const exchangeAuthorizationCodeForToken = (authorizationCode) => apiCallWithDebo
         throw new Error('Token exchange failed')
       }
     })
-})
+}
 
 function getAuthorizationHeader() {
   const token = localStorage.getItem('token')
