@@ -1,6 +1,32 @@
 const apiBaseUrl = 'http://localhost:3000'
 
-function initiateOAuthFlow() {
+// Flip switch to enable or disable debounce
+const debounceEnabled = false
+
+// Debounce function with immediate execution option
+function debounce(delay, immediate, func) {
+  let timeout
+  return function (...args) {
+    const callNow = immediate && !timeout
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      timeout = null
+      if (!immediate) func.apply(this, args)
+    }, delay)
+    if (callNow) func.apply(this, args)
+  }
+}
+
+// Function to handle API calls with debounce applied based on the flip switch
+function apiCallWithDebounce(func, ...args) {
+  const delay = 500
+  const immediate = true
+  const debouncedFunc = debounceEnabled ? debounce(delay, immediate, func) : func
+  return debouncedFunc(...args)
+}
+
+// Initiate OAuth Flow
+const initiateOAuthFlow = () => apiCallWithDebounce(function () {
   const authUrl = `${apiBaseUrl}/oauth/authorize?client_id=akqEmVXu2kchRkRp1QTw6jMInXNGb3B5r0W1d5SHsSo&redirect_uri=${encodeURIComponent(apiBaseUrl + '/oauth/callback')}&response_type=code&scope=public+read+write`
 
   return fetch(authUrl, {
@@ -11,7 +37,7 @@ function initiateOAuthFlow() {
   })
     .then(response => {
       if (response.ok) {
-        return response.json()
+        return response.json() // Returning the parsed JSON response as a Promise
       } else if (response.status === 401) {
         console.error('Authorization required. Redirecting to login.')
         window.location.href = '/users/sign_in'
@@ -33,13 +59,10 @@ function initiateOAuthFlow() {
         }
       }
     })
-    .catch(error => {
-      console.error('Error initiating OAuth flow:', error)
-      throw error
-    })
-}
+})
 
-function exchangeAuthorizationCodeForToken(authorizationCode) {
+// Exchange Authorization Code for Token
+const exchangeAuthorizationCodeForToken = (authorizationCode) => apiCallWithDebounce(function () {
   const tokenUrl = `${apiBaseUrl}/oauth/token`
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
@@ -68,11 +91,7 @@ function exchangeAuthorizationCodeForToken(authorizationCode) {
         throw new Error('Token exchange failed')
       }
     })
-    .catch(error => {
-      console.error('Error during token exchange:', error)
-      throw error
-    })
-}
+})
 
 function getAuthorizationHeader() {
   const token = localStorage.getItem('token')
