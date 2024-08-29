@@ -21,19 +21,21 @@ function Calendar(props) {
   }, [selectedDate, dispatch, initialLoadComplete]) // Dependencies: selectedDate, dispatch, initialLoadComplete
 
   return (
-    <StaticDatePicker
-      orientation="portrait"
-      openTo="day"
-      value={convertDateStringToDate(selectedDate)}
-      onChange={(newSelectedDate) => {
-        const date = convertToYYYYMMDD(newSelectedDate)
-        if (date !== selectedDate) {
-          dispatch(fetchDayIfNotInStore(date))
-          dispatch(setSelectedDate(date))
-        }
-      }}
-      slots={{ textField: TextField }} // Directly pass the TextField component here
-    />
+    <div style={{display: 'flex', justifyContent: 'right', width: '100%'}}>
+      <StaticDatePicker
+        orientation="portrait"
+        openTo="day"
+        value={convertDateStringToDate(selectedDate)}
+        onChange={(newSelectedDate) => {
+          const date = convertToYYYYMMDD(newSelectedDate)
+          if (date !== selectedDate) {
+            dispatch(fetchDayIfNotInStore(date))
+            dispatch(setSelectedDate(date))
+          }
+        }}
+        slots={{textField: TextField}} // Directly pass the TextField component here
+      />
+    </div>
   )
 }
 

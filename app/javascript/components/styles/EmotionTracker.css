@@ -65,3 +65,11 @@ body {
 .chip.adding {
     animation: fadeIn 0.3s forwards;
 }
+
+.MuiDatePickerToolbar-title {
+    font-weight: lighter !important;
+}
+
+.heading {
+    font-weight: lighter !important;
+}
