@@ -10,9 +10,6 @@
 - [How - Project Creation](#how---project-creation)
 - [Issues and Next TODOs](#issues-and-Next-TODOs)
 - [Dev Docs/Guides](#dev-docsguides)
-     - [Front-End](#front-end)
-     - [Backend](#backend)
-     - [DB](#db)
 - [Significant Next Steps](#significant-next-steps)
 - [License](#license)
 
