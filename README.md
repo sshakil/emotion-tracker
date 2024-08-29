@@ -2,7 +2,7 @@
 
 ## Table of Contents
 - 
-- [Who & When](#who)
+- [Who](#who)
 - [What](#what)
   - [Languages, Frameworks, & Competencies](#languages-frameworks--competencies)
 - [Why](#why)
