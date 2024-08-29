@@ -1,7 +1,6 @@
 # Emotion Tracker
 
 ## Table of Contents
-- 
 - [Who](#who)
 - [What](#what)
   - [Languages, Frameworks, & Competencies](#languages-frameworks--competencies)
