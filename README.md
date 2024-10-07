@@ -171,9 +171,11 @@ bundle install
 rails s -p 3000
 ```
 #### Front-End
-
+ENABLE_OAUTH=true for RoR which currently has OAuth implemented
+<br>ENABLE_OAUTH=false for a backend that doesn't have OAuth implemented
+<br>Use an incognito window to launch the app, to avoid cookie caching issues, which will receive 401s and present an app without data
 ```
-npx webpack --watch --config ./webpack.config.js
+ENABLE_OAUTH=true npx webpack --watch --config ./webpack.config.js
 ```
 
 #### Load the App
