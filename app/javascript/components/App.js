@@ -13,8 +13,17 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  const enableOAuth = process.env.ENABLE_OAUTH === 'true';  // Toggle based on env var
+
   useEffect(() => {
     const authenticate = async () => {
+      if (!enableOAuth) {
+        console.log('OAuth is disabled for this environment.');
+        setIsAuthenticated(true);
+        setLoading(false);
+        return;
+      }
+
       const token = localStorage.getItem('token')
       if (token) {
         setIsAuthenticated(true)
@@ -31,7 +40,7 @@ const App = () => {
     }
 
     authenticate()
-  }, [])
+  }, [enableOAuth])
 
   if (loading) return <div>Loading...</div>
   if (!isAuthenticated) return <div>Authentication failed. Please try again.</div>

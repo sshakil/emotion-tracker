@@ -2,6 +2,9 @@ const apiBaseUrl = 'http://localhost:3000'
 const defaultClientId = 'akqEmVXu2kchRkRp1QTw6jMInXNGb3B5r0W1d5SHsSo'
 const defaultScope = 'public read write'
 
+// Toggle OAuth flow based on environment variable
+const enableOAuth = process.env.ENABLE_OAUTH === 'true';
+
 // OAuth: Step 1: Register Web Clients as an Application: was done manually in backend db in this case
 
 // Helper function to handle API responses
@@ -18,6 +21,11 @@ const handleApiResponse = (response) => {
 
 // OAuth: Step 2: Request Authorization Code - Redirect the user to the authorization endpoint to obtain an authorization code from /oauth/authorize.
 const initiateOAuthFlow = (clientId = defaultClientId, scope = defaultScope) => {
+  if (!enableOAuth) {
+    console.log('OAuth is disabled.');
+    return;
+  }
+
   const params = new URLSearchParams({
     client_id: clientId,
     redirect_uri: `${apiBaseUrl}/oauth/callback`,

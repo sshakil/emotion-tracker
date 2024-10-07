@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_27_154522) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_07_053459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "databasechangelog", id: false, force: :cascade do |t|
+    t.string "id", limit: 255, null: false
+    t.string "author", limit: 255, null: false
+    t.string "filename", limit: 255, null: false
+    t.datetime "dateexecuted", precision: nil, null: false
+    t.integer "orderexecuted", null: false
+    t.string "exectype", limit: 10, null: false
+    t.string "md5sum", limit: 35
+    t.string "description", limit: 255
+    t.string "comments", limit: 255
+    t.string "tag", limit: 255
+    t.string "liquibase", limit: 20
+    t.string "contexts", limit: 255
+    t.string "labels", limit: 255
+    t.string "deployment_id", limit: 10
+  end
+
+  create_table "databasechangeloglock", id: :integer, default: nil, force: :cascade do |t|
+    t.boolean "locked", null: false
+    t.datetime "lockgranted", precision: nil
+    t.string "lockedby", limit: 255
+  end
 
   create_table "day_periods", force: :cascade do |t|
     t.bigint "day_id", null: false
@@ -31,7 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_27_154522) do
   end
 
   create_table "emotions", force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 255
     t.index ["name"], name: "index_emotions_on_name", unique: true
   end
 
@@ -89,12 +112,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_27_154522) do
   end
 
   create_table "periods", force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 255
+    t.bigint "day_id"
     t.index ["name"], name: "index_periods_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
+    t.string "email", limit: 255, default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -114,4 +138,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_27_154522) do
   add_foreign_key "entries", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "periods", "days", name: "fk8hf5gkjkg8y1ykf8c2jkgwha6"
 end

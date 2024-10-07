@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin') // Import the plugin
@@ -76,6 +77,10 @@ module.exports = {
             fileName: 'manifest.json',
             publicPath: '/packs/', // Ensure this matches your public_output_path in webpacker.yml
         }),
+        new webpack.DefinePlugin({
+            'process.env.ENABLE_OAUTH': JSON.stringify(process.env.ENABLE_OAUTH || 'true') // Default to true for RoR
+        })
+
     ],
     devtool: 'cheap-module-source-map',
 }
