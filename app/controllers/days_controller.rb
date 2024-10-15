@@ -10,6 +10,7 @@ class DaysController < ApplicationController
   end
 
   # GET /days/1 or /days/1.json or /days/fetch
+  # todo: check if /days/<id> is used.. otherwise update comment
   # day_json = {} because: see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data
   # to handle front sending format mm/dd/yyyy
   # needed format: yyyy-mm-dd

@@ -120,7 +120,13 @@ const postEntries = (selectedDate, periodName, emotions) => {
 }
 
 const deleteEntryAPI = (entryUuid) => {
-  const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  const tokenElement = document.querySelector('meta[name="csrf-token"]')
+  const token = tokenElement ? tokenElement.getAttribute('content') : null
+
+  if (!token) {
+    console.error('CSRF token not found.')
+  }
+
   return fetch(`${apiBaseUrl}/entries/${entryUuid}`, {
     method: 'DELETE',
     headers: {
