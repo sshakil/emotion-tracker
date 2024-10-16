@@ -12,89 +12,72 @@ export default function days(currentState = initialState, action) {
       return [...currentState, action.json]
     case "FETCH_DAY_SUCCESS_NOT_FOUND":
       return currentState
-    case "CREATE_ENTRIES_SUCCESS":
-      // Check if the day exists in the current state
-      const dayExists = currentState.some(day => day.date === action.payload.date);
+    case "CREATE_ENTRIES_SUCCESS": {
+      const { date, periodName, entries } = action.payload;
 
-      if (dayExists) {
-        return currentState.map(day => {
-          if (day.date === action.payload.date) {
-            let periodExists = false;
-            const updatedPeriods = day.periods.map(period => {
-              if (period.name === action.payload.periodName) {
-                periodExists = true;
-                const updatedEmotions = [
-                  ...period.emotions,
-                  ...action.payload.entries.map(entry => ({
-                    uuid: entry.uuid,
-                    name: entry.emotion_name,
-                  })),
-                ];
-                return {
-                  ...period,
-                  emotions: updatedEmotions,
-                };
-              }
-              return period;
-            });
+      // Helper to create a new period with the entries
+      const createNewPeriod = () => ({
+        name: periodName,
+        emotions: entries.map(entry => ({
+          uuid: entry.uuid,
+          name: entry.emotion_name,
+        })),
+      });
 
-            if (!periodExists) {
-              const newPeriod = {
-                name: action.payload.periodName,
-                emotions: action.payload.entries.map(entry => ({
+      // Helper to update a day
+      const updateDay = day => {
+        const updatedPeriods = day.periods.map(period => {
+          if (period.name === periodName) {
+            // Update the emotions for the existing period
+            return {
+              ...period,
+              emotions: [
+                ...period.emotions,
+                ...entries.map(entry => ({
                   uuid: entry.uuid,
                   name: entry.emotion_name,
                 })),
-              };
-              updatedPeriods.push(newPeriod);
-            }
-
-            return {
-              ...day,
-              periods: updatedPeriods,
+              ],
             };
           }
-          return day;
+          return period;
         });
-      } else {
-        // If the day doesn't exist, create a new day with the period and add it to the state
-        const newDay = {
-          date: action.payload.date,
-          periods: [
-            {
-              name: action.payload.periodName,
-              emotions: action.payload.entries.map(entry => ({
-                uuid: entry.uuid,
-                name: entry.emotion_name,
-              })),
-            },
-          ],
+
+        // Add new period if it doesn't exist
+        const periodExists = updatedPeriods.some(period => period.name === periodName);
+        return {
+          ...day,
+          periods: periodExists ? updatedPeriods : [...updatedPeriods, createNewPeriod()],
         };
-        return [...currentState, newDay];
-      }
-    case "DELETE_ENTRY_SUCCESS":
-      return currentState.map(day => {
-        if (day.date === action.payload.date) {
-          const updatedPeriods = day.periods.map(period => {
-            if (period.name === action.payload.periodName) {
-              // Filter out the emotion with the matching UUID
-              const updatedEmotions = period.emotions.filter(emotion => emotion.uuid !== action.payload.uuid)
-              return {
-                ...period,
-                emotions: updatedEmotions
-              }
-            }
+      };
 
-            return period
-          })
+      // Check if the day exists
+      const dayExists = currentState.some(day => day.date === date);
 
-          return {
+      // Update existing day or add a new day
+      return dayExists
+        ? currentState.map(day => (day.date === date ? updateDay(day) : day))
+        : [...currentState, { date, periods: [createNewPeriod()] }];
+    }
+    case "DELETE_ENTRY_SUCCESS": {
+      const { date, periodName, uuid } = action.payload;
+
+      return currentState.map(day =>
+        day.date === date
+          ? {
             ...day,
-            periods: updatedPeriods
+            periods: day.periods.map(period =>
+              period.name === periodName
+                ? {
+                  ...period,
+                  emotions: period.emotions.filter(emotion => emotion.uuid !== uuid)
+                }
+                : period
+            )
           }
-        }
-        return day
-      })
+          : day
+      );
+    }
 
     default:
       return currentState

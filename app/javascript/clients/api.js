@@ -150,7 +150,7 @@ const deleteEntryAPI = (entryUuid) => {
   return fetch(`${apiBaseUrl}/entries/${entryUuid}`, {
     method: 'DELETE',
     headers: {
-      'X-CSRFToken': getCSRFToken(),
+      'X-CSRF-Token': getCSRFToken(),
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader()
     }
