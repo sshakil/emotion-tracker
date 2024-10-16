@@ -31,7 +31,7 @@ module.exports = {
         proxy: [
           {
             context: () => true, // Proxy all requests
-            target: 'http://localhost:3000', // Proxy requests to the Rails server
+            target: 'http://localhost:3000', // Proxy requests to the backend server
             changeOrigin: true,
             secure: false,
           }
@@ -75,10 +75,11 @@ module.exports = {
         new NodePolyfillPlugin(),
         new WebpackManifestPlugin({ // Add the plugin here
             fileName: 'manifest.json',
-            publicPath: '/packs/', // Ensure this matches your public_output_path in webpacker.yml
+            publicPath: '/packs/', // Ensure this matches public_output_path in webpacker.yml
         }),
         new webpack.DefinePlugin({
-            'process.env.ENABLE_OAUTH': JSON.stringify(process.env.ENABLE_OAUTH || 'true') // Default to true for RoR
+            // Default to true for RoR backend which has OAuth
+            'process.env.ENABLE_OAUTH': JSON.stringify(process.env.ENABLE_OAUTH || 'true')
         })
 
     ],

@@ -88,13 +88,40 @@ const exchangeAuthorizationCodeForToken = (authorizationCode, clientId = default
 
 const getAuthorizationHeader = () => `Bearer ${localStorage.getItem('token')}`
 
+const getCSRFToken = () => {
+  // First, try to get the CSRF token from the <meta> tag, for how currently RoR stashes it
+  const tokenElement = document.querySelector('meta[name="csrf-token"]');
+  if (tokenElement) {
+    const token = tokenElement.getAttribute('content');
+    if (token) {
+      return token;
+    }
+  }
+
+  // If not found in the <meta> tag, try to get the CSRF token from cookies, for Django
+  const csrfTokenName = 'csrftoken';
+  const cookies = document.cookie.split(';');
+
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(`${csrfTokenName}=`)) {
+      return cookie.substring(csrfTokenName.length + 1);
+    }
+  }
+
+  // If no CSRF token is found in both places, log an error
+  console.error('CSRF token not found.');
+  return null;
+}
+
 // Generic function to make authenticated API requests
 const apiRequest = (endpoint, method, body = null) => {
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': getAuthorizationHeader()
+      'Authorization': getAuthorizationHeader(),
+      'X-CSRFToken': getCSRFToken(),
     }
   }
   if (body) options.body = JSON.stringify(body)
@@ -120,17 +147,10 @@ const postEntries = (selectedDate, periodName, emotions) => {
 }
 
 const deleteEntryAPI = (entryUuid) => {
-  const tokenElement = document.querySelector('meta[name="csrf-token"]')
-  const token = tokenElement ? tokenElement.getAttribute('content') : null
-
-  if (!token) {
-    console.error('CSRF token not found.')
-  }
-
   return fetch(`${apiBaseUrl}/entries/${entryUuid}`, {
     method: 'DELETE',
     headers: {
-      'X-CSRF-Token': token,
+      'X-CSRFToken': getCSRFToken(),
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader()
     }
