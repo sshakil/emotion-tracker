@@ -136,7 +136,7 @@ psql -d emotion_tracker -c "ALTER SCHEMA public OWNER TO demo;"
 psql -d emotion_tracker -c "GRANT CREATE ON SCHEMA public TO demo;"
 psql -d emotion_tracker -c "ALTER DATABASE emotion_tracker OWNER TO demo;"
 ```
-#### Create Schema and Seed Data<
+#### Create Schema and Seed Data
 This is done before starting the Rails server and attempting to load the app as current date seed will clash due to current setup (todo: check if seed date is needed/remove it):
 
 ```
