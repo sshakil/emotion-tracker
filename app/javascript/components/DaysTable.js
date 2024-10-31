@@ -139,11 +139,16 @@ export default function DaysTable() {
           <>
             <Table aria-label="Days table with periods and entries">
               <TableHead>
-                <TableRow>
-                  <TableCell padding="checkbox" className="icon-button"/>
-                  <TableCell className="column-date">Date</TableCell>
-                  <TableCell align="center" className="column-period">Logged Periods</TableCell>
-                  <TableCell align="center" className="column-entry-count">Logged Entries</TableCell>
+                <TableRow id="FirstHeader">
+                  <TableCell padding="checkbox" className="icon-button" />
+                  <TableCell className="column-date"></TableCell>
+                  <TableCell align="center" colSpan={2} className="column-logged">Logged</TableCell>
+                </TableRow>
+                <TableRow id="SecondHeader">
+                  <TableCell padding="checkbox" />
+                  <TableCell>Date</TableCell>
+                  <TableCell align="right" className="column-period">Periods</TableCell>
+                  <TableCell align="right" className="column-entry-count">Entries</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
