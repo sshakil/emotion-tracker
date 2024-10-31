@@ -133,13 +133,7 @@ const fetchDayByDate = (date) => apiRequest('/days/fetch', 'POST', {date})
 
 const fetchLast30DaysFromAPI = async () => {
   console.log("fetchLast30DaysFromAPI")
-  const response = await apiRequest('/days?recent=true&limit=30', 'GET')
-
-  if (!response.ok) {
-    throw new Error(`API request failed with status ${response.status}`)
-  }
-
-  return response.json() // Return parsed JSON if the response is OK
+  return apiRequest('/days?recent=true&limit=30', 'GET')
 }
 
 const postEntries = (selectedDate, periodName, emotions) => {

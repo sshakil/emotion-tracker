@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
@@ -13,6 +13,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import { CircularProgress } from '@mui/material' // Import MUI Spinner
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchLast30DaysWithEntries } from '../actions'
 import './styles/DaysTable.css'
@@ -47,7 +48,7 @@ function formatDateString(dateString) {
 }
 
 function Row({ row }) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -71,9 +72,6 @@ function Row({ row }) {
         <TableCell colSpan={4} className="collapsed-row">
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Entries by Period - {formatDateString(row.date)}
-              </Typography>
               <Table size="small" aria-label="entries">
                 <TableHead>
                   <TableRow>
@@ -90,7 +88,7 @@ function Row({ row }) {
                         <TableCell>
                           {periodData && periodData.entries.length > 0
                             ? periodData.entries.map(entry => entry.emotion.name).join(', ')
-                            : 'No Entries'}
+                            : '-'}
                         </TableCell>
                       </TableRow>
                     )
@@ -108,11 +106,18 @@ function Row({ row }) {
 export default function DaysTable() {
   const dispatch = useDispatch()
   const days = useSelector(state => state.days)
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [loading, setLoading] = useState(true) // New loading state
 
   useEffect(() => {
-    dispatch(fetchLast30DaysWithEntries())
+    const fetchData = async () => {
+      setLoading(true)
+      await dispatch(fetchLast30DaysWithEntries())
+      setLoading(false)
+    }
+
+    fetchData()
   }, [dispatch])
 
   const handleChangePage = (event, newPage) => {
@@ -127,33 +132,41 @@ export default function DaysTable() {
   return (
     <Paper className="days-table-container">
       <TableContainer>
-        <Table aria-label="Days table with periods and entries">
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox" className="icon-button" />
-              <TableCell className="column-date">Date</TableCell>
-              <TableCell align="center" className="column-period">Logged Periods</TableCell>
-              <TableCell align="center" className="column-entry-count">Logged Entries</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {days
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
-                <Row key={`${row.date}-${index}`} row={row} />
-              ))}
-          </TableBody>
-        </Table>
+        {loading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" height="300px">
+            <CircularProgress size={50} /> {/* Loading Spinner */}
+          </Box>
+        ) : (
+          <>
+            <Table aria-label="Days table with periods and entries">
+              <TableHead>
+                <TableRow>
+                  <TableCell padding="checkbox" className="icon-button" />
+                  <TableCell className="column-date">Date</TableCell>
+                  <TableCell align="center" className="column-period">Logged Periods</TableCell>
+                  <TableCell align="center" className="column-entry-count">Logged Entries</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {days
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => (
+                    <Row key={`${row.date}-${index}`} row={row} />
+                  ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={days.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={days.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </Paper>
   )
 }

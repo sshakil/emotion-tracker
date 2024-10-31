@@ -60,11 +60,14 @@ export function fetchLast30DaysWithEntries() {
       console.log("Fetching last 30 days with entries from API")
       try {
         const response = await fetchLast30DaysFromAPI()
+        const data = await response.json()
+
         dispatch({
           type: FETCH_DAYS_SUCCESS,
-          payload: response,
+          payload: data,
         })
       } catch (error) {
+        console.error("Failed to fetch last 30 days with entries:", error)
         dispatch({
           type: FETCH_DAYS_FAILURE,
           payload: error || 'Failed to fetch days',
