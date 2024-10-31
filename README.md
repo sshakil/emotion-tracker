@@ -2,11 +2,9 @@
 
 
 ## Table of Contents
-- [Screenshots](#screenshots)
-- [What](#what)
+- [Screenshots](#screenshots) & [What](#what)
   - [Languages, Frameworks, & Competencies](#languages-frameworks--competencies)
-- [Who](#who)
-- [Why](#why)
+- [Who](#who) & [Why](#why)
 - [How - AI-Assisted Coding](#how---ai-assisted-coding)
 - [How - Setup and Run](#how---setup-and-run)
 - [How - Project Creation](#how---project-creation)
@@ -39,6 +37,7 @@ Deployment and video tutorial coming soon.
   - Redux
 - **Competencies**
   - OAuth 2.0 Authentication: Doorkeeper, Devise
+  - Faker for demo data population
   - RESTful API Design
   - Database Management
   - Containerization
