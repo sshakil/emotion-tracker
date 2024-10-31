@@ -8,10 +8,36 @@ import {
 
 const initialState = []
 
+// Helper function to get the period name based on its ID
+function getPeriodNameById(id) {
+  const periodMapping = {
+    1: 'Early Morning',
+    2: 'Morning',
+    3: 'Afternoon',
+    4: 'Evening',
+    5: 'Before Bed'
+  };
+  return periodMapping[id] || 'Unknown Period';
+}
+
+// Helper function to transform `day_periods` to `periods`
+const transformDayPeriods = (day_periods) => {
+  return day_periods.map(day_period => ({
+    name: getPeriodNameById(day_period.period_id), // Assuming you have a mapping function
+    emotions: day_period.entries.map(entry => ({
+      uuid: entry.uuid,
+      name: entry.emotion.name,
+    }))
+  }));
+};
+
 export default function days(currentState = initialState, action) {
   switch(action.type) {
     case FETCH_DAYS_SUCCESS:
-      return [...action.payload]
+      return action.payload.map(day => ({
+        date: day.date,
+        periods: transformDayPeriods(day.day_periods)
+      }))
     case FETCH_DAYS_FAILURE:
       return currentState
     case "GET_DAY_FOR_DATE":

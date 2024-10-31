@@ -191,8 +191,9 @@ function newDay(selectedDate) {
 
 // Merge existing periods with the default periods
 function mergePeriods(day) {
+  const periods = day.periods || []; // Ensure periods is an array
   return defaultPeriods.map(defaultPeriod => {
-    const existingPeriod = day.periods.find(period => period.name === defaultPeriod.name);
+    const existingPeriod = periods.find(period => period.name === defaultPeriod.name);
     return existingPeriod || defaultPeriod;
   });
 }
@@ -206,7 +207,7 @@ function mapStateToProps(state) {
       const foundDay = state.days.find(day => day.date === selectedDate) || newDay(selectedDate);
       return {
         ...foundDay,
-        periods: mergePeriods(foundDay),
+        periods: mergePeriods({ periods: foundDay.periods || [] }), // Ensure periods is always an array
       };
     })(),
   };

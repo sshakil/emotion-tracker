@@ -49,9 +49,6 @@ function formatDateString(dateString) {
 function Row({row}) {
   const [open, setOpen] = useState(false)
 
-  // Filter day_periods to only include those with entries
-  const periodsWithEntries = row.day_periods?.filter(period => period.entries.length > 0) || []
-
   return (
     <>
       <TableRow>
@@ -61,43 +58,43 @@ function Row({row}) {
             size="small"
             onClick={() => setOpen(!open)}
           >
-            {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell className="column-date">{formatDateString(row.date)}</TableCell>
-        <TableCell align="right" className="column-period">{periodsWithEntries.length}</TableCell>
+        <TableCell align="right" className="column-period">{row.periods?.length || 0}</TableCell>
         <TableCell align="right" className="column-entry-count">
-          {periodsWithEntries.reduce((acc, period) => acc + period.entries.length, 0)}
+          {row.periods ? row.periods.reduce((acc, period) => acc + period.emotions.length, 0) : 0}
         </TableCell>
       </TableRow>
-      {periodsWithEntries.length > 0 && (
-        <TableRow>
-          <TableCell colSpan={4} className="collapsed-row">
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{margin: 1}}>
-                <Table size="small" aria-label="entries">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell className="period-table-cell">Period</TableCell>
-                      <TableCell>Entries</TableCell>
+      <TableRow>
+        <TableCell colSpan={4} className="collapsed-row">
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Table size="small" aria-label="entries">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="period-table-cell">Period</TableCell>
+                    <TableCell>Entries</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row.periods.map((period) => (
+                    <TableRow key={`${row.date}-${period.name}`}>
+                      <TableCell>{period.name}</TableCell>
+                      <TableCell>
+                        {period.emotions.length > 0
+                          ? period.emotions.map(emotion => emotion.name).join(', ')
+                          : 'No Entries'}
+                      </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {periodsWithEntries.map(period => (
-                      <TableRow key={`${row.date}-${period.id}`}>
-                        <TableCell>{periods[period.period_id - 1]}</TableCell>
-                        <TableCell>
-                          {period.entries.map(entry => entry.emotion.name).join(', ') || 'No Entries'}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      )}
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
     </>
   )
 }
@@ -139,16 +136,11 @@ export default function DaysTable() {
           <>
             <Table aria-label="Days table with periods and entries">
               <TableHead>
-                <TableRow id="FirstHeader">
-                  <TableCell padding="checkbox" className="icon-button" />
-                  <TableCell className="column-date"></TableCell>
-                  <TableCell align="center" colSpan={2} className="column-logged">Logged</TableCell>
-                </TableRow>
-                <TableRow id="SecondHeader">
-                  <TableCell padding="checkbox" />
-                  <TableCell>Date</TableCell>
-                  <TableCell align="right" className="column-period">Periods</TableCell>
-                  <TableCell align="right" className="column-entry-count">Entries</TableCell>
+                <TableRow>
+                  <TableCell padding="checkbox" className="icon-button"/>
+                  <TableCell className="column-date">Date</TableCell>
+                  <TableCell align="center" className="column-period">Logged Periods</TableCell>
+                  <TableCell align="center" className="column-entry-count">Total Entries</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

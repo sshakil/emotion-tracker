@@ -1,5 +1,5 @@
 const apiBaseUrl = 'http://localhost:3000'
-const defaultClientId = 'ufPtU_IEmZxW8MdnKGecsJu1PXwcrzoWJ236GH11EIs'
+const defaultClientId = 'XHIPSreq2Iq_CPz90od57yPHRIU7Mep5V2-pUZbadMs'
 const defaultScope = 'public read write'
 
 // Toggle OAuth flow based on environment variable

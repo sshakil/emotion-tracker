@@ -1,23 +1,27 @@
 # Emotion Tracker
 
+
 ## Table of Contents
-- [Who](#who)
+- [Screenshots](#screenshots)
 - [What](#what)
   - [Languages, Frameworks, & Competencies](#languages-frameworks--competencies)
+- [Who](#who)
 - [Why](#why)
 - [How - AI-Assisted Coding](#how---ai-assisted-coding)
 - [How - Setup and Run](#how---setup-and-run)
 - [How - Project Creation](#how---project-creation)
 - [Issues and Next TODOs](#issues-and-Next-TODOs)
 - [Dev Docs/Guides](#dev-docsguides)
-- [Significant Next Steps](#significant-next-steps)
+- [Next Steps](#next-steps)
 - [License](#license)
 
-### Who
-My name is Saad Shakil, I'm a Software Engineer currently located in Ottawa, ON. See the links below for my career bio, resume, and LinkedIn.
-- [Career bio/cover letter](https://sshakil.github.io)
-- [Resume](https://github.com/sshakil/sshakil.github.io/blob/master/Saad-Shakil-Resume-August-2024-No-Address.pdf)
-- [LinkedIn](https://www.linkedin.com/in/saadshakil/)
+#### Screenshots
+Last updated: October 31, 2024<br>
+<img src="UI-Log.png" alt="EmotionTracker" width="500px">
+<br>
+<img src="UI-Track.png" alt="EmotionTracker" width="500px">
+
+Deployment and video tutorial coming soon.
 
 ### What
 - **Emotion Tracking**: Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
@@ -42,19 +46,18 @@ My name is Saad Shakil, I'm a Software Engineer currently located in Ottawa, ON.
   - Environment Configuration
   - Bundling and Asset Management
 
+### Who
+My name is Saad Shakil, I'm a Software Engineer currently located in Ottawa, ON. See the links below for my career bio, resume, and LinkedIn.
+- [Career bio/cover letter](https://sshakil.github.io)
+- [Resume](https://github.com/sshakil/sshakil.github.io/blob/master/Saad-Shakil-Resume-August-2024-No-Address.pdf)
+- [LinkedIn](https://www.linkedin.com/in/saadshakil/)
+
 [Back to Top](#emotion-tracker)
 ### Why
 I started this in March 2022, paused while I was in grad school, and resumed as of summer 2024.
 - **Skill Maintenance & Demonstration**: I started this a couple of years ago as a means to keep my coding skills alive upon taking a break from full-time work and pursuing graduate studies.
 - **Re-familiarization**: Upon my graduation with a [Master's in Engineering, Management](https://catalogue.uottawa.ca/en/graduate/master-engineering-engineering-management/#Requirementstext) (similar to an MBA) in June 2024, I resumed working on this part-time to refamiliarize myself with full-stack web application development through the MVP framework.
 - **Enjoyment**: Also, I just find coding enjoyable, especially more so now with AI making it easier and more effective in some ways!
-
-[Back to Top](#emotion-tracker)
-### Demo
-Full video demo coming soon.
-
-#### Screenshot
-<img src="EmotionTracker.png" alt="EmotionTracker" width="503px">
 
 [Back to Top](#emotion-tracker)
 ## How - AI-Assisted Coding
@@ -147,6 +150,7 @@ rails db:migrate
 # rails db:seed
 rails db:populate
 ```
+[Back to Top](#emotion-tracker)
 
 ##### Set New OAUTH App ID in the Front  
 Upon this, a front-end change is needed to set `defaultClientId` to the new one in `oauth_applications.uid`.
@@ -180,6 +184,7 @@ psql -U demo -d emotion_tracker_test
 ```
 rails --tasks | grep db
 ```
+[Back to Top](#emotion-tracker)
 
 #### Troubleshooting - Explicit Permissions
 Create DBs - this won't create tables and subsequent `rails db:create` won't either, unless forced.
@@ -218,14 +223,15 @@ EOF
 ```
 
 #### Showing DBs in JetBrains
-Now showing:
+Now showing:<br>
 ![db-no-db.png](db-no-db.png)
 
-Showing through `...` next to "No databases selected" and selecting the DBs.
+Showing through `...` next to "No databases selected" and selecting the DBs.<br>
 ![db-db.png](db-db.png)
 
-Showing the schemas, `...` next to "No schemas selected`:
+Showing the schemas, `...` next to "No schemas selected`:<br>
 ![db-schemas.png](db-schemas.png)
+
 [Back to Top](#emotion-tracker)
 
 ### Front-End Setup
@@ -383,7 +389,7 @@ TODO: Expand
 
 [Back to Top](#emotion-tracker)
 
-## Significant Next Steps
+## Next Steps
 <p>
 The following items in this order would isolate all the required changes on the infrastructure side to more or less one go.
 </p>

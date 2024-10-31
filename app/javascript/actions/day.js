@@ -52,8 +52,14 @@ export function fetchDayIfNotInStore(selectedDate) {
 export function fetchLast30DaysWithEntries() {
   return async function fetchDaysThunk(dispatch, getState) {
     const state = getState()
+    //todo: this would need to be recalled if
+    //  a) today's date has changed since last load / has been some time
+    //  b) changes were made through a session elsewhere
+    //  c) changes through the log form may not need this to be recalled if there's 1:1 in
+    //      setting those changes in redux store and backend
+    //
     // const daysInStore = state.days.length > 0
-
+    //
     // if (daysInStore) {
     //   console.log("Last 30 days with entries found in store, not making API call")
     // } else {

@@ -60,11 +60,21 @@ namespace :db do
       # -------------------- days and day_periods Tables --------------------
       log.call("Creating entries in 'days' and 'day_periods' tables...")
 
-      # Days creation, with some randomly skipped
+      # Create the current date first
       days = []
       day_periods = []
+
+      current_day = Day.new(date: Date.today, user: user, created_at: timestamp)
+      days << current_day
+
+      # Create day_periods for each period for the current day
+      periods.each do |period|
+        day_periods << DayPeriod.new(day: current_day, period: period, user: user, created_at: timestamp)
+      end
+
+      # Create days for the past 30 days, with some randomly skipped
       (1..day_count).each do |i|
-        next if rand < 0.2 # Randomly skip some days
+        # next if rand < 0.2 # Randomly skip some days
 
         day = Day.new(date: Date.today - i.days, user: user, created_at: timestamp)
         days << day
