@@ -8,10 +8,11 @@ class DaysController < ApplicationController
   # controllers/days_controller.rb
   # app/controllers/days_controller.rb
   def index
-    @days = Day.joins(:entries)
+    @days = Day.joins(day_periods: :entries)
                .distinct
                .order(date: :desc)
                .limit(30)
+
     render json: @days.as_json(
       include: {
         day_periods: {
@@ -27,7 +28,6 @@ class DaysController < ApplicationController
       only: [:date]
     )
   end
-
   # GET /days/1 or /days/1.json or /days/fetch
   # todo: check if /days/<id> is used.. otherwise update comment
   # day_json = {} because: see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data

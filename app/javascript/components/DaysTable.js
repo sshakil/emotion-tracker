@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
@@ -10,12 +10,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import Typography from '@mui/material/Typography'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import { CircularProgress } from '@mui/material' // Import MUI Spinner
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchLast30DaysWithEntries } from '../actions'
+import CircularProgress from '@mui/material/CircularProgress'
+import {useDispatch, useSelector} from 'react-redux'
+import {fetchLast30DaysWithEntries} from '../actions'
 import './styles/DaysTable.css'
 
 const periods = ['Early Morning', 'Morning', 'Afternoon', 'Evening', 'Before Bed']
@@ -47,8 +46,11 @@ function formatDateString(dateString) {
   })
 }
 
-function Row({ row }) {
+function Row({row}) {
   const [open, setOpen] = useState(false)
+
+  // Filter day_periods to only include those with entries
+  const periodsWithEntries = row.day_periods?.filter(period => period.entries.length > 0) || []
 
   return (
     <>
@@ -59,46 +61,43 @@ function Row({ row }) {
             size="small"
             onClick={() => setOpen(!open)}
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
           </IconButton>
         </TableCell>
         <TableCell className="column-date">{formatDateString(row.date)}</TableCell>
-        <TableCell align="right" className="column-period">{row.day_periods?.length || 0}</TableCell>
+        <TableCell align="right" className="column-period">{periodsWithEntries.length}</TableCell>
         <TableCell align="right" className="column-entry-count">
-          {row.day_periods ? row.day_periods.reduce((acc, period) => acc + period.entries.length, 0) : 0}
+          {periodsWithEntries.reduce((acc, period) => acc + period.entries.length, 0)}
         </TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell colSpan={4} className="collapsed-row">
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Table size="small" aria-label="entries">
-                <TableHead>
-                  <TableRow>
-                    <TableCell className="period-table-cell">Period</TableCell>
-                    <TableCell>Entries</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {periods.map((period, index) => {
-                    const periodData = row.day_periods?.find(p => p.period_id === index + 1)
-                    return (
-                      <TableRow key={`${row.date}-${period}`}>
-                        <TableCell>{period}</TableCell>
+      {periodsWithEntries.length > 0 && (
+        <TableRow>
+          <TableCell colSpan={4} className="collapsed-row">
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{margin: 1}}>
+                <Table size="small" aria-label="entries">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className="period-table-cell">Period</TableCell>
+                      <TableCell>Entries</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {periodsWithEntries.map(period => (
+                      <TableRow key={`${row.date}-${period.id}`}>
+                        <TableCell>{periods[period.period_id - 1]}</TableCell>
                         <TableCell>
-                          {periodData && periodData.entries.length > 0
-                            ? periodData.entries.map(entry => entry.emotion.name).join(', ')
-                            : '-'}
+                          {period.entries.map(entry => entry.emotion.name).join(', ') || 'No Entries'}
                         </TableCell>
                       </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
     </>
   )
 }
@@ -108,7 +107,7 @@ export default function DaysTable() {
   const days = useSelector(state => state.days)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [loading, setLoading] = useState(true) // New loading state
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,14 +133,14 @@ export default function DaysTable() {
       <TableContainer>
         {loading ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="300px">
-            <CircularProgress size={50} /> {/* Loading Spinner */}
+            <CircularProgress size={50}/>
           </Box>
         ) : (
           <>
             <Table aria-label="Days table with periods and entries">
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox" className="icon-button" />
+                  <TableCell padding="checkbox" className="icon-button"/>
                   <TableCell className="column-date">Date</TableCell>
                   <TableCell align="center" className="column-period">Logged Periods</TableCell>
                   <TableCell align="center" className="column-entry-count">Logged Entries</TableCell>
@@ -151,7 +150,7 @@ export default function DaysTable() {
                 {days
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => (
-                    <Row key={`${row.date}-${index}`} row={row} />
+                    <Row key={`${row.date}-${index}`} row={row}/>
                   ))}
               </TableBody>
             </Table>

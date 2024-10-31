@@ -5,4 +5,8 @@ class DayPeriod < ApplicationRecord
 
   has_many :entries
   has_many :emotions, through: :entries
+
+  def has_entries
+    entries.exists?
+  end
 end
