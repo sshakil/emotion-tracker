@@ -22,7 +22,7 @@ Last updated: October 31, 2024<br>
 Deployment and video tutorial coming soon.
 
 ### What
-- **Emotion Tracking**: Provides a calendar date picker and a custom form to track emotions through the various periods of the day.
+- **Emotion Tracking**: Log tab provides a calendar date picker with a custom form to track emotions through the various periods of the day. Track tab provides a table to reflect through past entries. 
 - **Web App**: A pet project in [Ruby on Rails (RoR)](https://rubyonrails.org/), [ReactJS](https://react.dev/), [MUI](https://mui.com/x/react-date-pickers/date-picker/), and MUI X.
 - **Keyboard Navigation**: Supports keyboard tab/shift-tab traversal, backspace/delete, and enter key functionality.
 
