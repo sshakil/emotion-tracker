@@ -85,7 +85,7 @@ function Row({row}) {
                       <TableCell>
                         {period.emotions.length > 0
                           ? period.emotions.map(emotion => emotion.name).join(', ')
-                          : 'No Entries'}
+                          : '-'}
                       </TableCell>
                     </TableRow>
                   ))}
