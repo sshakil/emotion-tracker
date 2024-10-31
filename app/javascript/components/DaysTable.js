@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
@@ -13,12 +13,31 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchLast30DaysWithEntries } from '../actions'
 import './styles/DaysTable.css'
 
 const periods = ['Early Morning', 'Morning', 'Afternoon', 'Evening', 'Before Bed']
 
 function formatDateString(dateString) {
+  if (!dateString) return "Invalid Date"
+
   const date = new Date(dateString)
+  if (isNaN(date.getTime())) {
+    const parts = dateString.split("-")
+    if (parts.length === 3) {
+      const [year, month, day] = parts
+      return new Date(year, month - 1, day).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    } else {
+      return "Invalid Date"
+    }
+  }
+
   return date.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -26,21 +45,6 @@ function formatDateString(dateString) {
     day: 'numeric',
   })
 }
-
-function createDateEntry(date, numPeriods, numEntries, periodData) {
-  return { date, numPeriods, numEntries, periodData }
-}
-
-const rows = Array.from({ length: 25 }, (_, index) => {
-  const date = `2024-10-${String(index + 1).padStart(2, '0')}`
-  const numPeriods = 5
-  const numEntries = Math.floor(Math.random() * 10) + 5
-  const periodData = periods.reduce((acc, period) => {
-    acc[period] = Array.from({ length: Math.floor(Math.random() * 4) + 1 }, () => `Entry ${Math.floor(Math.random() * 100)}`)
-    return acc
-  }, {})
-  return createDateEntry(date, numPeriods, numEntries, periodData)
-})
 
 function Row({ row }) {
   const [open, setOpen] = React.useState(false)
@@ -58,8 +62,10 @@ function Row({ row }) {
           </IconButton>
         </TableCell>
         <TableCell className="column-date">{formatDateString(row.date)}</TableCell>
-        <TableCell align="right" className="column-period">{row.numPeriods}</TableCell>
-        <TableCell align="right" className="column-entry-count">{row.numEntries}</TableCell>
+        <TableCell align="right" className="column-period">{row.day_periods?.length || 0}</TableCell>
+        <TableCell align="right" className="column-entry-count">
+          {row.day_periods ? row.day_periods.reduce((acc, period) => acc + period.entries.length, 0) : 0}
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell colSpan={4} className="collapsed-row">
@@ -76,16 +82,19 @@ function Row({ row }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {periods.map((period) => (
-                    <TableRow key={period}>
-                      <TableCell>{period}</TableCell>
-                      <TableCell>
-                        {row.periodData[period].length > 0
-                          ? row.periodData[period].join(', ')
-                          : 'No Entries'}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {periods.map((period, index) => {
+                    const periodData = row.day_periods?.find(p => p.period_id === index + 1)
+                    return (
+                      <TableRow key={`${row.date}-${period}`}>
+                        <TableCell>{period}</TableCell>
+                        <TableCell>
+                          {periodData && periodData.entries.length > 0
+                            ? periodData.entries.map(entry => entry.emotion.name).join(', ')
+                            : 'No Entries'}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </Box>
@@ -97,8 +106,14 @@ function Row({ row }) {
 }
 
 export default function DaysTable() {
+  const dispatch = useDispatch()
+  const days = useSelector(state => state.days)
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
+
+  useEffect(() => {
+    dispatch(fetchLast30DaysWithEntries())
+  }, [dispatch])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -114,23 +129,18 @@ export default function DaysTable() {
       <TableContainer>
         <Table aria-label="Days table with periods and entries">
           <TableHead>
-            <TableRow id="FirstHeader">
+            <TableRow>
               <TableCell padding="checkbox" className="icon-button" />
-              <TableCell className="column-date"></TableCell>
-              <TableCell align="center" colSpan={2} className="column-logged">Logged</TableCell>
-            </TableRow>
-            <TableRow id="SecondHeader">
-              <TableCell padding="checkbox" />
-              <TableCell>Date</TableCell>
-              <TableCell align="right" className="column-period">Periods</TableCell>
-              <TableCell align="right" className="column-entry-count">Entries</TableCell>
+              <TableCell className="column-date">Date</TableCell>
+              <TableCell align="center" className="column-period">Logged Periods</TableCell>
+              <TableCell align="center" className="column-entry-count">Logged Entries</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {days
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <Row key={row.date} row={row} />
+              .map((row, index) => (
+                <Row key={`${row.date}-${index}`} row={row} />
               ))}
           </TableBody>
         </Table>
@@ -138,7 +148,7 @@ export default function DaysTable() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={rows.length}
+        count={days.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

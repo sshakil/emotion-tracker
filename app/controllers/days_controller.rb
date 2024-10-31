@@ -5,8 +5,27 @@ class DaysController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   # GET /days or /days.json
+  # controllers/days_controller.rb
+  # app/controllers/days_controller.rb
   def index
-    @days = Day.all
+    @days = Day.joins(:entries)
+               .distinct
+               .order(date: :desc)
+               .limit(30)
+    render json: @days.as_json(
+      include: {
+        day_periods: {
+          include: {
+            entries: {
+              include: { emotion: { only: :name } },
+              only: [:id, :uuid, :day_period_id]
+            }
+          },
+          only: [:id, :period_id]
+        }
+      },
+      only: [:date]
+    )
   end
 
   # GET /days/1 or /days/1.json or /days/fetch

@@ -129,7 +129,18 @@ const apiRequest = (endpoint, method, body = null) => {
 }
 
 // OAuth: Step 8: Secure API Endpoints - Securing API calls with Bearer token
-const fetchDayByDate = (date) => apiRequest('/days/fetch', 'POST', { date })
+const fetchDayByDate = (date) => apiRequest('/days/fetch', 'POST', {date})
+
+const fetchLast30DaysFromAPI = async () => {
+  console.log("fetchLast30DaysFromAPI")
+  const response = await apiRequest('/days?recent=true&limit=30', 'GET')
+
+  if (!response.ok) {
+    throw new Error(`API request failed with status ${response.status}`)
+  }
+
+  return response.json() // Return parsed JSON if the response is OK
+}
 
 const postEntries = (selectedDate, periodName, emotions) => {
   const body = {
@@ -138,7 +149,7 @@ const postEntries = (selectedDate, periodName, emotions) => {
       periods_attributes: [
         {
           name: periodName,
-          emotions_attributes: Array.isArray(emotions) ? emotions.map(name => ({ name })) : [{ name: emotions }]
+          emotions_attributes: Array.isArray(emotions) ? emotions.map(name => ({name})) : [{name: emotions}]
         }
       ]
     }
@@ -157,4 +168,11 @@ const deleteEntryAPI = (entryUuid) => {
   })
 }
 
-export { fetchDayByDate, postEntries, deleteEntryAPI, initiateOAuthFlow, exchangeAuthorizationCodeForToken }
+export {
+  fetchLast30DaysFromAPI,
+  fetchDayByDate,
+  postEntries,
+  deleteEntryAPI,
+  initiateOAuthFlow,
+  exchangeAuthorizationCodeForToken
+}

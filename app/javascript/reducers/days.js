@@ -1,9 +1,19 @@
-import { FETCH_DAY_SUCCESS_FOUND, FETCH_DAY_SUCCESS_NOT_FOUND, CREATE_ENTRIES_SUCCESS } from "../actions"
+import {
+  FETCH_DAY_SUCCESS_FOUND,
+  FETCH_DAY_SUCCESS_NOT_FOUND,
+  CREATE_ENTRIES_SUCCESS,
+  FETCH_DAYS_SUCCESS,
+  FETCH_DAYS_FAILURE
+} from "../actions"
 
 const initialState = []
 
 export default function days(currentState = initialState, action) {
   switch(action.type) {
+    case FETCH_DAYS_SUCCESS:
+      return [...action.payload]
+    case FETCH_DAYS_FAILURE:
+      return currentState
     case "GET_DAY_FOR_DATE":
       return currentState.days.find(
         day => day.date === action.date
