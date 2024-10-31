@@ -358,7 +358,7 @@ return (
 ### Front-End
 App layout starts in <code>/emotion-tracker/app/javascript/components/App.js</code>.
 
-<code>App</code> references <code>Day</code>, which is a <code>Grid</code> containing 2 Grids containing <code>Calendar</code> and <code>EmotionTracker</code>.
+<code>App</code> references <code>Dashboard</code>, which is a <code>Grid</code> containing 2 Grids containing <code>Calendar</code> and <code>EmotionTracker</code>.
 
 <code>EmotionTracker</code> is rendered through <code>renderDayForm</code>, which renders a <code>Stack</code> of <code>Card</code>'s through <code>renderPeriod</code>.
 

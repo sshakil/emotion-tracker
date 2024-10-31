@@ -18,7 +18,7 @@ function Calendar(props) {
       dispatch(fetchDayIfNotInStore(date))
       setInitialLoadComplete(true)
     }
-  }, [selectedDate, dispatch, initialLoadComplete]) // Dependencies: selectedDate, dispatch, initialLoadComplete
+  }, [selectedDate, dispatch, initialLoadComplete])
 
   return (
     <div style={{display: 'flex', justifyContent: 'right', width: '100%'}}>
@@ -26,6 +26,7 @@ function Calendar(props) {
         orientation="portrait"
         openTo="day"
         value={convertDateStringToDate(selectedDate)}
+        maxDate={new Date()}  // Disables dates beyond today
         onChange={(newSelectedDate) => {
           const date = convertToYYYYMMDD(newSelectedDate)
           if (date !== selectedDate) {
@@ -33,7 +34,7 @@ function Calendar(props) {
             dispatch(setSelectedDate(date))
           }
         }}
-        slots={{textField: TextField}} // Directly pass the TextField component here
+        slots={{ textField: TextField }}
       />
     </div>
   )

@@ -4,7 +4,7 @@ import { Provider } from "react-redux"
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import configureStore from '../configureStore'
-import Day from "./Day"
+import TabbedComponentContainer from "./TabbedComponentContainer"
 import { initiateOAuthFlow } from "../clients/api"
 
 const store = configureStore()
@@ -50,7 +50,7 @@ const App = () => {
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Day />} />
+            <Route path="/" element={<TabbedComponentContainer />} />
           </Routes>
         </BrowserRouter>
       </Provider>

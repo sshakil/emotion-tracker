@@ -1,0 +1,57 @@
+/* Container for the table */
+.days-table-container {
+    width: auto;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Icon button for expanding/collapsing rows */
+.icon-button {
+    width: 5px !important;
+    padding: 6px 4px !important;
+}
+
+/* Table cell styles for main rows */
+.column-date,
+.period-table-cell,
+.column-period,
+.column-entry-count {
+    padding: 8px !important; /* Ensures compact row height */
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Center-align text within cells while aligning numbers to the right within the space */
+.column-period,
+.column-entry-count {
+    width: 80px !important;
+    text-align: center !important;
+}
+
+/* Style for expanded rows */
+.collapsed-row {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Ensures compact view for expanded content */
+.collapsed-content {
+    margin: 1rem !important;
+}
+
+.collapsed-heading {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+#FirstHeader>th {
+    border-bottom: none;
+    padding-top: 12px !important;
+    padding-bottom: 0 !important;
+}
+
+#SecondHeader>th {
+    padding-top: 2px !important;
+}

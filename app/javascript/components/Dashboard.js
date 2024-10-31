@@ -4,7 +4,7 @@ import EmotionTracker from './EmotionTracker'
 import Calendar from './StaticDatePickerLandscape'
 import './styles/EmotionTracker.css'
 
-export default function Day() {
+export default function Dashboard() {
   return (
     <Box className="day-container">
       <Grid container spacing={2} justifyContent="center">
