@@ -10,37 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_07_053459) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_30_191324) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "databasechangelog", id: false, force: :cascade do |t|
-    t.string "id", limit: 255, null: false
-    t.string "author", limit: 255, null: false
-    t.string "filename", limit: 255, null: false
-    t.datetime "dateexecuted", precision: nil, null: false
-    t.integer "orderexecuted", null: false
-    t.string "exectype", limit: 10, null: false
-    t.string "md5sum", limit: 35
-    t.string "description", limit: 255
-    t.string "comments", limit: 255
-    t.string "tag", limit: 255
-    t.string "liquibase", limit: 20
-    t.string "contexts", limit: 255
-    t.string "labels", limit: 255
-    t.string "deployment_id", limit: 10
-  end
-
-  create_table "databasechangeloglock", id: :integer, default: nil, force: :cascade do |t|
-    t.boolean "locked", null: false
-    t.datetime "lockgranted", precision: nil
-    t.string "lockedby", limit: 255
-  end
 
   create_table "day_periods", force: :cascade do |t|
     t.bigint "day_id", null: false
     t.bigint "period_id", null: false
     t.bigint "user_id", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["day_id"], name: "index_day_periods_on_day_id"
     t.index ["period_id"], name: "index_day_periods_on_period_id"
     t.index ["user_id"], name: "index_day_periods_on_user_id"
@@ -49,12 +28,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_07_053459) do
   create_table "days", force: :cascade do |t|
     t.date "date"
     t.bigint "user_id", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["date"], name: "index_days_on_date", unique: true
     t.index ["user_id"], name: "index_days_on_user_id"
   end
 
   create_table "emotions", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_emotions_on_name", unique: true
   end
 
@@ -63,6 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_07_053459) do
     t.bigint "emotion_id", null: false
     t.string "uuid", null: false
     t.bigint "user_id", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["day_period_id"], name: "index_entries_on_day_period_id"
     t.index ["emotion_id"], name: "index_entries_on_emotion_id"
     t.index ["user_id"], name: "index_entries_on_user_id"
@@ -112,13 +97,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_07_053459) do
   end
 
   create_table "periods", force: :cascade do |t|
-    t.string "name", limit: 255
-    t.bigint "day_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_periods_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", limit: 255, default: "", null: false
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -138,5 +124,4 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_07_053459) do
   add_foreign_key "entries", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
-  add_foreign_key "periods", "days", name: "fk8hf5gkjkg8y1ykf8c2jkgwha6"
 end

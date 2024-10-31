@@ -1,6 +1,7 @@
 class Entry < ApplicationRecord
   belongs_to :day_period
   belongs_to :emotion
+  belongs_to :user
 
   before_create :set_uuid
 

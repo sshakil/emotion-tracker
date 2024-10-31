@@ -121,29 +121,111 @@ Or, manually
 pg_ctl -D /usr/local/var/postgres start
 ```
 
-#### Create Databases, User, and grant Privileges
+#### Create DB User, Create DB, Privileges
 This creates the development and test databases, creates the user 'demo' and grants it all privileges (create schema, read, write, etc).
 The first two GRANTs didn't work for `rails db:migrate` (run later), as likely one or both of the last two were needed. Leaving in to maybe investigate later.
 
+Create DB User
 ```
-createdb emotion_tracker
-createdb emotion_tracker_test
-psql -d emotion_tracker
-psql -d emotion_tracker -c "CREATE USER demo WITH PASSWORD P@ssword!1;"
-psql -d emotion_tracker -c "GRANT ALL PRIVILEGES ON DATABASE emotion_tracker TO demo;"
-psql -d emotion_tracker -c "GRANT ALL PRIVILEGES ON SCHEMA public TO demo;"
-psql -d emotion_tracker -c "ALTER SCHEMA public OWNER TO demo;"
-psql -d emotion_tracker -c "GRANT CREATE ON SCHEMA public TO demo;"
-psql -d emotion_tracker -c "ALTER DATABASE emotion_tracker OWNER TO demo;"
+psql -d postgres <<EOF
+CREATE USER demo WITH PASSWORD 'P@ssword!1';
+ALTER USER demo CREATEDB;
+EOF
 ```
-#### Create Schema and Seed Data
-This is done before starting the Rails server and attempting to load the app as current date seed will clash due to current setup (todo: check if seed date is needed/remove it):
+
+#### Create the Databases
+```
+rails db:create
+```
+
+#### Migrations and Seed Data
+
+Currently, seed is empty, and `populate` rake task is used.
 
 ```
 rails db:migrate
-rails db:seed
+# rails db:seed
+rails db:populate
 ```
 
+##### Set New OAUTH App ID in the Front  
+Upon this, a front-end change is needed to set `defaultClientId` to the new one in `oauth_applications.uid`.
+Otherwise, there will be repeated redirects due 401s due to the client id mismatch:
+```
+[2024-10-30T19:47:52.394383 #49237] DEBUG -- :   Doorkeeper::Application Load (0.3ms)  SELECT "oauth_applications".* 
+FROM "oauth_applications" WHERE "oauth_applications"."uid" = $1 LIMIT $2  [["uid", "OLD_UID"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 4ms (Views: 0.1ms | ActiveRecord: 0.7ms | SQL count: 2 | Allocations: 2269)
+```
+
+#### Drop Databases
+```
+rails db:drop
+```
+
+#### Drop DB User
+```
+psql -U admin -d postgres -c "DROP ROLE IF EXISTS demo;"
+```
+
+#### Entering DBs, List Tables, Exit, Rails DB Commands
+```
+psql -U demo -d postgres
+psql -U demo -d emotion_tracker
+psql -U demo -d emotion_tracker_test
+\l
+\q
+```
+
+##### Rails db:* Commands List
+```
+rails --tasks | grep db
+```
+
+#### Troubleshooting - Explicit Permissions
+Create DBs - this won't create tables and subsequent `rails db:create` won't either, unless forced.
+```
+createdb emotion_tracker; createdb emotion_tracker_test
+```
+
+Explicit Permission Grants for Primary and Test DBs
+```
+psql -d postgres <<EOF
+GRANT ALL PRIVILEGES ON DATABASE emotion_tracker TO demo;
+GRANT ALL PRIVILEGES ON SCHEMA public TO demo;
+ALTER SCHEMA public OWNER TO demo;
+ALTER USER demo CREATEDB;
+GRANT CREATE ON SCHEMA public TO demo;
+ALTER DATABASE emotion_tracker OWNER TO demo;
+EOF
+
+psql -d emotion_tracker_test <<EOF
+GRANT ALL PRIVILEGES ON DATABASE emotion_tracker_test TO demo;
+ALTER DATABASE emotion_tracker_test OWNER TO demo;
+EOF
+```
+
+These should cover everything explicitly if needed:
+```
+createdb emotion_tracker
+createdb emotion_tracker_test
+psql -d emotion_tracker <<EOF
+CREATE USER demo WITH PASSWORD 'P@ssword!1';
+ALTER USER demo CREATEDB;
+ALTER DATABASE emotion_tracker OWNER TO demo;
+ALTER DATABASE emotion_tracker_test OWNER TO demo;
+ALTER SCHEMA public OWNER TO demo;
+EOF
+```
+
+#### Showing DBs in JetBrains
+Now showing:
+![db-no-db.png](db-no-db.png)
+
+Showing through `...` next to "No databases selected" and selecting the DBs.
+![db-db.png](db-db.png)
+
+Showing the schemas, `...` next to "No schemas selected`:
+![db-schemas.png](db-schemas.png)
 [Back to Top](#emotion-tracker)
 
 ### Front-End Setup
@@ -296,6 +378,8 @@ TODO: expand
 Started switching to PG on 19/08/2024.
 
 TODO: Expand
+
+
 
 [Back to Top](#emotion-tracker)
 
