@@ -44,7 +44,7 @@ namespace :db do
 
       nouns = emotion_data['en']['faker']['emotion']['noun']
       adjectives = emotion_data['en']['faker']['emotion']['adjective']
-      unique_emotions = (nouns + adjectives).uniq
+      unique_emotions = (nouns + adjectives).uniq # 472
 
       # Create Emotion records for all unique emotions
       emotions_to_create = unique_emotions.map { |emotion_name| Emotion.new(name: emotion_name, created_at: timestamp) }

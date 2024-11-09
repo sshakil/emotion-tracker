@@ -142,7 +142,9 @@ rails db:create
 
 #### Migrations and Seed Data
 
-Currently, seed is empty, and `populate` rake task is used.
+Currently, seed is empty, and `populate` rake task is used. 
+The custom rake task `populate` sits in `lib/tasks`.
+Currently, it imports 472 unique emotions/states.
 
 ```
 rails db:migrate

@@ -67,3 +67,21 @@ For the EmotionTracker project, leveraging a model that specializes in sentiment
  If you need a model with a specific set of emotional categories, you can fine-tune a model like RoBERTa or BERT on a custom emotion dataset or create a custom emotion classification dataset. For instance, if you build a dataset with 15 or 20 emotion categories, you can fine-tune a general-purpose transformer model to classify into those categories.
 
  For EmotionTracker, GoEmotions (monologg/bert-base-cased-goemotions-original) is likely the best choice if you want a higher range of emotions (27 categories), as it’s well-optimized for multi-label emotion detection and includes many nuanced emotions that could be useful for comprehensive emotion tracking. Let me know if you’d like assistance with fine-tuning or using any of these models!
+
+![img.png](img.png)
+Suggested Analytics for EmotionTracker
+
+<p>
+Emotion Frequency: Track how often each emotion appears across different periods (morning, afternoon, evening). You could visualize this as a time series to see emotional trends over days, weeks, or months.
+<p>
+Dominant Emotion per Period: Identify which emotions are most common for each period (e.g., Morning, Evening) and observe if there are patterns in specific time frames.
+<p>
+Emotion Shifts: Measure changes in dominant emotions throughout the day or week. For example, track how the user’s emotional state transitions from morning to evening or Monday to Friday.
+<p>
+Sentiment Distribution: If using a binary sentiment model, visualize the distribution of positive and negative sentiments. This could be helpful for an overall mood analysis.
+<p>
+Emotion Co-occurrence Matrix: Calculate how often certain emotions appear together, which can give insights into complex emotional states (e.g., feeling both “happy” and “anxious” in the same period).
+<p>
+Emotion Intensity Trend: If the model supports intensity scoring (e.g., some emotions models provide a probability score), you could track intensity trends to determine when emotions are more pronounced.
+<p>
+Comparison Between Periods/Days: Highlight if certain days (e.g., weekends) or periods of the day (morning vs. night) have significantly different emotional tones.
