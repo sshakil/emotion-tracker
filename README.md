@@ -100,6 +100,32 @@ I started this in March 2022, paused while I was in grad school, and resumed as 
 git clone git@github.com:sshakil/emotion-tracker.git
 ```
 
+### Docker: docker-compose
+
+```
+docker compose up 
+```
+or upon changes:
+```
+docker compose up --build 
+```
+#### populate db:
+```
+docker compose --profile init-db up init_db
+```
+
+<strike>Currently, upon `init_db`, need to get the generated OAuth App UID manually, set on front-end, and rebuild.
+```
+docker ps
+docker exec -it <id for postgres service>
+SELECT uid FROM oauth_applications;
+exit
+exit
+docker compose up --build 
+```
+
+TODO: expose this on backend through public controller then either fetch on every front-end call or fetch and set then reuse</strike> [done: through fetching App UID from backend]
+
 ### Change Directory to emotion-tracker
 
 ```

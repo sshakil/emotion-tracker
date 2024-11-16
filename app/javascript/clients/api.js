@@ -1,11 +1,23 @@
 const apiBaseUrl = 'http://localhost:3000'
-const defaultClientId = 'XHIPSreq2Iq_CPz90od57yPHRIU7Mep5V2-pUZbadMs'
+const defaultClientId = process.env.OAUTH_CLIENT_ID || 'XHIPSreq2Iq_CPz90od57yPHRIU7Mep5V2-pUZbadMs'
 const defaultScope = 'public read write'
 
 // Toggle OAuth flow based on environment variable
 const enableOAuth = process.env.ENABLE_OAUTH === 'true';
 
 // OAuth: Step 1: Register Web Clients as an Application: was done manually in backend db in this case
+
+// OAuth Step 1.1: get App Client ID for Web
+async function fetchOAuthUIDorDefault() {
+  try {
+    const response = await fetch('/api/oauth_public_uid')
+    const data = await response.json()
+    return data.uid
+  } catch (error) {
+    console.warn('Error fetching OAuth UID. Falling back to default. ', error)
+    return defaultClientId
+  }
+}
 
 // Helper function to handle API responses
 const handleApiResponse = (response) => {
@@ -20,14 +32,16 @@ const handleApiResponse = (response) => {
 }
 
 // OAuth: Step 2: Request Authorization Code - Redirect the user to the authorization endpoint to obtain an authorization code from /oauth/authorize.
-const initiateOAuthFlow = (clientId = defaultClientId, scope = defaultScope) => {
+const initiateOAuthFlow = async (scope = defaultScope) => {
   if (!enableOAuth) {
     console.log('OAuth is disabled.');
     return;
   }
 
+  const clientUid = await fetchOAuthUIDorDefault()
+
   const params = new URLSearchParams({
-    client_id: clientId,
+    client_id: clientUid,
     redirect_uri: `${apiBaseUrl}/oauth/callback`,
     response_type: 'code',
     scope,
@@ -48,16 +62,17 @@ const initiateOAuthFlow = (clientId = defaultClientId, scope = defaultScope) => 
       const authorizationCode = urlParams.get('code')
       if (!authorizationCode) throw new Error('Authorization code not found')
       // OAuth: Step 4: Exchange Authorization Code for Access Token - Exchange the authorization code for an access token at /oauth/token
-      return exchangeAuthorizationCodeForToken(authorizationCode, clientId)
+      return exchangeAuthorizationCodeForToken(authorizationCode, clientUid)
     })
 }
 
 // OAuth: Step 4: Exchange Authorization Code for Access Token - Exchange at /oauth/token
-const exchangeAuthorizationCodeForToken = (authorizationCode, clientId = defaultClientId) => {
+// must stay a local function, or will need to handle clientUid through state/store
+const exchangeAuthorizationCodeForToken = (authorizationCode, clientUid) => {
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
     code: authorizationCode,
-    client_id: clientId,
+    client_id: clientUid,
     redirect_uri: `${apiBaseUrl}/oauth/callback`
   })
 
@@ -168,5 +183,4 @@ export {
   postEntries,
   deleteEntryAPI,
   initiateOAuthFlow,
-  exchangeAuthorizationCodeForToken
 }

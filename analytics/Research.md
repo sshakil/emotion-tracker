@@ -68,7 +68,7 @@ For the EmotionTracker project, leveraging a model that specializes in sentiment
 
  For EmotionTracker, GoEmotions (monologg/bert-base-cased-goemotions-original) is likely the best choice if you want a higher range of emotions (27 categories), as it’s well-optimized for multi-label emotion detection and includes many nuanced emotions that could be useful for comprehensive emotion tracking. Let me know if you’d like assistance with fine-tuning or using any of these models!
 
-![img.png](img.png)
+![analytics.png](analytics.png)
 Suggested Analytics for EmotionTracker
 
 <p>
@@ -85,3 +85,36 @@ Emotion Co-occurrence Matrix: Calculate how often certain emotions appear togeth
 Emotion Intensity Trend: If the model supports intensity scoring (e.g., some emotions models provide a probability score), you could track intensity trends to determine when emotions are more pronounced.
 <p>
 Comparison Between Periods/Days: Highlight if certain days (e.g., weekends) or periods of the day (morning vs. night) have significantly different emotional tones.
+
+![shortlist.png](shortlist.png)
+
+Enhanced Justification of Chart Choices
+<p>
+Emotion Frequency (Stacked Bar Chart):
+X-axis: Days or weeks, allowing for a longitudinal view.
+Y-axis: Displays frequency, showing trends in how often each of the 27 top emotions appears.
+Stacked Sections: Each section represents one of the top 10 most common emotions, helping users identify which emotions recur most frequently and if there are any time-based patterns.
+<p>
+Dominant Emotion per Period (Pie Chart):
+Slices: Each slice shows the proportion of dominant emotions per period, providing a snapshot of the emotional tone in specific parts of the day.
+Weekly Aggregation: Aggregating over a week helps visualize recurring emotional patterns without daily fluctuations, highlighting stable trends over time.
+<p>
+Emotion Shifts (Slope Graph):
+X-axis: Represents periods (e.g., Early Morning, Morning, etc.), allowing a clear view of shifts.
+Lines: Each line shows the transition of a single emotion, identifying how emotional states change across time periods within a day.
+<p>
+Sentiment Distribution (Donut Chart):
+Two Segments: Positive and negative, providing a high-level overview of the overall sentiment balance.
+Aggregated Daily or Weekly: Helps identify trends in general mood without drilling down into specific emotions, useful for quick checks on well-being.
+<p>
+Emotion Co-occurrence Matrix (Heatmap):                                     
+X and Y Axes: Represent pairs of emotions within the top 10 co-occurring pairs, keeping data manageable.
+Color Intensity: Indicates the frequency of co-occurrences, helping identify which emotions commonly appear together, giving insight into complex emotional states.
+<p>
+Emotion Intensity Trend (Line Chart):
+X-axis: Represents days or weeks, tracking shifts in intensity over time.
+Y-axis: Shows intensity of the top 5 emotions, helping identify when emotions are more intense and recognizing potentially stressful or uplifting patterns.
+<p>
+Comparison Between Periods/Days (Grouped Bar Chart):
+X-axis: Days or periods, allowing for a comparison across time.
+Y-axis: Frequency or intensity of emotions, grouped by periods. Shows variations across time frames, helping to pinpoint when certain emotions are more prevalent, potentially correlating with specific times.

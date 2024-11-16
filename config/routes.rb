@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   devise_for :users
   root "static#index"
 
+  get '/api/oauth_public_uid', to: 'oauth_apps#public_uid'
+
   resources :entries, only: [:create, :destroy]
 
   resources :days, shallow: true do
