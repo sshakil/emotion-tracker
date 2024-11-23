@@ -5,6 +5,8 @@ class Entry < ApplicationRecord
 
   before_create :set_uuid
 
+  validates :user, presence: true
+
   private
 
   def set_uuid

@@ -1,5 +1,5 @@
-const apiBaseUrl = 'http://localhost:3000'
-const defaultClientId = process.env.OAUTH_CLIENT_ID || 'XHIPSreq2Iq_CPz90od57yPHRIU7Mep5V2-pUZbadMs'
+const apiBaseUrl = process.env.API_BASE_URL
+const defaultClientId = process.env.OAUTH_CLIENT_ID
 const defaultScope = 'public read write'
 
 // Toggle OAuth flow based on environment variable
@@ -8,7 +8,7 @@ const enableOAuth = process.env.ENABLE_OAUTH === 'true';
 // OAuth: Step 1: Register Web Clients as an Application: was done manually in backend db in this case
 
 // OAuth Step 1.1: get App Client ID for Web
-async function fetchOAuthUIDorDefault() {
+async function fetchOAuthUidOrDefault() {
   try {
     const response = await fetch('/api/oauth_public_uid')
     const data = await response.json()
@@ -38,7 +38,7 @@ const initiateOAuthFlow = async (scope = defaultScope) => {
     return;
   }
 
-  const clientUid = await fetchOAuthUIDorDefault()
+  const clientUid = await fetchOAuthUidOrDefault()
 
   const params = new URLSearchParams({
     client_id: clientUid,

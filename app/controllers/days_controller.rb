@@ -1,14 +1,13 @@
 class DaysController < ApplicationController
   before_action -> { doorkeeper_authorize! :read, :write, :public }
-
-  before_action :set_day, only: %i[ edit update destroy ]
+  before_action :set_current_user
+  before_action :set_day, only: %i[edit update destroy]
   skip_before_action :verify_authenticity_token
 
   # GET /days or /days.json
-  # controllers/days_controller.rb
-  # app/controllers/days_controller.rb
   def index
-    @days = Day.joins(day_periods: :entries)
+    @days = Day.where(user: @current_user)
+               .joins(day_periods: :entries)
                .distinct
                .order(date: :desc)
                .limit(30)
@@ -28,35 +27,29 @@ class DaysController < ApplicationController
       only: [:date]
     )
   end
-  # GET /days/1 or /days/1.json or /days/fetch
-  # todo: check if /days/<id> is used.. otherwise update comment
-  # day_json = {} because: see https://stackoverflow.com/questions/22997327/should-i-return-null-an-empty-object-or-an-empty-array-for-json-with-no-data
-  # to handle front sending format mm/dd/yyyy
-  # needed format: yyyy-mm-dd
-  # date = Time.strptime(params['date'], "%m/%d/%Y ")
+
+  # GET /days/1 or /days/1.json
   def show
-    @day = Day.find_by(date: params['date'])
+    @day = Day.find_by(date: params['date'], user: @current_user)
     day_json = {}
 
     unless @day.nil?
-      # Perform a single query to fetch all necessary data without JSON aggregation in the DB
       data = ActiveRecord::Base.connection.execute(
         <<-SQL
-      SELECT
-        day_periods.id as dp_id,
-        periods.name as period_name,
-        entries.uuid as entry_uuid,
-        emotions.name as emotion_name
-      FROM day_periods
-      INNER JOIN periods ON periods.id = day_periods.period_id
-      INNER JOIN entries ON entries.day_period_id = day_periods.id
-      INNER JOIN emotions ON emotions.id = entries.emotion_id
-      WHERE day_periods.day_id = #{@day.id}
-      ORDER BY day_periods.id
-    SQL
+          SELECT
+            day_periods.id as dp_id,
+            periods.name as period_name,
+            entries.uuid as entry_uuid,
+            emotions.name as emotion_name
+          FROM day_periods
+          INNER JOIN periods ON periods.id = day_periods.period_id
+          INNER JOIN entries ON entries.day_period_id = day_periods.id
+          INNER JOIN emotions ON emotions.id = entries.emotion_id
+          WHERE day_periods.day_id = #{@day.id}
+          ORDER BY day_periods.id
+        SQL
       ).to_a
 
-      # Group the data
       periods_json = data.group_by { |record| record['dp_id'] }.map do |_, records|
         {
           name: records.first['period_name'],
@@ -78,7 +71,7 @@ class DaysController < ApplicationController
     errors = []
     created_entries = []
     begin
-      @day = Day.find_or_create_by(date: params['day']['date'])
+      @day = Day.find_or_create_by!(date: params['day']['date'], user: @current_user)
       if @day.nil?
         errors << "Invalid date"
       else
@@ -87,9 +80,10 @@ class DaysController < ApplicationController
           if @period.nil?
             errors << "Unknown period"
           else
-            @day_period = DayPeriod.find_or_create_by(
+            @day_period = DayPeriod.find_or_create_by!(
               day: @day,
-              period: @period
+              period: @period,
+              user: @current_user
             )
 
             period['emotions_attributes'].each do |emotion|
@@ -97,7 +91,8 @@ class DaysController < ApplicationController
 
               @entry = Entry.find_or_create_by(
                 day_period: @day_period,
-                emotion: @emotion
+                emotion: @emotion,
+                user: @current_user
               )
 
               created_entries << {
@@ -116,21 +111,27 @@ class DaysController < ApplicationController
       else
         render json: { error: errors.as_json }, status: :bad_request
       end
-
     rescue StandardError => e
       render json: { error: e.as_json }, status: :internal_server_error
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+  # Use callbacks to share common setup or constraints between actions.
   def set_day
-    @day = Day.find(params[:id])
+    @day = Day.find_by(id: params[:id], user: @current_user)
   end
 
-    # Only allow a list of trusted parameters through.
+  # Only allow a list of trusted parameters through.
   def day_params
     params.require(:day).permit(:date, periods_attributes: [:name, emotions_attributes: [:name]])
   end
 
+  # Set the `@current_user` instance variable using Doorkeeper.
+  def set_current_user
+    return unless doorkeeper_token
+
+    @current_user = User.find_by(id: doorkeeper_token.resource_owner_id)
+  end
 end

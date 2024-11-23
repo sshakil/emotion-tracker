@@ -36,7 +36,7 @@ services:
   frontend:
     image: node:16
     working_dir: /app
-    command: bash -c "ENABLE_OAUTH=true npx webpack --watch --config ./webpack.config.js"
+    command: bash -c "npx webpack --watch --config ./webpack.config.js"
     volumes:
       - .:/app
     ports:

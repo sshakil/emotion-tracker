@@ -12,6 +12,10 @@ Rails.application.configure do
     Bullet.raise         = true # raise an error if n+1 query occurs
   end
 
+  # Helpful to debug failures:
+  # Rails.logger = Logger.new(STDOUT)
+  # config.log_level = :debug
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Turn false under Spring and add config.action_view.cache_template_loading = true.
@@ -36,8 +40,8 @@ Rails.application.configure do
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
-  # Disable request forgery protection in test environment.
-  config.action_controller.allow_forgery_protection = false
+  # Request forgery protection in test environment. true: enabled, false: disabled
+  config.action_controller.allow_forgery_protection = true
 
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
@@ -63,4 +67,7 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3001')
+  config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
 end

@@ -47,6 +47,10 @@ Doorkeeper.configure do
   end
 
   realm "Doorkeeper"
+
+  # todo: temp
+  # Allow HTTP redirect URIs in development and test environments
+  force_ssl_in_redirect_uri false if Rails.env.development? || Rails.env.test?
 end
 
 Doorkeeper::JWT.configure do

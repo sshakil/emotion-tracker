@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_30_191324) do
   create_table "day_periods", force: :cascade do |t|
     t.bigint "day_id", null: false
     t.bigint "period_id", null: false
-    t.bigint "user_id", default: 1, null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["day_id"], name: "index_day_periods_on_day_id"
@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_30_191324) do
 
   create_table "days", force: :cascade do |t|
     t.date "date"
-    t.bigint "user_id", default: 1, null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["date"], name: "index_days_on_date", unique: true
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_30_191324) do
     t.bigint "day_period_id", null: false
     t.bigint "emotion_id", null: false
     t.string "uuid", null: false
-    t.bigint "user_id", default: 1, null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["day_period_id"], name: "index_entries_on_day_period_id"

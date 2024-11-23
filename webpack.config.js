@@ -1,24 +1,26 @@
 const path = require('path')
-const webpack = require('webpack');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin') // Import the plugin
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const { HotModuleReplacementPlugin, ProvidePlugin } = require('webpack')
-const isProduction = process.env.NODE_ENV === 'production';
+const Dotenv = require('dotenv-webpack')
+
+// Define production and test modes based on NODE_ENV
+const isProduction = process.env.NODE_ENV === 'production'
+// sort of a hack as webpack doesn't have a test profile
+const isTest = process.env.NODE_ENV === 'test'
 
 module.exports = {
-    entry:  {
-        application: './app/javascript/packs/application.js'
+    entry: {
+        application: './app/javascript/packs/application.js',
     },
     output: {
         filename: 'application.js',
-        path: path.resolve(__dirname, 'public/packs'),
-        publicPath: '/packs/',
-        // clean: true, // Clean the output directory before emitting
-        clean: isProduction
-        // clean: false
+        path: path.resolve(__dirname, isTest ? 'public/packs-test' : 'public/packs'),
+        publicPath: '/packs/', // Ensure assets are served correctly
+        clean: isProduction, // Clean the output directory in production
     },
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development', // only these two supported by webpack
     devServer: {
         static: path.resolve(__dirname, 'public/packs'),
         compress: true,
@@ -28,14 +30,6 @@ module.exports = {
         open: true,
         liveReload: true,
         hot: true,
-        proxy: [
-          {
-            context: () => true, // Proxy all requests
-            target: 'http://localhost:3000', // Proxy requests to the backend server
-            changeOrigin: true,
-            secure: false,
-          }
-        ]
     },
     module: {
         rules: [
@@ -45,7 +39,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        plugins: ['react-refresh/babel'],
+                        plugins: isProduction || isTest ? [] : ['react-refresh/babel'],
                     },
                 },
             },
@@ -62,7 +56,7 @@ module.exports = {
     resolve: {
         alias: {
             components: path.resolve(__dirname, 'app/javascript/components'),
-            '@emotion/react': path.resolve(__dirname, 'node_modules/@emotion/react')
+            '@emotion/react': path.resolve(__dirname, 'node_modules/@emotion/react'),
         },
     },
     plugins: [
@@ -70,18 +64,24 @@ module.exports = {
             Buffer: ['buffer', 'Buffer'],
             process: 'process/browser',
         }),
-        new HotModuleReplacementPlugin(),
-        new ReactRefreshWebpackPlugin(),
-        new NodePolyfillPlugin(),
-        new WebpackManifestPlugin({ // Add the plugin here
-            fileName: 'manifest.json',
-            publicPath: '/packs/', // Ensure this matches public_output_path in webpacker.yml
-        }),
-        new webpack.DefinePlugin({
-            // Default to true for RoR backend which has OAuth
-            'process.env.ENABLE_OAUTH': JSON.stringify(process.env.ENABLE_OAUTH || 'true')
-        })
 
+        // Include HMR for development only
+        ...(isProduction || isTest ? [] : [new HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
+
+        new NodePolyfillPlugin(),
+
+        // Generate a manifest file for assets
+        new WebpackManifestPlugin({
+            fileName: 'manifest.json',
+            publicPath: isTest ? '/packs-test/' : '/packs/', // Ensure this matches public_output_path in webpacker.yml,
+            writeToFileEmit: true,
+        }),
+
+        // Load environment variables from .env files
+        new Dotenv({
+            // Select the appropriate .env file
+            path: `.env.${process.env.NODE_ENV || 'development'}`,
+        }),
     ],
-    devtool: 'cheap-module-source-map',
+    devtool: isProduction ? 'source-map' : 'cheap-module-source-map',
 }

@@ -21,7 +21,7 @@ module.exports = function (api) {
         '@babel/preset-env',
         {
           targets: {
-            node: 'current',
+            node: 'current', // Target the current Node.js version for tests
           },
         },
       ],
@@ -35,12 +35,17 @@ module.exports = function (api) {
           exclude: ['transform-typeof-symbol'],
         },
       ],
-      isDevelopmentEnv && '@babel/preset-react' // Ensure React preset is included for JSX
+      [
+        '@babel/preset-react',
+        {
+          development: isDevelopmentEnv || isTestEnv, // Enable React dev mode in test and development
+        },
+      ],
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
       '@babel/plugin-syntax-dynamic-import',
-      isTestEnv && 'babel-plugin-dynamic-import-node',
+      isTestEnv && 'babel-plugin-dynamic-import-node', // Ensure dynamic imports work in tests
       '@babel/plugin-transform-destructuring',
       [
         '@babel/plugin-proposal-class-properties',
@@ -78,7 +83,12 @@ module.exports = function (api) {
           async: false,
         },
       ],
-      isDevelopmentEnv && require.resolve('react-refresh/babel'),
+      isDevelopmentEnv && [
+        'react-refresh/babel',
+        {
+          skipEnvCheck: true, // Explicitly skip environment check
+        },
+      ],
     ].filter(Boolean),
   };
 };

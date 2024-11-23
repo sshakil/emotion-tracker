@@ -95,4 +95,6 @@ Rails.application.configure do
   # todo: update b4 deployment to a prod env
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.api_base_url = ENV.fetch('API_BASE_URL', 'https://your-production-backend.com')
+  config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
 end

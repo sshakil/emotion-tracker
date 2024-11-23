@@ -6,11 +6,12 @@
   - [Languages, Frameworks, & Competencies](#languages-frameworks--competencies)
 - [Who](#who) & [Why](#why)
 - [How - AI-Assisted Coding](#how---ai-assisted-coding)
-- [How - Setup and Run](#how---setup-and-run)
+- [How - Setup, Run, Tests](#how---setup-run-tests)
 - [How - Project Creation](#how---project-creation)
 - [Issues and Next TODOs](#issues-and-Next-TODOs)
 - [Dev Docs/Guides](#dev-docsguides)
 - [Next Steps](#next-steps)
+- [Potential & Known Issues](#potential--known-issues)
 - [License](#license)
 
 #### Screenshots
@@ -89,44 +90,20 @@ I started this in March 2022, paused while I was in grad school, and resumed as 
 
 [Back to Top](#emotion-tracker)
 
-## How - Setup and Run
+## How - Setup, Run, Tests
 <p>
    This assumes you can use MacOS package manager <code>brew</code> on the CLI to install <code>postgresql</code> and <code>git</code>, update RubyGems(<code>gem</code>) to install </code>bundler</code>, Ruby on Rails, and <code>npm</code> to install MUI, among other libraries.
 </p>
 
-### Clone the Repo
+### Setup
+
+#### Clone the Repo
 
 ```
 git clone git@github.com:sshakil/emotion-tracker.git
 ```
 
-### Docker: docker-compose
-
-```
-docker compose up 
-```
-or upon changes:
-```
-docker compose up --build 
-```
-#### populate db:
-```
-docker compose --profile init-db up init_db
-```
-
-<strike>Currently, upon `init_db`, need to get the generated OAuth App UID manually, set on front-end, and rebuild.
-```
-docker ps
-docker exec -it <id for postgres service>
-SELECT uid FROM oauth_applications;
-exit
-exit
-docker compose up --build 
-```
-
-TODO: expose this on backend through public controller then either fetch on every front-end call or fetch and set then reuse</strike> [done: through fetching App UID from backend]
-
-### Change Directory to emotion-tracker
+#### Change Directory to emotion-tracker
 
 ```
 cd emotion-tracker
@@ -137,8 +114,10 @@ cd emotion-tracker
 
 [Back to Top](#emotion-tracker)
 
-### Database Setup
-#### Start PostgreSQL
+#### Database Setup
+See also: schema.md
+<a href="https://github.com/emotion-tracker/schema.md" target="_blank">schema.md</a>
+##### Start PostgreSQL
 As system daemon
 
 ```
@@ -149,9 +128,8 @@ Or, manually
 pg_ctl -D /usr/local/var/postgres start
 ```
 
-#### Create DB User, Create DB, Privileges
-This creates the development and test databases, creates the user 'demo' and grants it all privileges (create schema, read, write, etc).
-The first two GRANTs didn't work for `rails db:migrate` (run later), as likely one or both of the last two were needed. Leaving in to maybe investigate later.
+##### Create DB User, Create DB, Privileges
+Create user 'demo' and grants it all create table privileges.
 
 Create DB User
 ```
@@ -161,44 +139,56 @@ ALTER USER demo CREATEDB;
 EOF
 ```
 
-#### Create the Databases
+##### Create the Databases
+This creates the development and test databases.
+Don't really need the first line, but switching from `test`, in case.
 ```
-rails db:create
+bin/rails db:environment:set RAILS_ENV=development
+db:create
 ```
 
-#### Migrations and Seed Data
+##### Migrations and Seed Data
 
-Currently, seed is empty, and `populate` rake task is used. 
-The custom rake task `populate` sits in `lib/tasks`.
+The `seed` task sets up initial user, periods, and OAuth tables.
+The custom task `populate` sits in `lib/tasks`.
 Currently, it imports 472 unique emotions/states.
 
 ```
 rails db:migrate
-# rails db:seed
+rails db:seed
 rails db:populate
 ```
+
+or, all together when resetting:
+
+```
+rails db:drop && rails db:create && rails db:migrate && rails db:seed && rails db:populate
+```
+
 [Back to Top](#emotion-tracker)
 
-##### Set New OAUTH App ID in the Front  
-Upon this, a front-end change is needed to set `defaultClientId` to the new one in `oauth_applications.uid`.
+###### Set New OAUTH App ID in the Front  
+<strike>
+After this, a front-end change is needed to set `defaultClientId` to the new one in `oauth_applications.uid`.
 Otherwise, there will be repeated redirects due 401s due to the client id mismatch:
 ```
 [2024-10-30T19:47:52.394383 #49237] DEBUG -- :   Doorkeeper::Application Load (0.3ms)  SELECT "oauth_applications".* 
 FROM "oauth_applications" WHERE "oauth_applications"."uid" = $1 LIMIT $2  [["uid", "OLD_UID"], ["LIMIT", 1]]
 Completed 401 Unauthorized in 4ms (Views: 0.1ms | ActiveRecord: 0.7ms | SQL count: 2 | Allocations: 2269)
 ```
+</strike> [no longer needed upon adding public front-end fetch api for ouath app uid]
 
-#### Drop Databases
+##### Drop Databases
 ```
 rails db:drop
 ```
 
-#### Drop DB User
+##### Drop DB User
 ```
 psql -U admin -d postgres -c "DROP ROLE IF EXISTS demo;"
 ```
 
-#### Entering DBs, List Tables, Exit, Rails DB Commands
+##### Entering DBs, List Tables, Exit, Rails DB Commands
 ```
 psql -U demo -d postgres
 psql -U demo -d emotion_tracker
@@ -207,13 +197,13 @@ psql -U demo -d emotion_tracker_test
 \q
 ```
 
-##### Rails db:* Commands List
+###### Rails db:* Commands List
 ```
 rails --tasks | grep db
 ```
 [Back to Top](#emotion-tracker)
 
-#### Troubleshooting - Explicit Permissions
+##### Troubleshooting - Explicit Permissions
 Create DBs - this won't create tables and subsequent `rails db:create` won't either, unless forced.
 ```
 createdb emotion_tracker; createdb emotion_tracker_test
@@ -249,7 +239,7 @@ ALTER SCHEMA public OWNER TO demo;
 EOF
 ```
 
-#### Showing DBs in JetBrains
+##### Showing DBs in JetBrains
 Now showing:<br>
 ![db-no-db.png](db-no-db.png)
 
@@ -261,14 +251,14 @@ Showing the schemas, `...` next to "No schemas selected`:<br>
 
 [Back to Top](#emotion-tracker)
 
-### Front-End Setup
+#### Front-End Setup
 Install Javascript libraries
 
 ```
 npm install
 ```
 
-### Backend Setup
+#### Backend Setup
 
 Install Gems
 
@@ -280,24 +270,103 @@ bundle install
 
 ### Run
 
-#### Backend
+#### Locally, Non-Containerized 
+For typical dev flows.
+
+##### Backend
 
 ```
 rails s -p 3000
 ```
-#### Front-End
-ENABLE_OAUTH=true for RoR which currently has OAuth implemented
-<br>ENABLE_OAUTH=false for a backend that doesn't have OAuth implemented
+##### Front-End
+Optional env-var to disable OAUTH flow for a backend that doesn't yet have OAuth implemented
+<br>ENABLE_OAUTH
 <br>Use an incognito window to launch the app, to avoid cookie caching issues, which will receive 401s and present an app without data
 ```
-ENABLE_OAUTH=true npx webpack --watch --config ./webpack.config.js
+npx webpack --watch --config ./webpack.config.js
 ```
+
+[Back to Top](#emotion-tracker)
+
+#### Docker 
+Good to run using this to check everything before deploying to cloud.
+
+Run docker:
+
+```
+docker compose up 
+```
+or upon changes:
+```
+docker compose up --build 
+```
+
+##### Create & Populate DB:
+TODO: check if all the currently non-commented commands in this script are actually needed.
+
+Script to create and populate the db:
+<a href="https://github.com/emotion-tracker/init-db.sh" target="_blank">init-db.sh</a>
+
+```
+docker compose --profile init-db up init_db
+```
+
+<strike>Currently, upon `init_db`, need to get the generated OAuth App UID manually, set on front-end, and rebuild.
+```
+docker ps
+docker exec -it <id for postgres service>
+SELECT uid FROM oauth_applications;
+exit
+exit
+docker compose up --build 
+```
+TODO: expose this on backend through public controller then either fetch on every front-end call or fetch and set then reuse</strike> 
+[done: through fetching App UID from backend]
 
 #### Load the App
 
 Visit: <a href="http://127.0.0.1:3000/" target="_blank">http://127.0.0.1:3000/</a>
 
-[Back to Top](#emotion-tracker)
+## Test
+### Test Setup
+
+#### DB
+See [Database Setup](#database-setup).
+
+##### Resetting Test DB
+```
+bin/rails db:environment:set RAILS_ENV=test
+RAILS_ENV=test rails db:drop && RAILS_ENV=test rails db:create && RAILS_ENV=test rails db:migrate && RAILS_ENV=test rails:db:seed
+```
+
+Ensure the correct URL and PORT (300*1*):
+```
+RAILS_ENV=test rails console
+Loading test environment (Rails 7.0.4.2)
+irb(main):001:0> Doorkeeper::Application.first&.redirect_uri
+  Doorkeeper::Application Load (1.2ms)  SELECT "oauth_applications".* FROM "oauth_applications" ORDER BY "oauth_applications"."id" ASC LIMIT $1  [["LIMIT", 1]]
+=> "http://localhost:3001/oauth/callback"
+```
+
+#### Chrome Driver
+Needed for running specs.
+```
+brew install chromedriver
+```
+
+#### Run Tests
+```
+rspec
+```
+
+##### Troubleshooting Tests
+This is helpful, in `config/environments/test.rb` :
+```
+Rails.application.configure do
+...
+  Rails.logger = Logger.new(STDOUT)
+  config.log_level = :debug
+```
 
 ## How - Project Creation
 
@@ -432,6 +501,15 @@ However, since I'd like to demonstrate the app ASAP, I'll be proceeding with #4,
 <p>
 Though I didn't proceed with TDD/BDD, it's something I would prefer to do at orgs for greenfield as well as existing projects.
 </p>
+
+## Potential & Known Issues
+
+### Known Issues
+ - currently any user can access all entries
+
+### Potential Issues
+ - `package.json`: On Windows and Linux, directly setting `NODE_ENV=test` in the command may not work. Use the `cross-env` package.
+
 
 [Back to Top](#emotion-tracker)
 
