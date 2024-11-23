@@ -48,3 +48,9 @@ db/~$erd.drawio.bkp
 model/fine-tuned-bert/
 model/label_map.json
 model/results/
+
+/coverage
+
+.env.production
+
+package-lock.json
