@@ -52,5 +52,3 @@ model/results/
 /coverage
 
 .env.production
-
-package-lock.json
