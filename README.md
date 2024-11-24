@@ -283,7 +283,7 @@ Optional env-var to disable OAUTH flow for a backend that doesn't yet have OAuth
 <br>ENABLE_OAUTH
 <br>Use an incognito window to launch the app, to avoid cookie caching issues, which will receive 401s and present an app without data
 ```
-npx webpack --watch --config ./webpack.config.js
+npm run watch
 ```
 
 [Back to Top](#emotion-tracker)
@@ -449,7 +449,8 @@ return (
 </p>
 
 <p>
-    Hot reload through <code>HotModuleReplacementPlugin</code> and <code>ReactRefreshWebpackPlugin</code> currently not working through <code>npm start</code> and the script in <code>package.json</code>. Intuitively, this may be due to the nature of <code>EmotionTracker.js</code> in combination with component HMR being too brittle.
+    <strike>Hot reload through <code>HotModuleReplacementPlugin</code> and <code>ReactRefreshWebpackPlugin</code> currently not working through <code>npm start</code> and the script in <code>package.json</code>. Intuitively, this may be due to the nature of <code>EmotionTracker.js</code> in combination with component HMR being too brittle.</strike>
+[switched to esbuild, Nov 24, 2024]
 </p>
 
 
