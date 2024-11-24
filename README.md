@@ -509,7 +509,8 @@ Though I didn't proceed with TDD/BDD, it's something I would prefer to do at org
 
 ### Potential Issues
  - `package.json`: On Windows and Linux, directly setting `NODE_ENV=test` in the command may not work. Use the `cross-env` package.
-
+ - `package.json`: Tree Shaking might remove CSS from build output for production, as per this: https://stackoverflow.com/questions/61198311/webpack-not-acting-on-sideeffects-for-css-files
+   - currently `  "sideEffects": ["*.css"],` is added in anticipation of this
 
 [Back to Top](#emotion-tracker)
 
