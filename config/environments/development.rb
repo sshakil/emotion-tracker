@@ -88,6 +88,6 @@ Rails.application.configure do
 
   config.active_record.logger = Logger.new(STDOUT)
 
-  # config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3000')
-  # config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
+  config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3000')
+  config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
 end
