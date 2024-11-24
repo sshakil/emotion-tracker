@@ -30,7 +30,7 @@ Doorkeeper.configure do
   default_scopes  :public
   optional_scopes :write, :update
 
-  grant_flows %w[authorization_code client_credentials password]
+  grant_flows %w[authorization_code]
 
   # skip_authorization can be configured to automatically approve access for certain applications.
   # Option 1: Auto-approve for trusted applications.

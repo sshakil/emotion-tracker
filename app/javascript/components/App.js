@@ -16,6 +16,7 @@ const App = () => {
   const enableOAuth = process.env.ENABLE_OAUTH === 'true'  // Toggle based on env var
 
   useEffect(() => {
+    console.log("process.env.NODE_ENV: ", process.env.NODE_ENV)
     const authenticate = async () => {
       if (!enableOAuth) {
         console.log('OAuth is disabled for this environment.')

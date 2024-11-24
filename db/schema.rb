@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_30_191324) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_24_031733) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "day_periods", force: :cascade do |t|
     t.bigint "day_id", null: false

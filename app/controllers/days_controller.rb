@@ -1,7 +1,7 @@
 class DaysController < ApplicationController
   before_action -> { doorkeeper_authorize! :read, :write, :public }
   before_action :set_current_user
-  before_action :set_day, only: %i[edit update destroy]
+  before_action :set_day, only: %i[show]
   skip_before_action :verify_authenticity_token
 
   # GET /days or /days.json

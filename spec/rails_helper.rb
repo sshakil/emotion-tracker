@@ -56,6 +56,9 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation, except: ['sessions']) # Clears test DB
     Rails.application.load_seed # Seeds data for tests
+
+    puts "Rebuilding front-end assets for test environment..."
+    system("NODE_ENV=test node esbuild.config.js") or abort("Asset build failed!")
   end
 
   config.before(:each) do |example|

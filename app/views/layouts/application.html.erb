@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>EmotionTracker</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>EmotionTracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <!-- Include the Esbuild-generated application.js file -->
+  <script src="/assets/application.js" type="module" defer></script>
+</head>
 
-    <!--    breaks firefox, gives Uncaught TypeError: Error resolving module specifier “application”. -->
-    <%#= javascript_importmap_tags %>
-  </head>
-
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<%= yield %>
+</body>
 </html>

@@ -3,18 +3,14 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.0"
 
-# webpack and react
-gem 'webpacker'
-gem 'react-rails'
-
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.4", ">= 7.0.4.2"
+gem "rails", ">= 8.0"
 
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.6"
+gem "puma"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -63,9 +59,10 @@ group :test do
   gem "selenium-webdriver"
   gem "database_cleaner-active_record"
   gem "factory_bot_rails"
-  gem "faker"
   gem"webmock"
   gem "simplecov", require: false
 end
 
 gem "pycall", "~> 1.5"
+
+gem "jsbundling-rails", "~> 1.3"
