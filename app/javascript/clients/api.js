@@ -110,6 +110,8 @@ const getCSRFToken = () => {
     const token = tokenElement.getAttribute('content');
     if (token) {
       return token;
+    } else {
+      console.warn("CSRF token not found.")
     }
   }
 
@@ -177,10 +179,26 @@ const deleteEntryAPI = (entryUuid) => {
   })
 }
 
+const logoutUser = async () => {
+  try {
+    const response = await apiRequest('/users/sign_out', 'DELETE')
+    if (response.ok) {
+      localStorage.removeItem('token')
+    } else {
+      console.error("Error code during logout: ", response.status)
+    }
+    return response
+  } catch (error) {
+    console.error('Error during logout:', error)
+    throw error
+  }
+}
+
 export {
   fetchLast30DaysFromAPI,
   fetchDayByDate,
   postEntries,
   deleteEntryAPI,
   initiateOAuthFlow,
+  logoutUser,
 }

@@ -12,5 +12,4 @@ export default function times(state = initialState, action) {
     default:
       return state
   }
-  // return state
 }

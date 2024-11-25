@@ -507,6 +507,9 @@ Though I didn't proceed with TDD/BDD, it's something I would prefer to do at org
 
 ### Known Issues
  - currently any user can access all entries
+ - session CSRF token reset upon `DELETE /users/sign_out`
+   - current workaround: disable CSRF check for DELETE on that route
+     - workaround and better solution: https://stackoverflow.com/questions/11845500/rails-devise-authentication-csrf-issue
 
 ### Potential Issues
  - `package.json`: On Windows and Linux, directly setting `NODE_ENV=test` in the command may not work. Use the `cross-env` package.

@@ -4,6 +4,8 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Dashboard from './Dashboard'
 import DaysTable from './DaysTable'
+import { logOutUser } from '../actions/user'
+import { useDispatch } from 'react-redux'
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props
@@ -30,9 +32,14 @@ function a11yProps(index) {
 
 export default function TabbedComponentContainer() {
   const [value, setValue] = React.useState(0)
+  const dispatch = useDispatch()
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  const handleLogout = () => {
+    dispatch(logOutUser())
   }
 
   return (
@@ -46,6 +53,7 @@ export default function TabbedComponentContainer() {
         >
           <Tab label="Log" {...a11yProps(0)} />
           <Tab label="Track" {...a11yProps(1)} />
+          <Tab label="Log out" onClick={handleLogout} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

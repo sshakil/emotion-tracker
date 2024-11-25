@@ -49,7 +49,6 @@ function deleteEntry(entryUuid, selectedDate, periodName) {
               periodName: periodName
             }
           })
-          // console.log("successfully deleted entry")
         } else {
           // todo: add action
           console.log("Failed to delete entry")
