@@ -97,6 +97,8 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    chronic_duration (0.10.6)
+      numerizer (~> 0.1.1)
     coderay (1.1.3)
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
@@ -104,6 +106,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    cronex (0.15.0)
+      tzinfo
+      unicode (>= 0.4.4.5)
     cucumber (9.2.0)
       builder (~> 3.2)
       cucumber-ci-environment (> 9, < 11)
@@ -133,6 +138,7 @@ GEM
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
     cucumber-tag-expressions (6.1.1)
+    daemons (1.4.1)
     database_cleaner-active_record (2.2.0)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
@@ -159,6 +165,9 @@ GEM
       railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
+    et-orbi (1.2.11)
+      tzinfo
+    eventmachine (1.2.7)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.4)
@@ -166,9 +175,22 @@ GEM
       railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
+    faye-websocket (0.11.3)
+      eventmachine (>= 0.12.0)
+      websocket-driver (>= 0.5.1)
     ffi (1.17.0-aarch64-linux-gnu)
+    ffi (1.17.0-aarch64-linux-musl)
+    ffi (1.17.0-arm-linux-gnu)
+    ffi (1.17.0-arm-linux-musl)
     ffi (1.17.0-arm64-darwin)
+    ffi (1.17.0-x86-linux-gnu)
+    ffi (1.17.0-x86-linux-musl)
     ffi (1.17.0-x86_64-darwin)
+    ffi (1.17.0-x86_64-linux-gnu)
+    ffi (1.17.0-x86_64-linux-musl)
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
+      raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.1.2)
@@ -198,6 +220,15 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailcatcher (0.10.0)
+      eventmachine (~> 1.0)
+      faye-websocket (~> 0.11.1)
+      mail (~> 2.3)
+      net-smtp
+      rack (~> 2.2)
+      sinatra (~> 3.2)
+      sqlite3 (~> 1.3)
+      thin (~> 1.8)
     marcel (1.0.4)
     matrix (0.4.2)
     method_source (1.1.0)
@@ -205,6 +236,8 @@ GEM
     minitest (5.25.2)
     msgpack (1.7.5)
     multi_test (1.1.0)
+    mustermann (3.0.3)
+      ruby2_keywords (~> 0.0.1)
     net-imap (0.5.1)
       date
       net-protocol
@@ -217,10 +250,17 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
+    nokogiri (1.16.7-arm-linux)
+      racc (~> 1.4)
     nokogiri (1.16.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86-linux)
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.16.7-x86_64-linux)
+      racc (~> 1.4)
+    numerizer (0.1.1)
     orm_adapter (0.5.0)
     pg (1.5.9)
     pry (0.14.2)
@@ -235,14 +275,19 @@ GEM
     puma (6.5.0)
       nio4r (~> 2.0)
     pycall (1.5.2)
+    raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.8)
-    rack-session (2.0.0)
-      rack (>= 3.0.0)
+    rack (2.2.10)
+    rack-protection (3.2.0)
+      base64 (>= 0.1.0)
+      rack (~> 2.2, >= 2.2.4)
+    rack-session (1.0.2)
+      rack (< 3)
     rack-test (2.1.0)
       rack (>= 1.3)
-    rackup (2.2.1)
-      rack (>= 3)
+    rackup (1.0.1)
+      rack (< 3)
+      webrick
     rails (8.0.0)
       actioncable (= 8.0.0)
       actionmailbox (= 8.0.0)
@@ -275,6 +320,10 @@ GEM
     rake (13.2.1)
     rdoc (6.8.1)
       psych (>= 4.0.0)
+    redis (5.3.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.22.2)
+      connection_pool
     regexp_parser (2.9.2)
     reline (0.5.11)
       io-console (~> 0.5)
@@ -299,34 +348,69 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.1)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     securerandom (0.3.2)
-    selenium-webdriver (4.26.0)
+    selenium-webdriver (4.27.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sidekiq (7.3.6)
+      connection_pool (>= 2.3.0)
+      logger
+      rack (>= 2.2.4)
+      redis-client (>= 0.22.2)
+    sidekiq-cron (2.0.1)
+      cronex (>= 0.13.0)
+      fugit (~> 1.8, >= 1.11.1)
+      globalid (>= 1.0.1)
+      sidekiq (>= 6.5.0)
+    sidekiq-status (3.0.3)
+      chronic_duration
+      sidekiq (>= 6.0, < 8)
+    sidekiq-unique-jobs (8.0.10)
+      concurrent-ruby (~> 1.0, >= 1.0.5)
+      sidekiq (>= 7.0.0, < 8.0.0)
+      thor (>= 1.0, < 3.0)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
+    sinatra (3.2.0)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.2.0)
+      tilt (~> 2.0)
     sql_queries_count (0.0.1)
       rails (> 3.0.0)
+    sqlite3 (1.7.3-aarch64-linux)
+    sqlite3 (1.7.3-arm-linux)
+    sqlite3 (1.7.3-arm64-darwin)
+    sqlite3 (1.7.3-x86-linux)
+    sqlite3 (1.7.3-x86_64-darwin)
+    sqlite3 (1.7.3-x86_64-linux)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.2)
     sys-uname (1.3.1)
       ffi (~> 1.1)
+    thin (1.8.2)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (>= 1, < 3)
     thor (1.3.2)
+    tilt (2.4.0)
     timeout (0.4.2)
     turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unicode (0.4.4.5)
     uniform_notifier (1.16.0)
     uri (1.0.2)
     useragent (0.16.10)
@@ -341,6 +425,7 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    webrick (1.9.0)
     websocket (1.2.11)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -351,8 +436,19 @@ GEM
 
 PLATFORMS
   aarch64-linux
-  arm64-darwin-22
-  x86_64-darwin-19
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
+  x86-linux
+  x86-linux-gnu
+  x86-linux-musl
+  x86_64-darwin
+  x86_64-linux
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   activerecord-import
@@ -371,13 +467,19 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   jsbundling-rails (~> 1.3)
+  mailcatcher
   pg
   pry-byebug
   puma
   pycall (~> 1.5)
   rails (>= 8.0)
+  redis
   rspec-rails
   selenium-webdriver
+  sidekiq
+  sidekiq-cron
+  sidekiq-status
+  sidekiq-unique-jobs
   simplecov
   sql_queries_count
   stimulus-rails

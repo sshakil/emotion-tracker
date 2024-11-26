@@ -1,0 +1,7 @@
+---
+# Installing nio4r 2.5.8 with native extensions
+# Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+BUNDLE_BUILD__NIO4R: "--with-cflags=-Wno-incompatible-pointer-types"
+
+# tries to silence funding messages, doesn't work
+BUNDLE_NO_MESSAGE: "true"

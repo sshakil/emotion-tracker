@@ -38,6 +38,16 @@ gem 'activerecord-import'
 
 gem 'dotenv-rails'
 
+gem 'sidekiq'
+gem 'sidekiq-cron'
+gem 'sidekiq-status'
+gem 'redis'
+gem 'sidekiq-unique-jobs'
+
+# used for system level tasks / outside of application
+# gem 'whenever'
+
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
@@ -61,6 +71,11 @@ group :test do
   gem "factory_bot_rails"
   gem "webmock"
   gem "simplecov", require: false
+
+  # catch emails locally for testing
+  gem "mailcatcher", require: false
+  # gem 'thin', '~> 1.8'
+
 end
 
 gem "pycall", "~> 1.5"

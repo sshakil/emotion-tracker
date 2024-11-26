@@ -2,6 +2,8 @@
 # Could be what loads FactoryBot without having to do so explicitely
 require 'cucumber/rails'
 
+require 'sidekiq/testing'
+
 # Prevent Rails from rescuing exceptions for debugging purposes
 ActionController::Base.allow_rescue = false
 
@@ -51,3 +53,8 @@ Capybara.server = :puma, { Silent: true } # Use Puma for tests
 Capybara.server_host = 'localhost'
 Capybara.server_port = 3001
 Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+
+
+# SIDEKIQ
+# queue jobs immediately in tests
+Sidekiq::Testing.inline!
