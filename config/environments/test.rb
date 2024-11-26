@@ -53,4 +53,10 @@ Rails.application.configure do
 
   config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3001')
   config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
+
+  # For debugging failing specs
+  # config.active_record.logger = Logger.new(STDOUT)
+  # config.logger = Logger.new(STDOUT)
+  # config.log_level = :debug
+
 end

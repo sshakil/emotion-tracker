@@ -53,13 +53,13 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem "cucumber-rails", require: false # only load for feature specs
   gem "rspec-rails"
   gem "capybara"
   gem "selenium-webdriver"
   gem "database_cleaner-active_record"
   gem "factory_bot_rails"
-  gem"webmock"
+  gem "webmock"
   gem "simplecov", require: false
 end
 

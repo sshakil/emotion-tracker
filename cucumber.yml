@@ -1,0 +1,4 @@
+default:
+  # don't print the features, don't print report
+  --format progress
+  --publish-quiet
