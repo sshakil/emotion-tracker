@@ -1,0 +1,6 @@
+{
+  "daily_email_notification": {
+    "class": "DailyEmailNotificationJob",
+    "cron": "0 6 * * *"
+  }
+}

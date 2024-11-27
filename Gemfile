@@ -75,7 +75,6 @@ group :test do
   # catch emails locally for testing
   gem "mailcatcher", require: false
   # gem 'thin', '~> 1.8'
-
 end
 
 gem "pycall", "~> 1.5"

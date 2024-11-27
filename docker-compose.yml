@@ -18,6 +18,35 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7
+    command: [ "redis-server", "--appendonly", "no" ] # Disable persistence for local dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://demo:P%40ssword%211@db:5432/emotion_tracker
+      REDIS_URL: redis://redis:6379/0
+      RAILS_ENV: development
+
   web:
     build: .
     command: bash -c "bundle exec rails server -p 3000 -b 0.0.0.0"
@@ -31,16 +60,19 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgres://demo:P%40ssword%211@db:5432/emotion_tracker
+      REDIS_URL: redis://redis:6379/0
       RAILS_ENV: development
 
   frontend:
     image: node:16
     working_dir: /app
-    command: bash -c "npx webpack --watch --config ./webpack.config.js"
+    command: bash -c "npm run watch"
     volumes:
       - .:/app
     ports:
       - "8080:8080"
+    environment:
+      NODE_ENV: development
 
   init_db:
     build: .
@@ -57,3 +89,4 @@ services:
 volumes:
   postgres_data:
   bundle_cache:
+  redis_data:

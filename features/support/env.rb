@@ -1,3 +1,5 @@
+puts "ENV.RB loaded in: #{defined?(Rails) ? Rails.env : 'undefined'}"
+
 # Cucumber Rails integration
 # Could be what loads FactoryBot without having to do so explicitely
 require 'cucumber/rails'
@@ -56,5 +58,27 @@ Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
 
 
 # SIDEKIQ
-# queue jobs immediately in tests
+# Queue jobs immediately in tests
 Sidekiq::Testing.inline!
+
+@sidekiq_pid = nil
+# Start Sidekiq server before the test suite runs
+if Rails.env.test?
+  # Load Sidekiq configuration
+  require Rails.application.config.sidekiq_config
+  puts "Starting Sidekiq server for tests..."
+  unless @sidekiq_pid
+    @sidekiq_pid = Process.spawn(
+      'RAILS_ENV=test bundle exec sidekiq', out: $stdout, err: $stdout
+    )
+  end
+  sleep 3 # Allow Sidekiq to start
+end
+
+at_exit do
+  if defined?(@sidekiq_pid) && @sidekiq_pid
+    Process.kill('TERM', @sidekiq_pid) # Try graceful shutdown
+    sleep 1 # Give Sidekiq time to exit
+    Process.kill('KILL', @sidekiq_pid) if system("ps -p #{@sidekiq_pid}") # Force if still running
+  end
+end

@@ -86,8 +86,19 @@ Rails.application.configure do
   config.public_file_server.index_name = "index.html"
   config.public_file_server.headers = { "Cache-Control" => "no-cache" }
 
+  # Only add non-symlinked directories under config/initializers/sidekiq to autoload paths
+  config.autoload_paths +=
+    Dir["#{config.root}/config/initializers/sidekiq/**/"]
+      .reject { |path|
+        File.symlink?(path)
+      }
+
   config.active_record.logger = Logger.new(STDOUT)
 
   config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3000')
   config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
+  config.redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379/0')
+
+  config.jobs_file = Rails.root.join('config', 'initializers', 'sidekiq', 'jobs.json')
+  # config.jobs_file = Rails.root.join('config', 'sidekiq', 'jobs.json')
 end

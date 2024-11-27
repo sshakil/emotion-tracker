@@ -30,8 +30,9 @@
 
 /public/assets
 
-# Ignore master key for decrypting credentials and more.
+# Ignore some configs
 /config/master.key
+/config/sidekiq/opt*
 
 .idea
 /public/packs
@@ -52,3 +53,4 @@ model/results/
 
 .env.production
 /app/assets/builds/*
+

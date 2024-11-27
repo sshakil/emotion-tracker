@@ -266,6 +266,14 @@ Install Gems
 bundle install
 ```
 
+#### Redis for Sidekiq for Daily Email Notifications[redis.conf](../../../../../../opt/homebrew/etc/redis.conf)
+
+```
+brew install redis
+brew services start redis
+redis-cli ping
+```
+
 [Back to Top](#emotion-tracker)
 
 ### Run

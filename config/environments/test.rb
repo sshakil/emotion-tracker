@@ -53,6 +53,23 @@ Rails.application.configure do
 
   config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3001')
   config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
+  config.redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379/1')
+
+  # if config/ contains sidekiq/ dir directly:
+  # preferred, even if the jobs_file url needs to be included in a different way than Rails.application.config (which likely wont work here unless use blocking of some kind)
+  # config.jobs_file = Rails.root.join('config', 'sidekiq', 'jobs_test.json')
+  # config.sidekiq_config = Rails.root.join('config', 'sidekiq', 'sidekiq.rb')
+
+  # if sidekiq/dir is in config/initializers/
+  # not preferred cuz it will load sidekiq settings even though they're not needed in the rails http server env
+  # but this works better as the environment configs can be available like *Rails.application.configs*.jobs_file
+  # but then need to wait for the rails env to finish loading before attempting to load sidekiq (in features/support/env.rb)
+  # it wont start Sidekiq twice because that needs the explicit command
+  # the two connections to redis (default and internal) are typical, and 2 will be see for the outside initializers configs, as expected, too
+  config.jobs_file = Rails.root.join('config', 'initializers', 'sidekiq', 'jobs_test.json')
+  config.sidekiq_config = Rails.root.join('config', 'initializers', 'sidekiq', 'sidekiq.rb')
+
+
 
   # For debugging failing specs
   # config.active_record.logger = Logger.new(STDOUT)

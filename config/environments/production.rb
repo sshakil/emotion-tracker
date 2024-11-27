@@ -86,4 +86,11 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # placeholder configs from env vars with defaults
+  # config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3001')
+  # config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
+  # config.redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379/1')
+  # config.jobs_file = Rails.root.join('config', 'sidekiq', 'jobs.json')
+
 end
