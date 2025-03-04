@@ -51,6 +51,8 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 
+  config.active_job.queue_adapter = :sidekiq
+
   config.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3001')
   config.oauth_redirect_uri = URI.join(config.api_base_url, '/oauth/callback').to_s
   config.redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379/1')

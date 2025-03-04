@@ -30,5 +30,6 @@ Then('All users should be notified') do
   # Process queued jobs
   Sidekiq::Worker.drain_all
 
-  expect(ActionMailer::Base.deliveries.count).to eq(2)
+  # 3 as there's currently a default user, so 2 + 1
+  expect(ActionMailer::Base.deliveries.count).to eq(3)
 end
